@@ -1,14 +1,35 @@
-"use client"
+"use client";
 
-import React, { useEffect, useState } from "react"
-import Button from "./NavbarButton"
-import { faBolt, faX, faBars } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { motion, AnimatePresence } from "framer-motion"
-import assets from "../../../assets/assets"
+import React, { useEffect, useState } from "react";
+import Button from "./NavbarButton";
+import { faBolt, faX, faBars } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { motion, AnimatePresence } from "framer-motion";
+import assets from "../../../assets/assets";
+import Login from "../../Auth/Login";
+import Signup from "../../Auth/Signup";
 
 function HamburgerNav() {
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
+
+  const openSheet = (type) => {
+    if (type === "signup") {
+      setIsSignupOpen(true);
+    } else if (type === "login") {
+      setIsLoginOpen(true);
+    }
+  };
+
+  const closeAllSheets = () => {
+    setIsLoginOpen(false);
+    setIsSignupOpen(false);
+  };
+
+  const openSignupOTP = () => {
+    setIsSignupOpen(false);
+  };
 
   // Close menu when clicked outside
   useEffect(() => {
@@ -17,20 +38,20 @@ function HamburgerNav() {
         !event.target.closest(".menu-btn") &&
         !event.target.closest(".menu-content")
       ) {
-        setMenuOpen(false)
+        setMenuOpen(false);
       }
-    }
+    };
 
     // Add event listener to close menu on outside click
     if (menuOpen) {
-      document.addEventListener("click", handleClickOutside)
+      document.addEventListener("click", handleClickOutside);
     }
 
     return () => {
       // Cleanup event listener when component unmounts
-      document.removeEventListener("click", handleClickOutside)
-    }
-  }, [menuOpen])
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [menuOpen]);
 
   return (
     <nav className="relative flex justify-between items-center navbar text-white">
@@ -60,21 +81,23 @@ function HamburgerNav() {
             >
               <a
                 className="text-gray-700 text-left m-2 transition-colors duration-300 hover:text-gray-900"
-                href="/login"
+                onClick={() => openSheet("login")}
+
               >
                 Login
+              </a>
+              <a
+                className="text-gray-700 text-left m-2 transition-colors duration-300 hover:text-gray-900"
+                onClick={() => openSheet("signup")}
+
+              >
+                Signup
               </a>
               <a
                 className="text-gray-700 text-left m-2 transition-colors duration-300 hover:text-gray-900"
                 href="/playground"
               >
                 Playground
-              </a>
-              <a
-                className="text-gray-700 text-left m-2 transition-colors duration-300 hover:text-gray-900"
-                href="/connect"
-              >
-                Connect
               </a>
             </motion.ul>
           </>
@@ -121,8 +144,20 @@ function HamburgerNav() {
           </AnimatePresence>
         </div>
       </div>
+
+      {isLoginOpen && (
+        <div className="fixed inset-0 bg-primaryBg bg-opacity-95 flex items-center justify-center z-50">
+          <Login onClose={closeAllSheets} />
+        </div>
+      )}
+
+      {isSignupOpen && (
+        <div className="fixed inset-0 bg-primaryBg bg-opacity-95 flex items-center justify-center z-50">
+          <Signup onClose={closeAllSheets} openSignupOTP={openSignupOTP} />
+        </div>
+      )}
     </nav>
-  )
+  );
 }
 
-export default HamburgerNav
+export default HamburgerNav;

@@ -4,7 +4,7 @@ const Notification = ({ message, type, onClose }) => {
   // Automatically close the notification after 3 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
-      onClose(0);
+      onClose();
     }, 3000);
 
     // Cleanup the timer when the component unmounts
@@ -27,7 +27,7 @@ const Notification = ({ message, type, onClose }) => {
 
   return (
     <div
-      className={`fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 px-4 py-2 rounded shadow-lg z-50 transition-opacity:opacity-0 duration-700 ${getTypeClass()}`}
+      className={`fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 px-4 py-2 rounded shadow-lg z-[999] transition-opacity:opacity-0 duration-700 ${getTypeClass()}`}
     >
       {message}
     </div>

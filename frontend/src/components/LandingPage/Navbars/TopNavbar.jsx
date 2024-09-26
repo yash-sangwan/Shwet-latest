@@ -4,9 +4,11 @@ import { faBolt, faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import assets from "../../../assets/assets";
 import Login from "../../Auth/Login";
 import Signup from "../../Auth/Signup";
-
+import { useAuth } from "../../Private/AuthContext"; // Adjust path accordingly
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function TopNavbar() {
+  const { isAuthenticated, logout } = useAuth();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
 
@@ -21,13 +23,19 @@ function TopNavbar() {
   const closeAllSheets = () => {
     setIsLoginOpen(false);
     setIsSignupOpen(false);
-    setIsSignupOTPOpen(false);
   };
 
   const openSignupOTP = () => {
     setIsSignupOpen(false);
-    setIsSignupOTPOpen(true);
   };
+
+  const handleLogout = async () =>{
+    try {
+      logout(); 
+    } catch (error) {
+      console.log("Some error occurred.")
+    }
+  }
 
   return (
     <nav className="pt-2 relative flex justify-between navbar">
@@ -39,13 +47,26 @@ function TopNavbar() {
       </a>
 
       <ul className="flex flex-row justify-evenly items-center pr-10 font-Montserrat">
-        <Button text={"Playground"} icon={faBolt} href={"/playground"} ></Button>
-        <Button
-          text={"Login"}
-          handleClick={openSheet}
-          clickType="login"
-          icon={faRightToBracket}
-        ></Button>
+        <Button text={"Playground"} icon={faBolt} href={"/playground"}></Button>
+        {!isAuthenticated ? (
+          <Button
+            text={"Login"}
+            handleClick={openSheet}
+            clickType="login"
+            icon={faRightToBracket}
+          ></Button>
+        ) : (
+          <a
+            className="h-[70%] group w-max rounded-2xl text-white hover:bg-PURPLESHADE5 px-4 py-2 md:py-4 flex items-center transition-all duration-300 ease-in-out"
+            onClick={handleLogout}
+          >
+            <FontAwesomeIcon
+              className="pl-1 transform scale-0 group-hover:scale-100 transition-transform duration-500 ease-in-out"
+              icon={faRightToBracket}
+            />
+            <span className="group-hover:ml-2 transition-all duration-300 ease-in-out">Logout</span>
+          </a>
+        )}
       </ul>
 
       {isLoginOpen && (

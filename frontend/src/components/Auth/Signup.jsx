@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import axios from "axios";
 import Notification from "../Notification/Notification";
+import apiClient from "../../api/apiClient";
 
 const Signup = ({ onClose }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [notification, setNotification] = useState(null);
 
   const handleBackdropClick = (e) => {
@@ -15,9 +14,22 @@ const Signup = ({ onClose }) => {
     }
   };
 
+  const checkEmailExists = async (email) => {
+    try {
+      const response = await apiClient.post("/api/auth/exists", { email });
+      if (response.status == 200 && response.data.exists) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   const validateForm = () => {
     if (!name.trim() || !email.trim() || !password.trim()) {
-      setError("All fields are required.");
+      setNotification({ type : "error" , message : "All fields are required" });
       return false;
     }
     return true;
@@ -26,13 +38,26 @@ const Signup = ({ onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
+    
+    const exists = await checkEmailExists(email);
+
+    if(exists){
+      setNotification({ type : "error" , message : "Email already exists. Login using your registered email id." });
+      return;
+    }
 
     try {
-      const response = await axios.post("/api/signup", { name, email, password });
+      const response = await apiClient.post("/api/auth/register" , { username:name, email:email, password:password });
       
       if (response.status === 200) {
-        setNotification({ message: "Sign up successful!", type: "success" });
-        // Handle further actions if needed
+        setNotification({ message: "Sign up successfull! Please login to continue.", type: "success" });
+        setEmail("")
+        setName("")
+        setPassword("")
+        const setDelay = setTimeout(() => {
+          onClose()
+          clearTimeout(setDelay)
+        }, 1000);
       }
     } catch (err) {
       setNotification({ message: "An error occurred while signing up. Please try again.", type: "error" });
@@ -69,7 +94,6 @@ const Signup = ({ onClose }) => {
           Sign Up
         </h2>
         <form onSubmit={handleSubmit}>
-          {error && <div className="text-red-500 mb-4">{error}</div>}
           <div className="mb-4">
             <label
               className="block text-gray-400 text-sm font-bold mb-2"
@@ -119,11 +143,12 @@ const Signup = ({ onClose }) => {
               className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:border-yellow-500"
               placeholder="Enter your password"
               required
+              minLength={6}
             />
           </div>
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-yellow-500 text-white font-semibold rounded hover:bg-yellow-600 transition duration-300"
+            className="w-full py-2 px-4 bg-PURPLESHADE5 text-white font-semibold rounded hover:bg-PURPLESHADE2 transition duration-300"
           >
             Sign Up
           </button>

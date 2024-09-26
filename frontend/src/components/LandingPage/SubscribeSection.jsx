@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Notification from "../Notification/Notification";
+import apiClient from "../../api/apiClient";
 
 const SubscribeSection = () => {
-  const [click, setClick] = useState(null); // State for notification type
   const [email, setEmail] = useState("");
-  const [errorMessage, setErrorMessage] = useState(""); // State for error message
+  const [notification, setNotification] = useState(null);
 
   const validateEmail = (email) => {
     // Basic email regex for validation
@@ -12,40 +12,35 @@ const SubscribeSection = () => {
     return emailRegex.test(email);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     if (email === "") {
-      setErrorMessage("Email field cannot be empty.");
-      setClick("error");
+      setNotification({type:"error" , message:"Email field cannot be empty."})
       return;
     } else if (!validateEmail(email)) {
-      setErrorMessage("Please enter a valid email address.");
-      setClick("error");
+      setNotification({type:"error" , message:"Please enter a valid email address."})
       return;
     }
 
     // Success scenario
-    setEmail(""); // Clear email input
-    setClick("success"); // Set click to success for success notification
+    try {
+      const response = await apiClient.post("/api/auth/subscribe" , {email});
+      if(response.status === 200){
+        setNotification({type:"success", message:response.data.message})
+        setEmail(""); // Clear email input
+      }
+    } catch (error) {
+      if(error.response.status === 400){
+        setNotification({type:"error", message:error.response.data.message})
+      }
+    }
+  };
+
+  const handleCloseNotification = () => {
+    setNotification(null);
   };
 
   return (
     <>
-      {/* Notification Component for success or error messages */}
-      {click === "success" && (
-        <Notification
-          message={"Subscribed successfully"}
-          type={"success"}
-          onClose={() => setClick(null)}
-        />
-      )}
-      {click === "error" && (
-        <Notification
-          message={errorMessage}
-          type={"error"}
-          onClose={() => setClick(null)}
-        />
-      )}
-
       <div className="bg-PURPLESHADE1 w-full h-max py-20 px-8">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 items-center">
           <div>
@@ -78,6 +73,10 @@ const SubscribeSection = () => {
             </button>
           </div>
         </div>
+
+        {notification && (
+          <Notification message={notification.message} type={notification.type} onClose={handleCloseNotification} />
+        )}
       </div>
     </>
   );

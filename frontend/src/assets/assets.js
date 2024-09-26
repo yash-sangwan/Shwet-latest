@@ -17,9 +17,8 @@ import Logo from "./LogoShwet.png"
 import ShwetUseCase1 from "./ShwetUseCase1.jpg"
 import ShwetUseCase2 from "./ShwetUseCase2.jpg"
 import ShwetUseCase3 from "./ShwetUseCase3.mp4"
-import Shatter from "./Shatter.svg"
 import AnimatedSVGLogo from "./NewSVG1.svg"
-
+import gitHubIcon from "./github.png"
 
 const assets = {
   googleIcon,
@@ -41,8 +40,8 @@ const assets = {
   ShwetUseCase1,
   ShwetUseCase2,
   ShwetUseCase3,
-  Shatter,
-  AnimatedSVGLogo
+  AnimatedSVGLogo,
+  gitHubIcon
 };
 
 export default assets;

@@ -1,77 +1,62 @@
 import React, { useState, useEffect } from "react";
-import assets from "../../assets/assets";
 import Signup from "./Signup";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import Google from "./Google";
+import GitHub from "./GitHub";
+import apiClient from "../../api/apiClient";
+import { RxEyeOpen, RxEyeClosed } from "react-icons/rx";
+import { useAuth } from "../Private/AuthContext";
+import Notification from "../Notification/Notification";
 
 const Login = ({ onClose }) => {
+
+  const [click, setClick] = useState(null); // State for notification type
+  const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const [isSignupOpen, setIsSignupOpen] = useState(false);
-  const [email, setEmail] = useState('user@xyz.com'); // Prefilled email
-  const [password, setPassword] = useState('mvpuser@123'); // Prefilled password
+  const [id, setId] = useState(""); // Prefilled email
+  const [password, setPassword] = useState(""); // Prefilled password
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const [isLoading, setIsLoading] = useState(false); // State for showing loading effect during login
+  const {loggedin} = useAuth();
   const navigate = useNavigate(); // Initialize useNavigate for navigation
 
-  // Function to check if JWT token exists in localStorage
-  const checkAuthToken = () => {
-    const token = localStorage.getItem('jwtToken');
-    if (token) {
-      // Token exists, stay on the current page
-    }
-  };
-
-  // Run checkAuthToken on component mount
-  useEffect(() => {
-    checkAuthToken();
-  }, []);
-
-  // Function to handle JWT expiration
-  const setTokenExpiry = () => {
-    setTimeout(() => {
-      localStorage.removeItem('jwtToken');
-      alert("Session expired. Please log in again.");
-      navigate('/'); // Redirect to login after token expiration
-    }, 2 * 60 * 60 * 1000); // Set expiration to 2 hours
-  };
-
-  // Handle form submission
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true); // Start loading effect
-
+  
     const payload = {
-      email,
-      password,
+      id: id,
+      password: password,
     };
-
+  
     try {
-      const response = await fetch('http://localhost:5505/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error('Login failed');
+      const response = await apiClient.post("/api/auth/login", payload);
+  
+      if (response.status === 200) {
+        loggedin();
+        navigate("/playground");
       }
-
-      const data = await response.json();
-      console.log('Login successful', data);
-
-      const token = data.token;
-      localStorage.setItem('jwtToken', token); // Store JWT token in localStorage
-
-      setTokenExpiry(); // Set token expiration timeout
-      onClose(); 
-      navigate('/read/home');
     } catch (error) {
-      console.error('Error:', error);
+      // Access error.response to handle different response statuses
+      if (error.response) {
+        if (error.response.status === 401) {
+          setErrorMessage("Invalid user credentials.");
+          setClick("error");
+        } else {
+          setErrorMessage("Server error");
+          setClick("error");
+        }
+      } else {
+        // Handle network errors or other unexpected errors
+        setErrorMessage("An unexpected error occurred.");
+        setClick("error");
+        console.error("Error:", error);
+      }
     } finally {
       setIsLoading(false); // Stop loading effect
     }
   };
-
+  
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -91,8 +76,26 @@ const Login = ({ onClose }) => {
       className="fixed inset-0 bg-primaryBg bg-opacity-95 flex items-center justify-center z-50"
       onClick={handleBackdropClick}
     >
+
       <div className="relative flex justify-center items-center max-h-screen overflow-y-auto">
-        <button className="absolute top-4 right-4 text-primaryText" onClick={onClose}>
+        {click === "success" && (
+          <Notification
+            message={"Logined successfully."}
+            type={"success"}
+            onClose={() => setClick(null)}
+          />
+        )}
+        {click === "error" && (
+          <Notification
+            message={errorMessage}
+            type={"error"}
+            onClose={() => setClick(null)}
+          />
+        )}
+        <button
+          className="absolute top-4 right-4 text-primaryText"
+          onClick={onClose}
+        >
           <svg
             className="w-6 h-6"
             fill="none"
@@ -113,7 +116,9 @@ const Login = ({ onClose }) => {
           {/* Left Section */}
           <div className="md:w-1/2 md:pr-4 md:border-r border-gray-700 flex flex-col justify-center">
             <div className="text-center md:text-left mb-8 md:mb-0">
-              <h1 className="text-5xl font-bold text-yellow-500 mb-2">Shwet</h1>
+              <h1 className="text-5xl font-bold text-PURPLESHADE3 mb-2">
+                Shwet
+              </h1>
               <p className="text-white mb-4 ">
                 A place to share knowledge and better understand the world
               </p>
@@ -121,33 +126,25 @@ const Login = ({ onClose }) => {
 
             <p className="text-gray-400 text-sm text-center md:text-left mb-6">
               By continuing, you indicate that you agree to Shwet's{" "}
-              <a href="#" className="text-yellow-500 hover:cursor-not-allowed">
+              <a
+                href="#"
+                className="text-PURPLESHADE3 hover:cursor-not-allowed"
+              >
                 Terms of Service
               </a>{" "}
               and{" "}
-              <a href="#" className="text-yellow-500 hover:cursor-not-allowed">
+              <a
+                href="#"
+                className="text-PURPLESHADE3 hover:cursor-not-allowed"
+              >
                 Privacy Policy
               </a>
               .
             </p>
 
             <div className="mb-6">
-              <button className="w-full bg-gray-700 hover:bg-gray-600 text-white py-2 px-2 rounded flex items-center justify-center mb-4 hover:cursor-not-allowed">
-                <img
-                  src={assets.googleIcon}
-                  alt="Google"
-                  className="w-7 h-4 mr-2"
-                />
-                Continue with Google
-              </button>
-              <button className="w-full bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded flex items-center justify-center hover:cursor-not-allowed">
-                <img
-                  src="https://img.icons8.com/fluent-systems-filled/200/FFFFFF/github.png"
-                  alt="Facebook"
-                  className="w-6 h-6 mr-3"
-                />
-                Continue with Github
-              </button>
+              <Google />
+              <GitHub />
             </div>
 
             <hr className="border-gray-700 mb-6" />
@@ -155,7 +152,7 @@ const Login = ({ onClose }) => {
             <p className="text-gray-400 text-sm text-center md:text-left mb-6">
               <button
                 onClick={openSignup}
-                className="text-yellow-500 hover:underline hover:cursor-not-allowed"
+                className="text-PURPLESHADE3 hover:underline"
               >
                 Sign up with email
               </button>
@@ -173,15 +170,15 @@ const Login = ({ onClose }) => {
                   className="block text-gray-400 text-sm font-bold mb-2"
                   htmlFor="email"
                 >
-                  Email
+                  Email / Username
                 </label>
                 <input
                   type="email"
                   id="email"
                   className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:border-yellow-500"
                   placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={id}
+                  onChange={(e) => setId(e.target.value)}
                 />
               </div>
               <div className="mb-4">
@@ -205,26 +202,26 @@ const Login = ({ onClose }) => {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute inset-y-0 right-0 px-3 text-gray-400"
                   >
-                    {showPassword ? (
-                    <i className="fa-solid fa-eye-slash"></i>
-                    ) : (
-                      <i className="fa-solid fa-eye"></i>
-                    )}
+                    {showPassword ? <RxEyeOpen /> : <RxEyeClosed />}
                   </button>
                 </div>
               </div>
               <div className="flex justify-between items-center mb-4">
-                <a href="#" className="text-sm text-yellow-500 hover:cursor-not-allowed">
+                <a
+                  href="#"
+                  className="text-sm text-PURPLESHADE3 font-semibold hover:cursor-not-allowed"
+                >
                   Forgot password?
                 </a>
               </div>
               <div className="flex justify-center items-center">
                 <button
                   type="submit"
-                  className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring"
+                  className="w-full bg-PURPLESHADE5 hover:bg-PURPLESHADE2 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring"
                   disabled={isLoading} // Disable button while loading
                 >
-                  {isLoading ? "Logging in..." : "Login"} {/* Change text based on isLoading */}
+                  {isLoading ? "Logging in..." : "Login"}{" "}
+                  {/* Change text based on isLoading */}
                 </button>
               </div>
             </form>
