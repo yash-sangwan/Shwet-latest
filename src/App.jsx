@@ -23,6 +23,7 @@ import Playground from "./Pages/Playground/Playground";
 import PublicPost from "./Components/Dashboard/PublicPost/PublicPost";
 import VerifyEmail from "./Pages/VerifyEmail"
 import LoginRoles from "./Pages/LoginRoles"
+import PageNotFound from "./Pages/PageNotFound"
 
 function App() {
   const network = WalletAdapterNetwork.Devnet;
@@ -54,6 +55,7 @@ function App() {
                   <Route path="/addData" element={<PublicPost />} />
                   <Route path="/verifyEmail" element={<VerifyEmail />} />
                   <Route path="/login/roles" element={<LoginRoles />} />
+                  <Route path="/pagenotfound" element={<PageNotFound />} />
 
                 </Routes>
               </div>
