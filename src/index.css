@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+.nav-link {
+    @apply relative cursor-pointer text-xl transition-colors duration-300;
+  }
+  
+  .nav-link::after {
+    content: '';
+    @apply absolute left-0 bottom-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300;
+  }
+  
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    @apply w-full;
+  }
+  
+  .nav-link-mobile {
+    @apply text-xl text-white mb-6 flex items-center bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded transition-colors duration-300 w-full;
+  }
