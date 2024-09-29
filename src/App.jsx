@@ -21,6 +21,7 @@ import { BlogProvider } from "./Components/extra/BlogContext";
 import RequestProof from "./Components/Dashboard/PublicPost/RequestProof";
 import Playground from "./Pages/Playground/Playground";
 import PublicPost from "./Components/Dashboard/PublicPost/PublicPost";
+import VerifyEmail from "./Pages/VerifyEmail"
 
 function App() {
   const network = WalletAdapterNetwork.Devnet;
@@ -50,6 +51,8 @@ function App() {
                   <Route path="/playground" element={<Playground />} />
                   <Route path="/request-proof" element={<RequestProof />} />
                   <Route path="/addData" element={<PublicPost />} />
+                  <Route path="/verifyEmail" element={<VerifyEmail />} />
+
                 </Routes>
               </div>
             </Router>
