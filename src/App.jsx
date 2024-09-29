@@ -22,6 +22,7 @@ import RequestProof from "./Components/Dashboard/PublicPost/RequestProof";
 import Playground from "./Pages/Playground/Playground";
 import PublicPost from "./Components/Dashboard/PublicPost/PublicPost";
 import VerifyEmail from "./Pages/VerifyEmail"
+import LoginRoles from "./Pages/LoginRoles"
 
 function App() {
   const network = WalletAdapterNetwork.Devnet;
@@ -52,6 +53,7 @@ function App() {
                   <Route path="/request-proof" element={<RequestProof />} />
                   <Route path="/addData" element={<PublicPost />} />
                   <Route path="/verifyEmail" element={<VerifyEmail />} />
+                  <Route path="/login/roles" element={<LoginRoles />} />
 
                 </Routes>
               </div>
