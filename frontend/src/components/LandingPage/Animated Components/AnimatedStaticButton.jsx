@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import apiClient from "../../../api/apiClient";
 
 function AnimatedStaticButton({ text }) {
 

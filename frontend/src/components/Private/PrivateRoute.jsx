@@ -1,22 +1,32 @@
 import React, { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
-import { useAuth } from './AuthContext'; // Adjust path accordingly
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
-const PrivateRoute = ({ children }) => {
-  const { isAuthenticated, loading } = useAuth();
+export default function ProtectedRoute({ children, requiredRole = null }) {
+  const { isAuthenticated, loading, user, checkAuth } = useAuth();
+  const navigate = useNavigate();
 
-  // Show loading spinner or placeholder while checking auth
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      checkAuth();
+    }
+  }, [loading, isAuthenticated, checkAuth]);
+
   if (loading) {
-    return <div>Loading...</div>
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+      </div>
+    );
   }
 
-  // If the user is not authenticated, redirect to login
   if (!isAuthenticated) {
-    return <Navigate to="/" />;
+    return <Navigate to="/" replace />;
+  }
+  
+  if (requiredRole && (!user || user.role !== requiredRole)) {
+    return <Navigate to="/unauthorized" replace />;
   }
 
-  // Render the protected component if authenticated
   return children;
-};
-
-export default PrivateRoute;
+}

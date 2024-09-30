@@ -8,8 +8,10 @@ pnpm-debug.log*
 lerna-debug.log*
 firebase-config.json
 *.env
+my-keypair.json
+mint-keypair.json
 
-
+Backup v1
 node_modules
 dist
 dist-ssr

@@ -1,6 +1,6 @@
 import React from "react";
-import { getAuth, GoogleAuthProvider, signInWithPopup , onAuthStateChanged } from "firebase/auth";
-import apiClient from "../../api/apiClient";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import apiClient from "../api/apiClient";
 import assets from "../../assets/assets";
 import app from "./firebaseConfig";
 import { useNavigate } from "react-router-dom";
@@ -12,21 +12,21 @@ const provider = new GoogleAuthProvider();
 
 const Google = () => {
   const navigate = useNavigate();
-  const {loggedin} = useAuth();
+  const { loggedin } = useAuth();
 
   const signInWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const token = result.user.accessToken; // Firebase token
 
-      // Send this token to your backend to generate a JWT
-      const response = await apiClient.post(
-        "http://localhost:3000/api/auth/google-login",
-        { token }
-      );
-      loggedin();
-      navigate('/playground'); 
-      
+      if (token) {
+        // Send this token to your backend to generate a JWT
+        const response = await apiClient.post("api/auth/google-login", {
+          token,
+        });
+        loggedin(response.data.user);
+        navigate("/user/init");
+      }
     } catch (error) {
       console.error("Error during sign-in:", error);
     }

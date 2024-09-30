@@ -101,7 +101,7 @@ const CardsList = () => {
 
   return (
 
-      <div className="relative  py-52  max-h-max flex justify-center items-center">
+      <div className="relative py-52  max-h-max flex justify-center items-center">
         <animated.div
           className="w-full h-full flex justify-center items-center"
           ref={outerRef}

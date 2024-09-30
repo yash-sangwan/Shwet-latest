@@ -2,25 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
-#root{
-    max-width: 100%;
-    margin: 0 auto;
-    text-align: center;
-    height: 100vh;
-    padding: 0rem;
+.nav-link {
+  @apply relative cursor-pointer text-xl transition-colors duration-300;
+}
+
+.nav-link::after {
+  content: "";
+  @apply absolute left-0 bottom-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  @apply w-full;
+}
+
+.nav-link-mobile {
+  @apply text-xl text-white mb-6 flex items-center bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded transition-colors duration-300 w-full;
+}
+
+#root {
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  height: 100vh;
+  padding: 0rem;
 }
 
 @keyframes bounce {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-8px);
-    }
+  0%,
+  100% {
+    transform: translateY(0);
   }
-  
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
 .bounce-animation {
-    animation: bounce 1.0s ease-in-out;
+  animation: bounce 1s ease-in-out;
 }
 
 @keyframes gradientBorder {
@@ -39,7 +58,13 @@
   position: relative;
   padding: 0px 2px;
   padding-top: 2px;
-  background: linear-gradient(45deg, rgba(255, 0, 0, 0.5), rgba(191, 27, 224, 0.5), rgba(205, 222, 14, 0.949), rgba(255, 255, 0, 0.5));
+  background: linear-gradient(
+    45deg,
+    rgba(255, 0, 0, 0.5),
+    rgba(191, 27, 224, 0.5),
+    rgba(205, 222, 14, 0.949),
+    rgba(255, 255, 0, 0.5)
+  );
   background-size: 400% 400%;
   border: 0px solid transparent;
   border-radius: 24px;
@@ -48,7 +73,7 @@
 }
 
 .glowing-border::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -75,9 +100,13 @@
 }
 
 .animate {
-  transform: scale(1.0) rotateX(0deg);
+  transform: scale(1) rotateX(0deg);
 }
 
 .image-fade {
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 60%,
+    rgba(0, 0, 0, 0) 100%
+  );
 }

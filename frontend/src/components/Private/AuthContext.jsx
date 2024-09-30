@@ -1,51 +1,65 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import apiClient from "../../api/apiClient"; // Adjust path accordingly
+import apiClient from "../api/apiClient"; // Adjust path accordingly
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // On component mount, check if the user is authenticated
-    checkAuth();
-  }, []);
+  const [authState, setAuthState] = useState({
+    isAuthenticated: false,
+    user: null,
+    loading: true,
+  });
 
   const checkAuth = async () => {
     try {
-      // Make a request to the backend to check if the user is authenticated
-      const response = await apiClient.get("/api/users/check", {
-        withCredentials: true, // Include HttpOnly cookies in the request
-      });
-
-      if (response.status === 200) {
-        // If the backend confirms authentication
-        setIsAuthenticated(true);
+      const response = await apiClient.get("/api/init/checkuser");
+      if (response.status === 200 && response.data.status) {
+        console.log("CHECK AUTH IS BEING RUN")
+        setAuthState({
+          isAuthenticated: true,
+          user: response.data.user,
+          loading: false,
+        });
       } else {
-        setIsAuthenticated(false);
+        setAuthState({
+          isAuthenticated: false,
+          user: null,
+          loading: false,
+        });
       }
     } catch (error) {
-      setIsAuthenticated(false);
-    } finally {
-      setLoading(false);
+      console.error("Auth check failed:", error);
+      setAuthState({
+        isAuthenticated: false,
+        user: null,
+        loading: false,
+      });
     }
   };
 
-  const loggedin = () => {
-    // Mark user as authenticated after successful login
-    setIsAuthenticated(true);
-    setLoading(false);
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  const loggedin = async () => {
+    return await checkAuth();
   };
 
   const logout = async () => {
-    // Log the user out (this will clear the cookie on the backend)
-    await apiClient.get("/api/auth/logout");
-    setIsAuthenticated(false);
+    try {
+      await apiClient.get("/api/auth/logout");
+      setAuthState({
+        isAuthenticated: false,
+        user: null,
+        loading: false,
+      });
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, loading, loggedin, logout }}>
+    <AuthContext.Provider value={{ ...authState, logout, loggedin, checkAuth }}>
       {children}
     </AuthContext.Provider>
   );

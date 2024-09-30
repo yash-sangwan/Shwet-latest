@@ -37,9 +37,12 @@ function InfoSection() {
         <AnimatedStaticButton text="Information" />
       </div>
       <div className="relative my-10 mx-10 exsm:w-[95%] esm:w-[80%] sm:w-[70%] md:w-[95%] lg:w-full max-w-6xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center items-center">
+        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 justify-center items-center">
           {data.map((item, index) => {
-            const colSpan = index >= 3 ? 'col-span-1 md:col-span-1' : 'col-span-1 md:col-span-1 lg:col-span-1';
+            const colSpan =
+              index >= 3
+                ? "col-span-1 md:col-span-2 lg:col-span-3"
+                : "col-span-1 md:col-span-2 lg:col-span-2";
             return (
               <div
                 className={`pb-[3px] px-[5px] border-2 border-zinc-600 rounded-xl flex flex-col items-center h-full ${colSpan}`}

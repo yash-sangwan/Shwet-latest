@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Notification from "../Notification/Notification";
-import apiClient from "../../api/apiClient";
+import Notification from "../Notification";
+import apiClient from "../api/apiClient";
 
 const Signup = ({ onClose }) => {
   const [name, setName] = useState("");

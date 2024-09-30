@@ -3,10 +3,10 @@ import Signup from "./Signup";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import Google from "./Google";
 import GitHub from "./GitHub";
-import apiClient from "../../api/apiClient";
+import apiClient from "../api/apiClient";
 import { RxEyeOpen, RxEyeClosed } from "react-icons/rx";
 import { useAuth } from "../Private/AuthContext";
-import Notification from "../Notification/Notification";
+import Notification from "../Notification";
 
 const Login = ({ onClose }) => {
 
@@ -33,8 +33,7 @@ const Login = ({ onClose }) => {
       const response = await apiClient.post("/api/auth/login", payload);
   
       if (response.status === 200) {
-        loggedin();
-        navigate("/playground");
+        navigate("/user/init");
       }
     } catch (error) {
       // Access error.response to handle different response statuses
