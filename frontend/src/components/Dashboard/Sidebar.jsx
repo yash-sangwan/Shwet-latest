@@ -8,7 +8,7 @@ const EnhancedSidebar = () => {
   const [activeCategory, setActiveCategory] = useState(' ');
   const [activeLabellingCategory, setActiveLabellingCategory] = useState('');
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
-  const isNotificationsTab = location.pathname === "/read/notifications";
+  const isNotificationsTab = location.pathname === "/user/dashboard/notifications";
 
   useEffect(() => {
     const handleResize = () => {
@@ -74,14 +74,14 @@ const EnhancedSidebar = () => {
         {!isNotificationsTab && (
           <div className="mb-6">
             <button 
-              className="w-full flex items-center justify-between text-left text-sm p-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors duration-200"
+              className="w-full flex items-center justify-between text-left text-sm p-3 bg-[#2a2a2a] hover:bg-[#3a3a3a] rounded-lg transition-colors duration-200"
               // onClick={showToast}
             >
               <span className="flex items-center">
                 <i className="fa-solid fa-plus mr-2"></i>
                 {!isMobile && "Create Data Group"}
               </span>
-              {!isMobile && <span className="bg-blue-500 text-xs px-2 py-1 rounded-full">New</span>}
+              {!isMobile && <span className="bg-PURPLESHADE3 text-black text-xs px-2 py-1 rounded-full">New</span>}
             </button>
           </div>
         )}
@@ -156,7 +156,7 @@ const EnhancedSidebar = () => {
   );
 
   return (
-    <div className={`fixed h-screen ${isMobile ? 'w-16' : 'w-64'} bg-gray-900 text-white flex flex-col justify-between p-4 pt-24 z-40 overflow-y-auto transition-all duration-300`}>
+    <div className={`fixed h-screen ${isMobile ? 'w-16' : 'w-64'} bg-[#131416] text-white flex flex-col justify-between p-4 pt-24 z-40 overflow-y-auto transition-all duration-300`}>
       {renderSidebarContent()}
     </div>
   );

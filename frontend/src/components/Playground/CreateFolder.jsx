@@ -49,13 +49,13 @@ export default function CreateFolder({ onFolderCreated, onClose }) {
           <X className="h-6 w-6" />
         </button>
         <div className="px-6 py-4 bg-gray-700 border-b border-gray-600">
-          <h2 className="text-xl font-semibold text-white">Create New Folder</h2>
+          <h2 className="text-xl font-semibold text-white">Create New Project</h2>
         </div>
         <div className="p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <label htmlFor="folderName" className="block text-sm font-medium text-gray-300">
-                Folder Name
+                Project Name
               </label>
               <input
                 id="folderName"
@@ -64,12 +64,12 @@ export default function CreateFolder({ onFolderCreated, onClose }) {
                 onChange={(e) => setFolderName(e.target.value)}
                 placeholder="Enter folder name"
                 required
-                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 outline-none"
               />
             </div>
             <div className="space-y-2">
               <label htmlFor="folderIcon" className="block text-sm font-medium text-gray-300">
-                Folder Icon URL
+              Project Icon URL
               </label>
               <div className="flex items-center space-x-4">
                 <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-700 flex-shrink-0">
@@ -86,7 +86,7 @@ export default function CreateFolder({ onFolderCreated, onClose }) {
                   onChange={(e) => setFolderIcon(e.target.value)}
                   placeholder="Enter icon URL"
                   required
-                  className="flex-grow px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="flex-grow px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 outline-none"
                 />
               </div>
             </div>
@@ -102,7 +102,7 @@ export default function CreateFolder({ onFolderCreated, onClose }) {
                       value={type}
                       checked={workType === type}
                       onChange={(e) => setWorkType(e.target.value)}
-                      className="form-radio h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-600 bg-gray-700"
+                      className="form-radio h-4 w-4 text-PURPLESHADE3 border-gray-600"
                     />
                     <span className="ml-2 text-gray-300 capitalize">{type} Labelling</span>
                   </label>
@@ -112,9 +112,9 @@ export default function CreateFolder({ onFolderCreated, onClose }) {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:opacity-50"
+              className="w-full px-4 py-2 text-white bg-PURPLESHADE5 hover:bg-PURPLESHADE2 rounded-lg disabled:opacity-50"
             >
-              {isLoading ? 'Creating...' : 'Create Folder'}
+              {isLoading ? 'Creating...' : 'Create Project'}
             </button>
           </form>
           {error && <p className="mt-2 text-red-500">{error}</p>}

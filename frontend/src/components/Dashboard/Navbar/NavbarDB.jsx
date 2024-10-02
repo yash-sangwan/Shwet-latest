@@ -7,18 +7,27 @@ import { PublicKey, SystemProgram } from "@solana/web3.js";
 import Notification from "../../Notification";
 import LoginComponent from "../../Auth/Login";
 import { getProgram } from "../../../Utils/anchorClient";
-import ConnectSheet from '../../../Components/Dashboard/UserConnect/ConnectSheet';
-import NavLinks from './NavLinks';
-import SearchBar from './SearchBar';
-import UserMenu from './UserMenu';
-import WalletButton from './WalletButton';
+import ConnectSheet from "../../../Components/Dashboard/UserConnect/ConnectSheet";
+import NavLinks from "./NavLinks";
+import SearchBar from "./SearchBar";
+import UserMenu from "./UserMenu";
+import WalletButton from "./WalletButton";
+import apiClient from "../../api/apiClient";
+import { useAuth } from "../../Private/AuthContext";
 
 const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
-  const [isAccountReady, setIsAccountReady] = useState(isAccountReadyFromProps || false);
+  const [isAccountReady, setIsAccountReady] = useState(
+    isAccountReadyFromProps || false
+  );
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { connected, connect, select, disconnect, wallet, wallets, publicKey } = useWallet();
-  const [notification, setNotification] = useState({ message: "", type: "", visible: false });
+  const { connected, connect, select, disconnect, wallet, wallets, publicKey } =
+    useWallet();
+  const [notification, setNotification] = useState({
+    message: "",
+    type: "",
+    visible: false,
+  });
   const [isConnecting, setIsConnecting] = useState(false);
   const [isWalletLoading, setIsWalletLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -28,6 +37,8 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [isConnectSheetOpen, setIsConnectSheetOpen] = useState(false);
+  const {logout} = useAuth();
+
 
   useEffect(() => {
     const checkUserInitialization = async () => {
@@ -37,7 +48,9 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
           [Buffer.from("user"), publicKey.toBuffer()],
           program.programId
         );
-        const accountInfo = await program.provider.connection.getAccountInfo(userPda);
+        const accountInfo = await program.provider.connection.getAccountInfo(
+          userPda
+        );
         setIsUserInitialized(!!accountInfo);
       }
     };
@@ -46,10 +59,17 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
   }, [connected, publicKey, wallet]);
 
   const fetchTokenBalance = async () => {
-    // Implement actual token balance fetching logic here
-    // return 0;
-
-    // return Math.floor(Math.random() * 1000);
+    try {
+      const response = await apiClient.get("/api/worker/tokens");
+      if (response.status === 200) {
+        if (response.data.status) {
+          return response.data.balance;
+        }
+      }
+      return 0;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleWalletConnect = async (walletName) => {
@@ -68,7 +88,9 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
 
   const handleConnect = async (selectedWalletName) => {
     try {
-      const selectedWallet = wallets.find(w => w.adapter.name === selectedWalletName);
+      const selectedWallet = wallets.find(
+        (w) => w.adapter.name === selectedWalletName
+      );
       if (!selectedWallet) {
         throw new Error(`No wallet found with the name: ${selectedWalletName}`);
       }
@@ -78,7 +100,9 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
       await select(selectedWallet.adapter.name);
       await connect();
       if (!connected || !publicKey) {
-        throw new Error("Wallet connected, but connection state is inconsistent");
+        throw new Error(
+          "Wallet connected, but connection state is inconsistent"
+        );
       }
       setIsWalletConnected(true);
       onConnect();
@@ -91,7 +115,10 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
 
   const initializeUserAccount = async () => {
     if (!connected || !publicKey || !wallet) {
-      showNotification("Please ensure your wallet is connected before initializing.", "error");
+      showNotification(
+        "Please ensure your wallet is connected before initializing.",
+        "error"
+      );
       return;
     }
 
@@ -102,7 +129,9 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
         [Buffer.from("user"), publicKey.toBuffer()],
         program.programId
       );
-      const accountInfo = await program.provider.connection.getAccountInfo(userPda);
+      const accountInfo = await program.provider.connection.getAccountInfo(
+        userPda
+      );
 
       if (!accountInfo) {
         await program.methods
@@ -120,13 +149,16 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
       }
     } catch (error) {
       console.error("Failed to initialize user account:", error);
-      showNotification("Failed to initialize user account. Please try again.", "error");
+      showNotification(
+        "Failed to initialize user account. Please try again.",
+        "error"
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleNavigateToWrite = () => navigate("/addData");
+  const handleNavigateToWrite = () => navigate("/user/dashboard/contribute");
 
   useEffect(() => {
     setIsWalletLoading(false);
@@ -152,12 +184,8 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
 
   const handleLogout = async () => {
     try {
-      setIsLoading(true);
-      localStorage.removeItem("jwtToken");
-      await handleDisconnect();
-      setIsLoggedIn(false);
-      showNotification("Logout successful!", "success");
-      navigate("/read/home");
+      logout()
+      navigate("/");
     } catch (error) {
       showNotification(error.message);
     } finally {
@@ -166,9 +194,19 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
   };
 
   useEffect(() => {
-    if (walletAction === "connect" && connected && !isConnecting && !isWalletLoading) {
+    if (
+      walletAction === "connect" &&
+      connected &&
+      !isConnecting &&
+      !isWalletLoading
+    ) {
       showNotification("Wallet connected successfully!", "success");
-    } else if (walletAction === "disconnect" && !connected && !isConnecting && !isWalletLoading) {
+    } else if (
+      walletAction === "disconnect" &&
+      !connected &&
+      !isConnecting &&
+      !isWalletLoading
+    ) {
       showNotification("Wallet disconnected successfully!", "success");
     }
   }, [connected, isConnecting, isWalletLoading, walletAction]);
@@ -181,7 +219,10 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
       showNotification("Wallet disconnected successfully!", "success");
     } catch (error) {
       console.error("Failed to disconnect wallet:", error);
-      showNotification("Failed to disconnect wallet. Please try again.", "error");
+      showNotification(
+        "Failed to disconnect wallet. Please try again.",
+        "error"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -200,7 +241,7 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
   const closeConnectSheet = () => setIsConnectSheetOpen(false);
 
   return (
-    <nav className="bg-gray-900 text-white flex items-center justify-between px-4 py-3 fixed top-0 left-0 w-full z-50 shadow-lg">
+    <nav className="bg-[#151515] text-white flex items-center justify-between px-4 py-3 fixed top-0 left-0 w-full z-50 shadow-lg">
       {notification.visible && (
         <Notification
           message={notification.message}
@@ -208,29 +249,29 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
           onClose={closeNotification}
         />
       )}
-      
+
       {showLogin && (
         <LoginComponent
           onSuccess={handleLoginSuccess}
           onClose={() => setShowLogin(false)}
         />
       )}
-      
+
       <div className="flex items-center space-x-4 lg:space-x-8 flex-shrink-0">
-        <div className="text-primary text-2xl font-bold mr-4">Shwet</div>
+        <div className="text-PURPLESHADE3 font-Montserrat text-2xl font-bold mr-4">Shwet</div>
         <NavLinks />
       </div>
-      
+
       <div className="flex-grow max-w-xl mx-4 hidden lg:block">
         <SearchBar />
       </div>
-      
+
       <div className="flex items-center space-x-4">
         {isWalletLoading ? (
           <span className="text-white">Loading...</span>
         ) : !connected && !isConnecting ? (
           <button
-            className="bg-primary text-black px-4 py-2 rounded-full hover:bg-secondary transition-colors duration-300 connect-btn whitespace-nowrap"
+            className="bg-PURPLESHADE5 hover:bg-PURPLESHADE2  text-white px-4 py-2 rounded-full  transition-colors duration-300 connect-btn whitespace-nowrap"
             onClick={openConnectSheet}
           >
             Connect Wallet
@@ -242,7 +283,7 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
               fetchTokenBalance={fetchTokenBalance}
             />
             <button
-              className="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition-colors duration-300 whitespace-nowrap"
+              className="bg-PURPLESHADE5 hover:bg-PURPLESHADE2 text-white px-4 py-2 rounded-full transition-colors duration-300 whitespace-nowrap"
               onClick={handleNavigateToWrite}
             >
               Contribute
@@ -258,17 +299,30 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
         ) : (
           <span className="text-white">Connecting...</span>
         )}
-        
+        <button
+          className="bg-[#2a2a2a] text-white px-4 py-2 rounded-full hover:bg-[#3a3a3a] transition-colors duration-300 whitespace-nowrap"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
+
         <div className="lg:hidden">
-          <button onClick={toggleMenu} className="text-white text-2xl focus:outline-none">
+          <button
+            onClick={toggleMenu}
+            className="text-white text-2xl focus:outline-none"
+          >
             {isMenuOpen ? <FiX /> : <FiMenu />}
           </button>
         </div>
+
       </div>
-      
+
       {isMenuOpen && (
         <div className="lg:hidden fixed top-0 right-0 w-64 h-full bg-gray-900 bg-opacity-95 z-40 flex flex-col items-center justify-start pt-16 transition-transform duration-300 ease-in-out transform translate-x-0">
-          <button className="absolute top-4 right-4 text-white text-3xl" onClick={toggleMenu}>
+          <button
+            className="absolute top-4 right-4 text-white text-3xl"
+            onClick={toggleMenu}
+          >
             &times;
           </button>
           <NavLinks />

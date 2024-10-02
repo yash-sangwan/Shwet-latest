@@ -182,7 +182,7 @@ const CreateTask = ({ onClose, onCreateBatch, folderWorkType, folder }) => {
             title: task.name,
             description: task.description,
             workerCount: task.completedLabels,
-            budget: task.budget * 1e9,
+            budget: parseFloat(budget),
             images: urlsList,
           };
           apiEndpoint = "/api/task/image";
@@ -204,7 +204,7 @@ const CreateTask = ({ onClose, onCreateBatch, folderWorkType, folder }) => {
             title: task.name,
             description: task.description,
             workerCount: task.completedLabels,
-            budget: task.budget,
+            budget: parseFloat(budget),
             audios: urlsList,
           };
           apiEndpoint = "/api/task/audio";
@@ -217,7 +217,7 @@ const CreateTask = ({ onClose, onCreateBatch, folderWorkType, folder }) => {
           title: task.name,
           description: task.description,
           workerCount: task.completedLabels,
-          budget: task.budget,
+          budget: parseFloat(budget),
           text: task.texts,
         };
         apiEndpoint = "/api/task/text";
@@ -506,7 +506,7 @@ const CreateTask = ({ onClose, onCreateBatch, folderWorkType, folder }) => {
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 flex items-center"
+                className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-PURPLESHADE5 hover:bg-PURPLESHADE2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 flex items-center"
                 disabled={isLoading}
               >
                 {isLoading ? (

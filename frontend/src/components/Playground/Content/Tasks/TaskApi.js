@@ -1,4 +1,7 @@
+import apiClient from "../../../api/apiClient";
+
 const API_BASE_URL = 'https://your-api-url.com/api'
+
 
 const simulateApiCall = (data, successRate = 0.8) => {
   return new Promise((resolve, reject) => {
@@ -34,8 +37,12 @@ export const createBatch = async (folderId, batchData) => {
 
 export const getBatches = async (folderId) => {
   try {
-    const response = await simulateApiCall([])
-    return response
+    // const response = await simulateApiCall([])
+    const response = await apiClient.post('/api/task/groups/task' , {groupId: folderId} );
+    if(response.status === 200 && response.data.status){
+      console.log(response.data.data);
+      return response.data.data;
+    }
   } catch (error) {
     console.error('API request failed:', error)
     // Fallback to local storage

@@ -1,35 +1,32 @@
-// components/PostsBatch.jsx
-import React, { useState, useEffect } from 'react';
-import BatchCard from './BatchCard';
-import TaskSheet from './TaskSheet';
-import Notification from '../../../Notification';
+import React, { useState, useEffect } from "react";
+import BatchCard from "./BatchCard";
+import TaskSheet from "./TaskSheet";
+import Notification from "../../../Notification";
+import apiClient from "../../../api/apiClient";
+import { useWallet } from "@solana/wallet-adapter-react";
 
-const PostsBatch = ({ isGridView }) => {
+
+export default function PostsBatch({ isGridView }) {
   const [batches, setBatches] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedBatch, setSelectedBatch] = useState(null);
   const [isTaskSheetLoading, setIsTaskSheetLoading] = useState(false);
-  const [completedBatches, setCompletedBatches] = useState([]);
   const [showNotification, setShowNotification] = useState(false);
-  const [notificationMessage, setNotificationMessage] = useState('');
-
-  useEffect(() => {
-    fetchBatches();
-  }, []);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const { connected, publicKey, connect } = useWallet();
 
   const fetchBatches = async () => {
     setIsLoading(true);
     setError(null);
     try {
-      // Simulating API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      // Demo data
-      setBatches([
-        { id: 1, name: "Image Classification", taskCount: 5, labellersCompleted: 3, labellersNeeded: 5 },
-        { id: 2, name: "Text Annotation", taskCount: 5, labellersCompleted: 1, labellersNeeded: 3 },
-        { id: 3, name: "Audio Transcription", taskCount: 5, labellersCompleted: 4, labellersNeeded: 7 },
-      ]);
+      const response = await apiClient.get("/api/worker/fetchtask");
+
+      if (response.status === 200 && response.data.status) {
+        setBatches(response.data.tasks);
+      } else {
+        throw new Error("Failed to fetch batches");
+      }
     } catch (err) {
       setError("Failed to fetch batches. Please try again later.");
     } finally {
@@ -37,33 +34,53 @@ const PostsBatch = ({ isGridView }) => {
     }
   };
 
-  const handleBatchClick = (batch) => {
-    if (completedBatches.includes(batch.id)) {
-      setNotificationMessage("You've already completed this task. Please wait for new tasks or try other ones.");
-      setShowNotification(true);
-    } else {
-      setSelectedBatch(batch);
+  useEffect(() => {
+    fetchBatches();
+  }, []);
+
+  const handleBatchClick = async (batch) => {
+      
+      try {
+        
+       
+      console.log("Batch clicked:", batch);
       setIsTaskSheetLoading(true);
-      // Simulating API call to fetch tasks
-      setTimeout(() => {
-        setIsTaskSheetLoading(false);
-      }, 1000);
+      
+      const response = await apiClient.post("/api/worker/completed", {
+        taskId: batch._id,
+        type: batch.type,
+      });
+      
+      console.log("API response:", response.data);
+      
+      if (response.status === 200) {
+        if (response.data.status) {
+          setNotificationMessage(
+            "You've already completed this task. Please wait for new tasks or try other ones."
+          );
+          setShowNotification(true);
+        } else {
+          setSelectedBatch(batch);
+          setNotificationMessage("New task available");
+          setShowNotification(true);
+        }
+      } else {
+        throw new Error("API request failed");
+      }
+    }
+    catch (error) {
+      console.error("Error in handleBatchClick:", error);
+      setNotificationMessage("An error occurred. Please try again.");
+      setShowNotification(true);
+    } finally {
+      setIsTaskSheetLoading(false);
     }
   };
 
   const handleTaskCompletion = (batchId) => {
-    setBatches(prevBatches => 
-      prevBatches.map(batch => 
-        batch.id === batchId 
-          ? {...batch, 
-             labellersCompleted: batch.labellersCompleted + 1,
-             progress: ((batch.labellersCompleted + 1) / batch.labellersNeeded) * 100
-            } 
-          : batch
-      )
-    );
-    setCompletedBatches(prev => [...prev, batchId]);
     setSelectedBatch(null);
+    fetchBatches(); // Refresh batches after task completion
+    fetchTokens();
   };
 
   if (isLoading) {
@@ -81,9 +98,19 @@ const PostsBatch = ({ isGridView }) => {
           <p>{error}</p>
         </div>
       )}
-      <div className={`grid ${isGridView ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"} gap-6`}>
+      <div
+        className={`grid ${
+          isGridView
+            ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+            : "grid-cols-1"
+        } gap-6`}
+      >
         {batches.map((batch) => (
-          <div key={batch.id} onClick={() => handleBatchClick(batch)}>
+          <div
+            key={batch._id}
+            className="cursor-pointer"
+            onClick={() => handleBatchClick(batch)}
+          >
             <BatchCard batch={batch} />
           </div>
         ))}
@@ -93,11 +120,11 @@ const PostsBatch = ({ isGridView }) => {
           <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
         </div>
       )}
-      {selectedBatch && !isTaskSheetLoading && (
+      {selectedBatch && (
         <TaskSheet
           batch={selectedBatch}
           onClose={() => setSelectedBatch(null)}
-          onComplete={() => handleTaskCompletion(selectedBatch.id)}
+          onComplete={() => handleTaskCompletion(selectedBatch._id)}
         />
       )}
       {showNotification && (
@@ -109,6 +136,4 @@ const PostsBatch = ({ isGridView }) => {
       )}
     </>
   );
-};
-
-export default PostsBatch;
+}

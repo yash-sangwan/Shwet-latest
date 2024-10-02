@@ -1,11 +1,27 @@
-import React, { useState } from 'react';
-import { Upload, HelpCircle } from 'lucide-react';
+'use client'
+
+import React, { useState, useEffect } from 'react';
+import { Upload, HelpCircle, RefreshCw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import apiClient from "../api/apiClient";
+import TourFlow from './DashboardTour/TourFlow';
 
-const RightSidebar = () => {
+export default function RightSidebar() {
   const [activeTab, setActiveTab] = useState('overview');
   const navigate = useNavigate();
+  const [totalTokens, setTotalTokens] = useState(0);
+  const [totalContrib, setContrib] = useState(0);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [showTour, setShowTour] = useState(false)
+
+  const onTourComplete = () => {
+    setShowTour(false)
+  }
+
+  const startTour = () =>{
+    setShowTour(!showTour);
+  }
 
   const pieData = [
     { name: 'Images', value: 400 },
@@ -25,33 +41,57 @@ const RightSidebar = () => {
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
 
+  const getOverview = async () => {
+    try {
+      setIsSyncing(true);
+      const response = await apiClient.get("/api/worker/get-overview");
+      if (response.status === 200 && response.data.status) {
+        setTotalTokens(response.data.balance);
+        setContrib(response.data.totalContrib);
+      }
+    } catch (error) {
+      console.error("Error fetching overview:", error);
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
+  useEffect(() => {
+    getOverview();
+  }, []);
+
+  const handleSync = () => {
+    getOverview();
+  };
+
   const renderTabContent = () => {
     switch (activeTab) {
       case 'overview':
         return (
           <div className="space-y-4">
-            <div className="bg-gray-800 p-4 rounded-lg">
-              <h3 className="text-lg font-semibold mb-2">Active Contributions</h3>
-              <div className="flex justify-between items-center">
-                <span className="text-3xl font-bold">12</span>
-                <span className="text-green-500 text-sm">+3 from last week</span>
+            <div className="p-4 rounded-lg">
+                <button 
+                  onClick={handleSync} 
+                  disabled={isSyncing}
+                  className="text-blue-400 w-full flex justify-end mb-4 hover:text-blue-300 transition-colors duration-200"
+                >
+                <RefreshCw className={`w-5 h-5 ${isSyncing ? 'animate-spin' : ''}`} />
+                </button>
+              <div className="flex justify-between items-center mb-2">
+                <h3 className="text-lg font-semibold">Active Contributions</h3>
               </div>
-            </div>
-            <div className="bg-gray-800 p-4 rounded-lg">
-              <h3 className="text-lg font-semibold mb-2">Accuracy</h3>
               <div className="flex justify-between items-center">
-                <span className="text-3xl font-bold">92%</span>
-                <span className="text-blue-500 text-sm">+5% from last month</span>
+                <span className="text-3xl font-bold">{totalContrib}</span>
+                <span className="text-green-500 text-sm">+0 from last week</span>
               </div>
             </div>
             <div className="bg-gray-800 p-4 rounded-lg">
               <h3 className="text-lg font-semibold mb-2">Total Tokens Earned</h3>
               <div className="flex justify-between items-center">
-                <span className="text-3xl font-bold">1,560</span>
-                <span className="text-orange-500 text-sm">+230 this week</span>
+                <span className="text-3xl font-bold">{totalTokens}</span>
+                <span className="text-orange-500 text-sm">+0 this week</span>
               </div>
             </div>
-            <p className='text-center text-sm text-gray-400'>**demo data for the MVP**</p>
           </div>
         );
       case 'analytics':
@@ -104,20 +144,7 @@ const RightSidebar = () => {
   };
 
   return (
-    <div className="fixed pt-24 right-0 top-0 h-screen w-80 bg-gray-900 text-white p-4 space-y-6 hidden lg:block overflow-y-auto">
-      <div className="bg-gray-800 p-4 rounded-lg">
-        <h2 className="text-lg font-bold mb-2">Contribute Data & Earn</h2>
-        <p className="text-sm mb-4">
-          Post your data (images, text, audio in spreadsheet form) to the community and earn tokens.
-        </p>
-        <button 
-          className="bg-green-600 text-white py-2 px-4 rounded-full w-full hover:bg-green-700 transition-colors duration-200 flex items-center justify-center"
-          onClick={() => navigate('/user/dashboard/contribute')}
-        >
-          <Upload className="mr-2" size={18} />
-          Contribute
-        </button>
-      </div>
+    <div className="fixed pt-24 right-0 top-0 h-screen w-80 bg-[#131416] text-white p-4 space-y-6 hidden lg:block overflow-y-auto">
 
       <div className="bg-gray-800 rounded-lg overflow-hidden">
         <div className="flex border-b border-gray-700">
@@ -140,18 +167,38 @@ const RightSidebar = () => {
       </div>
 
       <div className="bg-gray-800 p-4 rounded-lg">
+        <h2 className="text-lg font-bold mb-2">Contribute Data & Earn</h2>
+        <p className="text-sm mb-4">
+          Post your data (images, text, audio in spreadsheet form) to the community and earn tokens.
+        </p>
+        <button 
+          className="bg-PURPLESHADE5 hover:bg-PURPLESHADE2 text-white py-2 px-4 rounded-full w-full transition-colors duration-200 flex items-center justify-center"
+          onClick={() => navigate('/user/dashboard/contribute')}
+        >
+          <Upload className="mr-2" size={18} />
+          Start Contributing
+        </button>
+      </div>
+
+      <div className="bg-gray-800 p-4 rounded-lg">
         <h3 className="text-lg font-semibold mb-2">Quick Actions</h3>
         <ul className="space-y-2">
           <li>
-            <button className="w-full text-left py-2 px-3 rounded hover:bg-gray-700 transition-colors duration-200 flex items-center">
+            <button
+              className="w-full text-left py-2 px-3 rounded hover:bg-gray-700 transition-colors duration-200 flex items-center"
+              onClick={startTour}
+            >
               <HelpCircle className="mr-2" size={18} />
               <span>Get Help</span>
             </button>
           </li>
         </ul>
       </div>
+      {showTour && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <TourFlow onComplete={onTourComplete} />
+        </div>
+      )}
     </div>
   );
-};
-
-export default RightSidebar;
+}

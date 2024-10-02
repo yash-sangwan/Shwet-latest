@@ -3,7 +3,7 @@ import { IUser } from "./User";
 
 export interface IPaidOutHistory extends Document {
   userId: Schema.Types.ObjectId | IUser;
-  amount: number;
+  tokens: number;
   paidOutOn: Date;
 }
 
@@ -13,7 +13,7 @@ const paidOutHistorySchema = new Schema<IPaidOutHistory>({
     ref: "User",
     required: true,
   },
-  amount: {
+  tokens: {
     type: Number,
   },
   paidOutOn: {

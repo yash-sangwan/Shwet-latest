@@ -50,7 +50,7 @@ function AnimatedDashboardPreview({ margintop }) {
           <div className={`container relative flex flex-col items-center backdrop-container`}>
             <img
               ref={imgRef}
-              src={assets.MediaNetImage}
+              src={assets.ShwetUserDashboard}
               className={`slanted-div ${shouldAnimate ? "animate" : ""} glowing-border transition-transform translate-z-10 image-fade`}
               alt="Media Preview"
             />

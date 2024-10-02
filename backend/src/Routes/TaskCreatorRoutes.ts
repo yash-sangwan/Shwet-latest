@@ -21,7 +21,7 @@ const checkRole = (allowedRoles: string[]): express.RequestHandler => {
       res.status(403).json({ error: 'Access denied. Insufficient permissions.' });
       return;
     }
-
+    
     next();
   };
 };
@@ -37,6 +37,7 @@ interface TaskController {
     createTextTask: express.RequestHandler;
     fetchGroups: express.RequestHandler;
     verifyTransaction: express.RequestHandler;
+    fetchTasksUnderGroup: express.RequestHandler;
 }
 
 const taskRouter: Router = express.Router();
@@ -48,6 +49,7 @@ taskRouter.post("/image", checkProvider , (taskController as TaskController).cre
 taskRouter.post("/text", checkProvider , (taskController as TaskController).createTextTask);
 taskRouter.post("/audio", checkProvider , (taskController as TaskController).createAudioTask);
 taskRouter.get("/groups", checkProvider , (taskController as TaskController).fetchGroups);
+taskRouter.post("/groups/task", checkProvider , (taskController as TaskController).fetchTasksUnderGroup);
 taskRouter.post('/verify-transaction', (taskController as TaskController).verifyTransaction);
 
 export default taskRouter;

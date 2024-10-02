@@ -1,8 +1,41 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useSpring, animated, config } from "react-spring";
-import content from "../Example Data/Content";
+import assets from "../../../assets/assets";
 import Card from "./Card";
 import "./style.css";
+
+const Content = [
+  {
+    id: 1,
+    heading: 'Multiple chains, one wallet.',
+    feature: assets.Feature1,
+    color:'pink'
+  },
+  {
+    id: 2,
+    heading: 'Seamlessly access NFT marketplaces.',
+    feature: assets.Feature2,
+    color:'purple'
+  },
+  {
+    id: 3,
+    heading: 'Showcase your NFT collection.',
+    feature: assets.Feature3,
+    color:'yellow'
+  },
+  {
+    id: 4,
+    heading: 'Monitor activity with transaction history and notifications.',
+    feature: assets.Feature3,
+    color:'blue'
+  },
+  {
+    id: 5,
+    heading: 'No limits on tokens, balances, or transactions.',
+    feature: assets.Feature4,
+    color:'gray'
+  }
+];
 
 const CardsList = () => {
   const outerRef = useRef(null); // For the outer animated div
@@ -110,7 +143,7 @@ const CardsList = () => {
           }}
         >
           <div
-            className="cards w-full h-[500px] md:h-[600px] overflow-scroll scrollbar-hide cursor-ew-resize z-10"
+            className="cards w-full h-[500px] md:h-[600px] overflow-hidden scrollbar-hide cursor-ew-resize z-10"
             ref={innerRef}
             onMouseDown={handleStart}
             onMouseMove={handleMove}
@@ -120,11 +153,11 @@ const CardsList = () => {
             onTouchMove={handleMove}
             onTouchEnd={handleEnd}
           >
-            {content.map((item, index) => (
+            {Content.map((item, index) => (
               <Card
                 key={index}
                 heading={item.heading}
-                video={item.video}
+                image={item.feature}
                 isWhite={item.id === 2}
                 color={item.color}
               />

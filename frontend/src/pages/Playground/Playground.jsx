@@ -6,6 +6,7 @@ import SidebarPG from "../../Components/Playground/SidebarPG";
 import CreateFolder from "../../Components/Playground/CreateFolder";
 import FolderContent from "../../Components/Playground/Content/FolderContent";
 import Default from "../../Components/Playground/Default";
+import TourFlow from "../../Components/Playground/PlaygroundTour/TourFlow"
 import apiClient from "../../Components/api/apiClient";
 
 export default function Playground() {
@@ -15,10 +16,27 @@ export default function Playground() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isCreateFolderOpen, setIsCreateFolderOpen] = useState(false);
+  const [showTour, setShowTour] = useState(false)
 
+  useEffect(() => {
+    const checkTourStatus = () => {
+      const hasSeenTour = localStorage.getItem('hasSeenTour')
+      if (!hasSeenTour) {
+        setShowTour(true)
+        localStorage.setItem('hasSeenTour', 'true')
+      }
+    }
+    checkTourStatus()
+  }, [])
+
+  
+  const onTourComplete = () => {
+    setShowTour(false)
+  }
+
+  
   const fetchFolders = async () => {
     try {
-      // Simulating API call with local storage for now
       const response = await apiClient.get("/api/task/groups");
       if (response.status === 200 && response.data.status) {
         const storedFolders = response.data.data;
@@ -28,8 +46,8 @@ export default function Playground() {
           groupTitle: group.groupTitle,
           taskType: group.taskType,
           folder: group.folder,
-          createdAt: new Date(group.createdAt).toLocaleDateString(), // Fetch only the date
-          icon: group.icon || null, // Include icon if it exists, otherwise null
+          createdAt: new Date(group.createdAt).toLocaleDateString(),
+          icon: group.icon || null,
         }));
         
         setFolders(transformedGroups);
@@ -40,13 +58,16 @@ export default function Playground() {
       setIsLoading(false);
     }
   };
-
+  
   useEffect(() => {
+    console.log("Fetching folders..."); // Log before fetching
+
     fetchFolders();
+
   }, []);
 
-  const handleFolderCreated = (newFolder) => {
-    fetchFolders();
+  const handleFolderCreated = async (newFolder) => {
+    await fetchFolders();
     setActiveTab(`Folder-${newFolder.id}`);
     setIsCreateFolderOpen(false);
   };
@@ -55,8 +76,10 @@ export default function Playground() {
     console.log("Tab changed to:", tab);
     if (tab === "CreateFolder") {
       setIsCreateFolderOpen(true);
+      setActiveTab(tab);
     } else {
       setActiveTab(tab);
+      setIsCreateFolderOpen(false);
     }
   };
 
@@ -71,11 +94,14 @@ export default function Playground() {
       return <div className="text-red-500">{error}</div>;
     }
 
-    if (isCreateFolderOpen) {
+    if (isCreateFolderOpen || activeTab === "CreateFolder") {
       return (
         <CreateFolder
           onFolderCreated={handleFolderCreated}
-          onClose={() => setIsCreateFolderOpen(false)}
+          onClose={() => {
+            setIsCreateFolderOpen(false);
+            setActiveTab("");
+          }}
         />
       );
     }
@@ -103,6 +129,11 @@ export default function Playground() {
           <div className="max-w-8xl mx-auto">{renderContent()}</div>
         </main>
       </div>
+      {showTour && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <TourFlow onComplete={onTourComplete} />
+        </div>
+      )}
     </div>
   );
 }

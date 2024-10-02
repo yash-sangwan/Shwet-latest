@@ -12,7 +12,7 @@ export interface IAudioTask extends Document {
   signature: string;
   description: string;
   workerCount: number;
-  amount: number;
+  amount: mongoose.Types.Decimal128;
   currentSubmissions: number;
   active:boolean;
 }
@@ -22,7 +22,7 @@ const audioTaskSchema = new Schema<IAudioTask>({
   taskerId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   groupId: { type: Schema.Types.ObjectId, ref: "Group", required: true },
   signature: { type: String, required: true},
-  amount: {type: Number, required: true},
+  amount: { type: Schema.Types.Decimal128, required: true },
   workerCount: {type: Number , required: true},
   currentSubmissions: {type: Number, default: 0},
   taskTitle: {

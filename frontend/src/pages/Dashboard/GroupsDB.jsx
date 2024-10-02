@@ -1,10 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import NavbarDB from '../../Components/Dashboard/Navbar/NavbarDB';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { PieChart, Pie, Cell } from 'recharts';
+import apiClient from '../../Components/api/apiClient';
 
 const GroupsDB = () => {
   const [activeTab, setActiveTab] = useState('overview');
+  const [totalTokens, setTotalTokens] = useState(0);
+  const [totalContrib, setContrib] = useState(0);
+
+
+  const getOverview = async () => {
+    try {
+      const response = await apiClient.get("/api/worker/get-overview");
+      if (response.status === 200 && response.data.status) {
+        setTotalTokens(response.data.balance);
+        setContrib(response.data.totalContrib);
+      }
+    } catch (error) {
+      console.error("Error fetching overview:", error);
+    }
+  };
+
+  useEffect(() => {
+    getOverview();
+  }, []);
 
   // Mock data for demonstration
   const contributionData = [
@@ -94,18 +114,18 @@ const GroupsDB = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
               <h2 className="text-xl font-semibold mb-4">Total Contributions</h2>
-              <p className="text-4xl font-bold">1,234</p>
+              <p className="text-4xl font-bold">{totalContrib}</p>
             </div>
             <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
               <h2 className="text-xl font-semibold mb-4">Total Tokens Earned</h2>
-              <p className="text-4xl font-bold">5,678</p>
+              <p className="text-4xl font-bold">{totalTokens}</p>
             </div>
             <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
               <h2 className="text-xl font-semibold mb-4">Contribution Rank</h2>
               <p className="text-4xl font-bold">#42</p>
               <div className="mt-4">
                 <div className="bg-gray-700 h-2 rounded-full">
-                  <div className="bg-blue-500 h-2 rounded-full" style={{ width: '42%' }}></div>
+                  <div className="bg-PURPLESHADE3 h-2 rounded-full" style={{ width: '42%' }}></div>
                 </div>
                 <p className="text-sm mt-2">Top 42% of contributors</p>
               </div>
@@ -257,6 +277,9 @@ const GroupsDB = () => {
             </div>
           </div>
         </div>
+        <p className='pb-4'>
+          **Data shown here is for demo purpose only.**
+        </p>
       </div>
     </>
   );

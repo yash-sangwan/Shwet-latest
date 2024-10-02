@@ -4,12 +4,13 @@ import {
   faRightToBracket,
   faMoneyCheckDollar,
   faFile,
-  faAnglesLeft
+  faAnglesLeft,
+  faBook,
+  faBarsStaggered
 } from "@fortawesome/free-solid-svg-icons";
 import assets from "../../assets/assets";
 import Login from "../Auth/Login";
 import Signup from "../Auth/Signup";
-import HoverDropDown from "./HoverDropDown";
 import { useAuth } from "../Private/AuthContext"; // Adjust path accordingly
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -54,7 +55,8 @@ function TopNavbar() {
 
       <ul className="flex flex-row justify-evenly items-center pr-10 font-Montserrat">
         {/* <HoverDropDown /> */}
-        <Button text={"Docs"} icon={faFile} href={"/docs"}></Button>
+        <Button text={"Contributors"} icon={faBook} href={"/docs"}></Button>
+        <Button text={"Docs"} icon={faFile} href={"#"}></Button>
         <Button
           text={"Pricing"}
           icon={faMoneyCheckDollar}
@@ -68,18 +70,24 @@ function TopNavbar() {
             icon={faRightToBracket}
           ></Button>
         ) : (
-          <a
+          <>
+            
+            <Button text={"Dashboard"} icon={faBarsStaggered} href={"/user/init"}></Button>
+
+            <a
             className="h-[70%] group w-max rounded-2xl text-white hover:bg-PURPLESHADE5 px-4 py-2 md:py-4 flex items-center transition-all duration-300 ease-in-out"
             onClick={handleLogout}
-          >
+            >
             <FontAwesomeIcon
-              className="pl-1 transform rotate-0 group-hover:rotate-90 scale-0 group-hover:scale-100 transition-transform duration-500 ease-in-out"
+              className="pl-1 transform scale-0 group-hover:scale-100 transition-transform duration-500 ease-in-out"
               icon={faAnglesLeft}
-            />
+              />
             <span className="group-hover:ml-2 transition-all duration-300 ease-in-out">
               Logout
             </span>
+
           </a>
+        </>
         )}
       </ul>
 

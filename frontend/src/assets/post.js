@@ -46,9 +46,11 @@ export const trending = [
           { title: '#GabbarSingh4K', description: 'Entertainment · Trending · 79.5K posts' }
 ]
 
+
+
 export const Groups = [
   {
-    "name": "Trending",
+    "name": "Computer Science",
     "description": "Stay updated with the latest and most popular topics from around the world. Explore what's trending in various sectors including technology, entertainment, and more.",
     "icon": "https://techcrunch.com/wp-content/uploads/2014/09/facebook-trending.png",
     "bg": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJT4E42PsL7ck8S9nvMs0uh_U07NW7dPT-KA&s"

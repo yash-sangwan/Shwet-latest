@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import assets from '../../../assets/assets';
 
-function UNI() {
+function Usecase1() {
   const [overlayOpacity, setOverlayOpacity] = useState(0.5);
 
   const handleMouseEnter = () => {
@@ -30,7 +30,7 @@ function UNI() {
     >
       <img 
         className="w-full h-full object-cover transition-opacity duration-300" 
-        src={assets.ShwetUseCase1} 
+        src={assets.Usecase2} 
         alt="Insurance Use Case" 
       />
       <div 
@@ -41,4 +41,4 @@ function UNI() {
   );
 }
 
-export default UNI;
+export default Usecase1;

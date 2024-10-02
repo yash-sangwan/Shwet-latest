@@ -6,13 +6,13 @@ function UserTypeSelector({ selectedType, onTypeChange }) {
   const userTypes = [
     {
       id: "1",
-      name: "Task Provider",
-      description: "Create tasks and get labelled, cleaned data.",
+      name: "Project Maintainer",
+      description: "Create Task Jobs to get your work done.",
     },
     {
       id: "2",
-      name: "Task Performer",
-      description: "Complete tasks, earn tokens, and contribute data",
+      name: "Contributor",
+      description: "Contribute to the available tasks and earn.",
     },
   ];
 
@@ -37,7 +37,7 @@ function UserTypeSelector({ selectedType, onTypeChange }) {
           />
           <div className="flex-shrink-0 mt-0.5">
             <div
-              className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+              className={`w-6 h-6 rounded-full border-2 flex items-center justify-start ${
                 selectedType === type.id
                   ? "border-purple-500"
                   : "border-gray-400"
@@ -49,7 +49,7 @@ function UserTypeSelector({ selectedType, onTypeChange }) {
             </div>
           </div>
           <div className="ml-3">
-            <h3 className="text-lg font-semibold">{type.name}</h3>
+            <h3 className="text-lg font-semibold text-left">{type.name}</h3>
             <p className="text-gray-600">{type.description}</p>
           </div>
         </label>
@@ -94,9 +94,8 @@ function LoginRoles() {
           Welcome to Shwet
         </h1>
         <p className="text-center text-gray-600 mb-8">
-          Here you can create your provider and their oracles
-          <br />
-          Here is the step by step guide..
+        You are a _____
+         
         </p>
         <div className="flex justify-center space-x-8 mb-8">
           <div className="border-t-2 border-purple-200 flex-grow mt-6" />

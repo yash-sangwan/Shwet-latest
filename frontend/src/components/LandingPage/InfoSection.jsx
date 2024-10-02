@@ -1,10 +1,12 @@
 import React from "react";
 import AnimatedStaticButton from "./Animated Components/AnimatedStaticButton";
-import CardZkTLS from "./CardsAnimated/CardZkTLS";
-import UNI from "./CardsAnimated/UNI";
 import World from "./CardsAnimated/World";
-import InsuranceUseCase from "./CardsAnimated/InsuranceUseCase";
 import Graph from "./CardsAnimated/Graph";
+import Usecase1 from "./CardsAnimated/Usecase1";
+import Usecase3 from "./CardsAnimated/UseCase3";
+import Usecase2 from "./CardsAnimated/UseCase2";
+import Usecase4 from "./CardsAnimated/Usecase4";
+import Usecase5 from "./CardsAnimated/Usecase5";
 
 function InfoSection() {
   const data = [
@@ -53,11 +55,11 @@ function InfoSection() {
                   <p>{item.info}</p>
                 </div>
                 <div className="relative w-full rounded-xl overflow-hidden flex-grow md:h-[280px] h-[280px]">
-                  {index === 0 && <UNI />}
-                  {index === 1 && <CardZkTLS />}
-                  {index === 2 && <InsuranceUseCase />}
-                  {index === 3 && <World />}
-                  {index === 4 && <Graph />}
+                  {index === 0 && <Usecase1 />}
+                  {index === 1 && <Usecase2 />}
+                  {index === 2 && <Usecase3 />}
+                  {index === 3 && <Usecase4 />}
+                  {index === 4 && <World />}
                 </div>
               </div>
             );

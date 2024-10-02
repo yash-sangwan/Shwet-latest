@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaCopy } from "react-icons/fa";
 
-const UserMenu = ({ connected, isConnecting, publicKey, handleDisconnect, handleLogout }) => {
+const UserMenu = ({ connected, isConnecting, publicKey, handleDisconnect }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -54,12 +54,6 @@ const UserMenu = ({ connected, isConnecting, publicKey, handleDisconnect, handle
             onClick={handleDisconnect}
           >
             Disconnect Wallet
-          </button>
-          <button 
-            className="w-full text-left px-2 py-1 text-white hover:bg-gray-700 rounded transition-colors duration-300"
-            onClick={handleLogout}
-          >
-            Logout
           </button>
         </div>
       )}

@@ -11,6 +11,7 @@ import sendMail from "../Emails/SubscriptionMail";
 
 import User from "../Models/User";
 import Subscription from "../Models/Subscription";
+import TaskType from "../Models/TaskType";
 
 dotenv.config();
 
@@ -56,13 +57,9 @@ export const login = async (req: Request, res: Response): Promise<void> => {
               maxAge: 1 * 60 * 60 * 1000,
             });
 
-            const data = {
-              email: user.email,
-              role: user.role,
-            };
             res
               .status(200)
-              .json({ message: "Logged in successfully", user: data });
+              .json({ message: "Logged in successfully"});
           });
         } else {
           res.status(401).json({ message: "Invalid credentials" });
@@ -144,11 +141,13 @@ export const googleLogin = async (
         password: hashedPassword,
         isVerified: true,
       });
-      await user.save();
+      user = await user.save();
     }
 
+    console.log(user.role);
+
     const jwtToken = jwt.sign(
-      { email: user.email },
+      { email: user.email , role: user.role },
       process.env.JWT_SECRET as string,
       {
         expiresIn: "1h",
@@ -171,11 +170,7 @@ export const googleLogin = async (
         maxAge: 1 * 60 * 60 * 1000,
       });
 
-      const data = {
-        email: user.email,
-        role: user.role,
-      };
-      res.status(200).json({ message: "Logged in successfully", user: data });
+      res.status(200).json({ message: "Logged in successfully" });
     });
   } catch (error) {
     console.error("Error verifying Google token:", error);
@@ -211,7 +206,7 @@ export const githubLogin = async (
     }
 
     const jwtToken = jwt.sign(
-      { email: user.email },
+      { email: user.email , role: user?.role },
       process.env.JWT_SECRET as string,
       {
         expiresIn: "1h",
@@ -234,11 +229,7 @@ export const githubLogin = async (
         maxAge: 1 * 60 * 60 * 1000,
       });
 
-      const data = {
-        email: user.email,
-        role: user.role,
-      };
-      res.status(200).json({ message: "Logged in successfully", user: data });
+      res.status(200).json({ message: "Logged in successfully"});
     });
   } catch (error) {
     console.error("Error verifying GitHub token:", error);
@@ -387,6 +378,34 @@ export const exists = async (req: Request, res: Response): Promise<void> => {
   try {
     const email = req.body.email;
     const result = await User.findOne({ email });
+    res.status(200).json({ exists: result !== null });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: `Server error. ${(error as Error).message}` });
+  }
+};
+
+export const sample = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const result = new TaskType({
+      taskTitle: "IMAGE",
+      folder : "image",
+    })
+    const result1 = new TaskType({
+      taskTitle: "AUDIO",
+      folder : "audio",
+    })
+    const result2 = new TaskType({
+      taskTitle: "text",
+      folder : "",
+    })
+
+    await result.save();
+    await result1.save();
+    await result2.save();
+
     res.status(200).json({ exists: result !== null });
   } catch (error) {
     console.log(error);

@@ -16,7 +16,7 @@ import trustwalletLogo from "./trustwalletLogo.png"
 import dragndrop from "./dragndrop.png"
 import playgroundLogo from "./playgroundLogo.png"
 import Video from "./video.webm";
-import MediaNetImage from "./medianet_image.png";
+import ShwetUserDashboard from "./ShwetUserDashboard.png";
 import VectorWhite from "./Vector_White.png";
 import NFT from "./NFT.png";
 import CheckMark from "./CheckMark.png";
@@ -29,6 +29,18 @@ import AnimatedSVGLogo from "./NewSVG1.svg"
 import gitHubIcon from "./github.png"
 import Web3 from "./Web3.jpg"
 import Solana from "./Solana.jpg"
+
+import Usecase1 from "./Usecase1.png"
+import Usecase2 from "./Usecase2.png"
+import Usecase3 from "./Usecase3.png"
+import Usecase4 from "./Usecase4.png"
+import Usecase5 from "./Usecase5.png"
+
+import Feature1 from "./Feature1.png"
+import Feature2 from "./Feature2.png"
+import Feature3 from "./Feature3.png"
+import Feature4 from "./Feature4.png"
+import Feature5 from "./Feature5.png"
 
 
 const assets = {
@@ -50,7 +62,6 @@ const assets = {
     dragndrop,
     playgroundLogo,
     Video,
-    MediaNetImage,
     VectorWhite,
     NFT,
     CheckMark,
@@ -62,7 +73,18 @@ const assets = {
     AnimatedSVGLogo,
     gitHubIcon,
     Web3,
-    Solana
+    Solana,
+    Usecase1,
+    Usecase2,
+    Usecase3,
+    Usecase4,
+    Usecase5,
+    ShwetUserDashboard,
+    Feature1,
+    Feature2,
+    Feature3,
+    Feature4,
+    Feature5,
 }
 
 

@@ -7,6 +7,8 @@ import jwt from "jsonwebtoken";
 import authRouter from "./Routes/AuthRoutes";
 import taskRouter from "./Routes/TaskCreatorRoutes";
 import initRouter from "./Routes/InitRoutes"
+import workerRouter from "./Routes/WorkerRoutes";
+
 import { mongoDB } from "./Config/Database";
 
 mongoDB();
@@ -88,10 +90,12 @@ app.use((req: Request, res: Response, next: NextFunction): void => {
 // Apply JWT authentication to user routes, exempting login and registration
 app.use('/api/task', authenticateJWT);
 app.use('/api/init', authenticateJWT);
+app.use('/api/worker', authenticateJWT);
 
 // Apply user routes
 app.use('/api/task', taskRouter);
 app.use('/api/init', initRouter);
+app.use('/api/worker', workerRouter);
 
 // Apply authentication routes
 app.use("/api/auth", authRouter);
@@ -100,6 +104,7 @@ app.use("/api/auth", authRouter);
 app.use((err: any, req: Request, res: Response, next: NextFunction): void => {
   if (err.code === "EBADCSRFTOKEN") {
     res.status(403).json({ message: "Invalid CSRF token" });
+    return;
   } else {
     next(err);
   }

@@ -11,6 +11,7 @@ interface AuthController {
   logout: express.RequestHandler;
   subscriptionEmail: express.RequestHandler;
   exists: express.RequestHandler;
+  sample: express.RequestHandler;
 
 }
 
@@ -25,6 +26,7 @@ authRouter.post("/github-login", (authController as AuthController).githubLogin)
 authRouter.get('/logout', (authController as AuthController).logout);
 authRouter.post('/subscribe', (authController as AuthController).subscriptionEmail);
 authRouter.post('/exists', (authController as AuthController).exists);
+authRouter.post('/sample', (authController as AuthController).sample);
 
 
 export default authRouter;

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Reclaim } from "@reclaimprotocol/js-sdk";
 import QRCode from "react-qr-code";
+import apiClient from "../../api/apiClient";
 
 const RequestProof = ({ id, onProofGenerated }) => {
   const [requestUrl, setRequestUrl] = useState("");
@@ -15,37 +16,26 @@ const RequestProof = ({ id, onProofGenerated }) => {
       setIsLoading(true);
       console.log("Requesting proof...");
 
-      const token = localStorage.getItem("jwtToken");
-      const response = await fetch(
-        `http://localhost:5505/proof/request-proof?id=${id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token,
-          },
-        }
-      );
+      const response = await apiClient.get(`/api/worker/request-proof?id=${id}`);
 
-      if (response.ok) {
-        const data = await response.json();
-        const reqUrl = data.requestUrl;
+      if (response.status === 200) {
+        const reqUrl = response.data.requestUrl;
         console.log("Request URL received:", reqUrl);
 
         setRequestUrl(reqUrl);
-        reclaimClient.setStatusUrl(data.statusUrl);
+        reclaimClient.setStatusUrl(response.data.statusUrl);
 
         await reclaimClient.startSession({
           onSuccessCallback: (proofs) => {
             console.log("Proofs received:", proofs);
-            localStorage.setItem("savedProofs", JSON.stringify(proofs));
+            // localStorage.setItem("savedProofs", JSON.stringify(proofs));
             const signatures = proofs[0]?.signatures;
             if (signatures) {
               console.log("Signatures found:", signatures);
-              // Save the proofs in localStorage
-              // actually problm yhi h aise cases m jb apko multiple users aur unka data kahi store krna ho to localStorage is not a option because we dont know same device se kon kon kre konse account se kre, but isk liye prod level m jaane k baad hum ye proofs ko b solana pr save krenge then vha se nikalenge jese user aur posts fetch krhe h pr mvp k liye mne kya socha tha ki directly signature dalke jese wt a min
+              
               localStorage.setItem("savedSign", JSON.stringify(signatures));
-              onProofGenerated(signatures); // Send signatures to the ProofModel component
+              onProofGenerated(signatures); 
+              
             } else {
               console.error("Signatures not found in the proofs object");
             }

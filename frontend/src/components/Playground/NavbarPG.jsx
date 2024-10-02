@@ -13,6 +13,7 @@ import { faCode } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FiMenu, FiX } from "react-icons/fi";
 import ConnectSheet from '../Dashboard/UserConnect/ConnectSheet'
+import { useAuth } from '../Private/AuthContext';
 
 const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
@@ -31,11 +32,11 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const [isConnectSheetOpen, setIsConnectSheetOpen] = useState(false);
+  const { isAuthenticated, logout } = useAuth();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const openConnectSheet = () => setIsConnectSheetOpen(true);
   const closeConnectSheet = () => setIsConnectSheetOpen(false);
-
   const handleWalletConnect = async (walletName) => {
     try {
       setIsConnecting(true);
@@ -230,12 +231,8 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
   // Logout
   const handleLogout = async () => {
     try {
-      setIsLoading(true);
-      localStorage.removeItem("jwtToken"); // Clear the JWT token
-      await handleDisconnect();
-      setIsLoggedIn(false); // Update isLoggedIn state to false
-      showNotification("Logout successful!", "success");
-      navigate("/read/home"); // Redirect to the login page after logout
+      logout();
+      navigate("/")
     } catch (error) {
       showNotification(error.message);
     } finally {
@@ -325,7 +322,7 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
     )}
   
     {/* Brand Logo */}
-    <div className="text-primary text-3xl font-bold mr-4">Shwet</div>
+    <div className="text-PURPLESHADE3 text-3xl font-bold mr-4">Shwet</div>
   
     {/* Navigation Links - Hidden on small/medium screens, visible on large */}
     <div
@@ -339,7 +336,7 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
         className={({ isActive }) =>
           `relative cursor-pointer text-xl playground-icon ${
             isActive
-              ? "text-yellow-400 border-b-2 border-yellow-400 pb-1"
+              ? "text-PURPLESHADE3 border-b-2 border-PURPLESHADE3  pb-1"
               : "hover:text-gray-300"
           }`
         }
@@ -351,16 +348,16 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
   
     {/* Profile and Connect buttons (always visible) */}
     <div className="flex items-center space-x-4 relative">
-      {isLoggedIn ? (
+      {isAuthenticated ? (
         <button
-          className="bg-primary text-black px-4 py-1 rounded-full hover:bg-secondary"
+          className="bg-[#2a2a2a] hover:bg-[#3a3a3a] text-white px-4 py-1 rounded-full"
           onClick={handleLogout}
         >
           Logout
         </button>
       ) : (
         <button
-          className="bg-primary text-black px-4 py-1 rounded-full hover:bg-secondary"
+          className="bg-[#2a2a2a] hover:bg-[#3a3a3a] text-white px-4 py-1 rounded-full"
           onClick={handleLogin}
         >
           Login

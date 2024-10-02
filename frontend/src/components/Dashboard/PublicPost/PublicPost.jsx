@@ -8,13 +8,22 @@ import assets from "../../../assets/assets";
 import DataGroup from "./DataGroup";
 import { ChevronLeft } from "lucide-react";
 
-function PublicPost() {
+function  PublicPost() {
   const [file, setFile] = useState(null);
   const [notification, setNotification] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [dragCounter, setDragCounter] = useState(0);
   const [excelData, setExcelData] = useState([]); // Store parsed Excel data
+  const [proofSignatures, setProofSignatures] = useState(null)
+  const [source, setSource] = useState('')
 
+  const handleProofGenerated = (signatures) => {
+    setProofSignatures(signatures)
+  }
+
+  const handleSourceChange = (newSource) => {
+    setSource(newSource)
+  }
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files ? event.target.files[0] : null;
@@ -88,7 +97,7 @@ function PublicPost() {
         />
       )}
 
-      <div className="flex min-h-screen p-8 bg-gray-900">
+      <div className="flex min-h-screen p-8 bg-[#131416]">
         <div className="w-3/4 pr-6">
           <div className="flex items-center gap-8 mb-16">
             <button  onClick={() => window.history.back()} className="text-blue-400 hover:text-blue-300">
@@ -166,10 +175,15 @@ function PublicPost() {
             {!file && <SampleExcel />}
           </div>
           <DataGroup />
-          <SourceProofPost />
+          <SourceProofPost
+          proofSignatures={proofSignatures}
+          onProofGenerated={handleProofGenerated}
+          source={source}
+          onSourceChange={handleSourceChange}
+        />
         </div>
 
-        <PreviewPost />
+        <PreviewPost proofSignatures={proofSignatures} source={source} />
       </div>
     </>
   );

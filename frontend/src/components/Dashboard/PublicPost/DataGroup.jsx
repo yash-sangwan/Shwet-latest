@@ -1,7 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Groups } from "../../../assets/post"; 
+// import { Groups } from "../../../assets/post";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+
+const Groups = [
+  { name: "Computer Science", icon: "fa-solid fa-laptop-code" },
+  { name: "Education", icon: "fa-solid fa-graduation-cap" },
+  { name: "Classification", icon: "fa-solid fa-tags" },
+  { name: "Computer Vision", icon: "fa-solid fa-eye" },
+  { name: "NLP", icon: "fa-solid fa-language" },
+];
 
 const DataGroup = () => {
   const [selectedGroup, setSelectedGroup] = useState(null);
@@ -36,7 +44,7 @@ const DataGroup = () => {
   return (
     <>
       <div className="bg-gray-100 p-6 shadow-lg rounded-lg mb-6">
-        <h4 className="pb-4 text-black text-2xl font-semibold">Data Group</h4>
+        <h4 className="pb-4 text-black text-left text-2xl font-semibold">Data Group</h4>
         <div className="flex items-center justify-between">
           <div className="relative w-4/5" ref={dropdownRef}>
             <div
@@ -45,11 +53,13 @@ const DataGroup = () => {
             >
               {selectedGroup ? (
                 <div className="flex items-center">
-                  <img
+                  {/* <img
                     src={selectedGroup.icon}
                     alt={selectedGroup.name}
                     className="inline-block w-6 h-6 mr-2"
-                  />
+                  /> */}
+                  <i className={`${selectedGroup.icon} mx-2 w-5`}></i>
+
                   <span>{selectedGroup.name}</span>
                 </div>
               ) : (
@@ -73,11 +83,12 @@ const DataGroup = () => {
                     className="flex items-center p-3 hover:bg-gray-100 cursor-pointer"
                     onClick={() => handleGroupSelect(group)}
                   >
-                    <img
+                    {/* <img
                       src={group.icon}
                       alt={group.name}
                       className="inline-block w-6 h-6 mr-2"
-                    />
+                    /> */}
+                    <i className={`${group.icon} mx-2 w-5`}></i>
                     <span>{group.name}</span>
                   </div>
                 ))}

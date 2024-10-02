@@ -73,7 +73,7 @@ export default function SidebarPG({ onToggle, onTabChange, folders, activeTab })
                 } ${isCreateFolderDisabled ? "opacity-50" : ""}`}
               > 
                 <Plus className="size-4" />
-                {!isCollapsed && <span className="ml-3">Create Folder</span>}
+                {!isCollapsed && <span className="ml-3">Create Project</span>}
               </button>
             </li>
             {folders.length === 0 ? (

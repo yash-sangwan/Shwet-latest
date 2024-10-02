@@ -7,7 +7,6 @@ export interface IUser extends Document {
   password: string;
   isVerified: boolean;
   role?: string;
-  wallet?: string;
   createdAt: Date;
 }
 
@@ -39,12 +38,6 @@ const userSchema = new Schema<IUser>({
     type: String,
     trim: true,
     required: false
-  },
-  wallet: {
-    type: String,
-    required: false,
-    unique: true,
-    trim: true
   },
   createdAt: {
     type: Date,

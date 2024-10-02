@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import { PublicKey } from "@solana/web3.js";
 import { createRpc, Rpc } from "@lightprotocol/stateless.js";
 import { Request, Response } from "express";
@@ -13,6 +14,8 @@ interface AuthenticatedRequest extends Request {
   email?: string;
   role?: string;
 }
+
+dotenv.config();
 
 // Endpoint to get signed upload data
 export const generateSignedUrl = async (
@@ -48,6 +51,8 @@ export const createGroup = async (
     const icon = req.body.icon;
     const type = req.body.workType;
     console.log(groupTitle);
+    console.log(icon);
+    console.log(type);
     const tasktype = await TaskType.findOne({ taskTitle: type });
     const user = await User.findOne({ email: req.email });
 
@@ -83,17 +88,9 @@ export const createImageTask = async (
   try {
 
     const taskDetails = req.body.taskDetails;
-
     const transactionSignature = taskDetails.txid;
     const groupid = taskDetails.groupId;
 
-    // Code to validate the transaction
-
-    // Get amount of sol / currency transferred
-    const amount = 10;
-
-    // Calcualte the number of workers
-    const workerCount = 5;
     const validated = true;
     if (validated && groupid) {
       const group = await Group.findById(groupid);
@@ -110,8 +107,8 @@ export const createImageTask = async (
           taskerId: user._id,
           groupId: group._id,
           signature: transactionSignature,
-          amount: amount,
-          workerCount: workerCount,
+          amount: taskDetails.budget,
+          workerCount: taskDetails.workerCount,
           taskTitle: taskDetails.title,
           description: taskDetails.description,
           images: imageMap,
@@ -152,13 +149,7 @@ export const createAudioTask = async (
     const transactionSignature = taskDetails.txid;
     const groupid = taskDetails.groupId;
 
-    // Code to validate the transaction
-
-    // Get amount of sol / currency transferred
-    const amount = 10;
-
     // Calcualte the number of workers
-    const workerCount = 5;
     const validated = true;
     if (validated && groupid) {
       const group = await Group.findById(groupid);
@@ -175,8 +166,8 @@ export const createAudioTask = async (
           taskerId: user._id,
           groupId: group._id,
           signature: transactionSignature,
-          amount: amount,
-          workerCount: workerCount,
+          amount: taskDetails.budget,
+          workerCount: taskDetails.workerCount,
           taskTitle: taskDetails.title,
           description: taskDetails.description,
           audios: audioMap,
@@ -216,8 +207,6 @@ export const createTextTask = async (
 
     const transactionSignature = taskDetails.txid;
     const groupid = taskDetails.groupId;
-    const amount = taskDetails.budget;
-    const workerCount = taskDetails.workerCount;
 
     const validated = true;
     if (validated && groupid) {
@@ -235,8 +224,8 @@ export const createTextTask = async (
           taskerId: user._id,
           groupId: group._id,
           signature: transactionSignature,
-          amount: amount,
-          workerCount: workerCount,
+          amount: taskDetails.budget,
+          workerCount: taskDetails.workerCount,
           taskTitle: taskDetails.title,
           description: taskDetails.description,
           text: textMap,
@@ -321,9 +310,12 @@ export const fetchGroups = async (
   res: Response
 ): Promise<void> => {
   try {
+    console.log("Fetching groups")
     const user = await User.findOne({ email: req.email });
+
     if (user) {
       const groups = await Group.find({ taskerId: user._id });
+
       res
         .status(200)
         .json({ status: true, message: "Groups fetched", data: groups });
@@ -332,6 +324,7 @@ export const fetchGroups = async (
         .status(200)
         .json({ status: false, message: "Failed to fetch groups." });
     }
+    return;
   } catch (error) {
     console.error("Error in fetchGroups:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -346,8 +339,9 @@ export const verifyTransaction = async (
     const publicKey = new PublicKey(req.body.PublicKey);
     const transactionSignature = req.body.TransactionSignature;
     const amount = req.body.Amount; // Amount in lamports
+    const api = process.env.HELIUS_DEVNET_API as string;
     const RPC_ENDPOINT =
-      "https://devnet.helius-rpc.com?api-key=a3f8ff9d-884e-4a85-88d0-9742c2eb9bb9";
+      `https://devnet.helius-rpc.com?api-key=${api}`;
     const connection = createRpc(RPC_ENDPOINT);
 
     // Function to fetch transactions
@@ -405,5 +399,4 @@ export const verifyTransaction = async (
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
 

@@ -23,7 +23,7 @@ const GitHub = () => {
         const response = await apiClient.post("/api/auth/github-login", {
           token,
         });
-        loggedin(response.data.user);
+        loggedin();
         navigate("/user/init");
       }
     } catch (error) {

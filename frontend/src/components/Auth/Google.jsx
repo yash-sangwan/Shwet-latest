@@ -24,7 +24,7 @@ const Google = () => {
         const response = await apiClient.post("api/auth/google-login", {
           token,
         });
-        loggedin(response.data.user);
+        loggedin();
         navigate("/user/init");
       }
     } catch (error) {

@@ -15,7 +15,7 @@ interface IImageTaskSubmission extends Document {
 const imageTaskSubmissionSchema = new Schema<IImageTaskSubmission>({
   userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   taskId: { type: Schema.Types.ObjectId, ref: "ImageTask", required: true },
-  points: { type: Number, required: true, default: 5 },
+  points: { type: Number, required: true },
   label:  { type: Map, of: String, required: true },
   submittedOn: {
     type: Date,

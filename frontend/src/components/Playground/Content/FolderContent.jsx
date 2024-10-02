@@ -3,9 +3,7 @@ import { Plus, Folder } from 'lucide-react'
 import CreateTask from '../CreateTask/CreateTask'
 import TaskBoard from './Tasks/TaskBoard'
 import BatchDetailsSheet from '../Batches/BatchDetailsSheet'
-import { createBatch, getBatches, updateBatch } from './Tasks/TaskApi'
-
-
+import { getBatches } from './Tasks/TaskApi'
 
 export default function FolderContent({ folder }) {
   const [isCreateSheetOpen, setIsCreateSheetOpen] = useState(false)
@@ -18,32 +16,20 @@ export default function FolderContent({ folder }) {
 
   const fetchBatches = async () => {
     try {
-      const fetchedBatches = await getBatches(folder.id)
+      const fetchedBatches = await getBatches(folder.id);
       setBatches(fetchedBatches)
     } catch (error) {
       console.error('Failed to fetch batches:', error)
     }
   }
 
-  const handleCreateBatch = async (batchData) => {
+  const handleCreateBatch = async () => {
     try {
-      const newBatch = await createBatch(folder.id, { ...batchData, status: 'pending' })
-      setBatches(prevBatches => [...prevBatches, newBatch])
+      fetchBatches()
     } catch (error) {
       console.error('Failed to create batch:', error)
     }
     setIsCreateSheetOpen(false)
-  }
-
-  const handleUpdateBatch = async (updatedBatch) => {
-    try {
-      const result = await updateBatch(folder.id, updatedBatch.id, updatedBatch)
-      setBatches(prevBatches => prevBatches.map(batch => 
-        batch.id === result.id ? result : batch
-      ))
-    } catch (error) {
-      console.error('Failed to update batch:', error)
-    }
   }
 
   const handleBatchClick = (batch) => {
@@ -59,9 +45,9 @@ export default function FolderContent({ folder }) {
               <img 
                 src={folder.icon} 
                 alt={folder.groupTitle} 
-                className="w-24 h-24 object-cover rounded-full border-4 border-blue-500"
+                className="w-24 h-24 object-cover rounded-full border-4 border-PURPLESHADE3"
               />
-              <div className="absolute bottom-0 right-0 bg-blue-500 rounded-full p-2">
+              <div className="absolute bottom-0 right-0 bg-PURPLESHADE3 rounded-full p-2">
                 <Folder className="h-6 w-6 text-white" />
               </div>
             </div>
@@ -72,10 +58,10 @@ export default function FolderContent({ folder }) {
           </div>
           <button
             onClick={() => setIsCreateSheetOpen(true)}
-            className="px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300 flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            className="px-6 py-3 text-white rounded-full bg-PURPLESHADE3 transition-colors duration-300 flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
           >
-            <Plus className="h-5 w-5" />
-            <span>Add Batch</span>
+            <Plus className="h-5 w-5 text-black" />
+            <span className='text-black'>Add Batch</span>
           </button>
         </div>
         

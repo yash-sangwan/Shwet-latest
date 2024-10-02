@@ -1,53 +1,31 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from "react";
 
-const Card = ({ heading, video, isWhite, color }) => {
-  const videoRef = useRef(null);
-  const [isDoubleClick, setIsDoubleClick] = useState(false);
-
-  const handleMouseEnter = () => {
-    videoRef.current.play();
-  };
-
-  const handleMouseLeave = () => {
-    videoRef.current.pause();
-  };
-
-  const handleDoubleClick = () => {
-    setIsDoubleClick(true);
-    setTimeout(() => setIsDoubleClick(false), 300); // Reset after showing hand cursor
-  };
+const Card = ({ heading, image, color }) => {
+  const imageRef = useRef(null);
 
   return (
     <div
-      className={`indivcard relative h-full md:max-h-[600px] md:w-[370px] lg:w-[400px] w-[350px] flex flex-col justify-between rounded-xl shadow-lg ${isDoubleClick ? 'cursor-pointer' : 'cursor-ew-resize'}`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onDoubleClick={handleDoubleClick}
-      style={{overflow: 'auto', userSelect: 'none', backgroundColor : color }} // Disable text selection
+      className="indivcard relative flex flex-col h-full md:max-h-[600px] md:w-[370px] lg:w-[400px] w-[350px] rounded-xl shadow-lg overflow-hidden"
+      style={{ backgroundColor: color }}
     >
-      {/* Video as Background */}
-      <video
-        ref={videoRef}
-        src={video}
-        className="absolute bottom-0 w-full h-[70%] object-cover"
-        loop
-        muted
-        playsInline
-      />
-
-      {/* Content Overlay */}
+      {/* Heading */}
       <div className="relative z-10 p-6">
-        <h3
-          className={`text-3xl md:text-4xl font-bold mb-4 ${
-            isWhite ? 'text-white' : 'text-black'
-          }`}
-        >
+        <h3 className="text-3xl md:text-4xl font-bold mb-4 text-white">
           {heading}
         </h3>
       </div>
 
-      {/* Optional Overlay for gradient effect */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent z-0"></div>
+      {/* Image Container */}
+      <div className="flex-grow relative overflow-hidden flex justify-center">
+        <img
+          ref={imageRef}
+          src={image}
+          alt={heading}
+          className="w-[95%] h-full object-fill select-none rounded-t-xl"
+        />
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+      </div>
     </div>
   );
 };
