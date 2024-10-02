@@ -3,7 +3,7 @@ import Footer from "../Components/LandingPage/Footer";
 import SubscribeSection from "../Components/LandingPage/SubscribeSection";
 import FAQS from "../Components/LandingPage/FAQS";
 import Navbar from "../Components/Navbars/Navbar";
-import CardsList from "../components/LandingPage/Cardsv2/CardsList";
+import CardsList from "../Components/LandingPage/Cardsv2/CardsList";
 import HeroSection from "../Components/LandingPage/HeroSection";
 import InfoSection from "../Components/LandingPage/InfoSection";
 import ScrollToTopButton from "../Components/ScrollEffects/ScrollToTopButton";
