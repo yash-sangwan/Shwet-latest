@@ -1,5 +1,5 @@
 import React from "react";
-import AnimatedStaticButton from "./Animated Components/AnimatedStaticButton";
+import AnimatedStaticButton from "./AnimatedComponents/AnimatedStaticButton";
 import World from "./CardsAnimated/World";
 import Graph from "./CardsAnimated/Graph";
 import Usecase1 from "./CardsAnimated/Usecase1";

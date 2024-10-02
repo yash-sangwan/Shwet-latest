@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import assets from "../../assets/assets";
-import AnimatedStaticButton from "./Animated Components/AnimatedStaticButton";
+import AnimatedStaticButton from "./AnimatedComponents/AnimatedStaticButton";
 import AnimatedDashboardPreview from "./AnimatedDashboardPreview";
 
 function HeroSection(zindex) {

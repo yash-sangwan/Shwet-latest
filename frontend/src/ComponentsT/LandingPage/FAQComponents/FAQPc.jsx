@@ -5,7 +5,7 @@ import {
   react,
   java,
   python,
-} from "../Example Data/FAQData";
+} from "../ExampleData/FAQData";
 import Answers from "./Answers";
 
 export default function FAQPc() {

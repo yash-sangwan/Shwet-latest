@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import FAQPc from "./FAQ Components/FAQPc";
-import FAQPhone from "./FAQ Components/FAQPhone";
-import AnimatedStaticButton from "./Animated Components/AnimatedStaticButton";
+import FAQPc from "./FAQComponents/FAQPc";
+import FAQPhone from "./FAQComponents/FAQPhone";
 
 function FAQS() {
   const [isLarge, setIsLarge] = useState(true);
