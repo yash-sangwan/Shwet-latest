@@ -22,13 +22,13 @@ import {
 } from "@solana/wallet-adapter-wallets";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import "@solana/wallet-adapter-react-ui/styles.css";
-import RequestProof from "./Components/Dashboard/PublicPost/RequestProof";
+import RequestProof from "./components/Dashboard/PublicPost/RequestProof";
 import Playground from "./pages/Playground/Playground";
-import PublicPost from "./Components/Dashboard/PublicPost/PublicPost";
-import { AuthProvider } from "./Components/Private/AuthContext";
+import PublicPost from "./components/Dashboard/PublicPost/PublicPost";
+import { AuthProvider } from "./components/Private/AuthContext";
 
-import WorkerRoute from "./Components/Private/WokerRoute";
-import ProviderRoute from "./Components/Private/ProviderRoute";
+import WorkerRoute from "./components/Private/WokerRoute";
+import ProviderRoute from "./components/Private/ProviderRoute";
 
 import Init from "./pages/Init";
 import PageNotFound from "./pages/PageNotFound";
