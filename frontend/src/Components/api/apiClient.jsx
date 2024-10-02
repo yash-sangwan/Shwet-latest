@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an instance of axios
 const apiClient = axios.create({
-  baseURL: 'http://localhost:3000', // Backend API
+  baseURL: 'http://shwet-latest-backend.vercel.app', // Backend API
   withCredentials: true, // This allows cookies (including CSRF token) to be sent with requests
   headers: {
     'Content-Type': 'application/json',
