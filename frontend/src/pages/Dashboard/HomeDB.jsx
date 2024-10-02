@@ -1,11 +1,11 @@
 'use client'
 
 import React, { useState, useEffect } from "react"
-import NavbarDB from "../../Components/Dashboard/Navbar/NavbarDB"
-import Sidebar from "../../Components/Dashboard/Sidebar"
-import RightSidebar from "../../Components/Dashboard/RightSidebar"
-import PostsBatch from "../../Components/Dashboard/HomeDB/Posts/PostsBatch"
-import TourFlow from "../../Components/Dashboard/DashboardTour/TourFlow"
+import NavbarDB from "../../components/Dashboard/Navbar/NavbarDB"
+import Sidebar from "../../components/Dashboard/Sidebar"
+import RightSidebar from "../../components/Dashboard/RightSidebar"
+import PostsBatch from "../../components/Dashboard/HomeDB/Posts/PostsBatch"
+import TourFlow from "../../components/Dashboard/DashboardTour/TourFlow"
 
 export default function HomeDB() {
   const [isGridView, setIsGridView] = useState(false)
