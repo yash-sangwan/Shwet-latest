@@ -1,18 +1,22 @@
 "use strict";
-var express_1 = require("express");
-var cors_1 = require("cors");
-var cookie_parser_1 = require("cookie-parser");
-var express_session_1 = require("express-session");
-var csurf_1 = require("csurf");
-var jsonwebtoken_1 = require("jsonwebtoken");
-var AuthRoutes_1 = require("./Routes/AuthRoutes");
-var TaskCreatorRoutes_1 = require("./Routes/TaskCreatorRoutes");
-var InitRoutes_1 = require("./Routes/InitRoutes");
-var WorkerRoutes_1 = require("./Routes/WorkerRoutes");
-var Database_1 = require("./Config/Database");
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const express_session_1 = __importDefault(require("express-session"));
+const csurf_1 = __importDefault(require("csurf"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const AuthRoutes_1 = __importDefault(require("./Routes/AuthRoutes"));
+const TaskCreatorRoutes_1 = __importDefault(require("./Routes/TaskCreatorRoutes"));
+const InitRoutes_1 = __importDefault(require("./Routes/InitRoutes"));
+const WorkerRoutes_1 = __importDefault(require("./Routes/WorkerRoutes"));
+const Database_1 = require("./Config/Database");
 (0, Database_1.mongoDB)();
-var app = (0, express_1.default)();
-var port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+const app = (0, express_1.default)();
+const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 app.use((0, cors_1.default)({
     origin: "http://localhost:5173", // Allow your frontend origin
     methods: ["GET", "POST", "PUT", "DELETE"],
@@ -32,10 +36,10 @@ app.use((0, express_session_1.default)({
     },
 }));
 // JWT verification middleware
-var authenticateJWT = function (req, res, next) {
-    var token = req.cookies.token;
+const authenticateJWT = (req, res, next) => {
+    const token = req.cookies.token;
     if (token) {
-        jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET, function (err, user) {
+        jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET, (err, user) => {
             if (err)
                 return res.sendStatus(403); // Invalid token
             req.email = user.email;
@@ -48,10 +52,10 @@ var authenticateJWT = function (req, res, next) {
     }
 };
 // CSRF protection middleware
-var csrfProtection = (0, csurf_1.default)({ cookie: true });
+const csrfProtection = (0, csurf_1.default)({ cookie: true });
 // Apply CSRF protection to all routes except login and registration
-app.use(function (req, res, next) {
-    var csrfExemptRoutes = [
+app.use((req, res, next) => {
+    const csrfExemptRoutes = [
         "/api/auth/github-login",
         "/api/auth/google-login",
         "/api/auth/login",
@@ -75,7 +79,7 @@ app.use('/api/worker', WorkerRoutes_1.default);
 // Apply authentication routes
 app.use("/api/auth", AuthRoutes_1.default);
 // Error handling middleware for CSRF errors
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
     if (err.code === "EBADCSRFTOKEN") {
         res.status(403).json({ message: "Invalid CSRF token" });
         return;
@@ -84,7 +88,7 @@ app.use(function (err, req, res, next) {
         next(err);
     }
 });
-app.listen(port, function () {
-    console.log("Server running on port ".concat(port));
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
 });
 exports.default = app;
