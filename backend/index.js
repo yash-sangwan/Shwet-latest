@@ -37,9 +37,9 @@ app.use((0, express_session_1.default)({
 }));
 // JWT verification middleware
 const authenticateJWT = (req, res, next) => {
-    const token = req.cookie.token;
+    const token = req.cookies.token;
     console.log(req);
-    console.log(req.cookie);
+    console.log(req.cookies);
     if (token) {
         jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET, (err, user) => {
             if (err)
