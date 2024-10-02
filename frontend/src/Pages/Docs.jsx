@@ -1,8 +1,8 @@
 import React from "react";
-import Footer from "../components/LandingPage/Footer";
-import Navbar from "../components/Navbars/Navbar";
-import ScrollToTopButton from "../components/ScrollEffects/ScrollToTopButton";
-import Doc from "../components/Docs/Doc";
+import Footer from "../Components/LandingPage/Footer";
+import Navbar from "../Components/Navbars/Navbar";
+import ScrollToTopButton from "../Components/ScrollEffects/ScrollToTopButton";
+import Doc from "../Components/Docs/Doc";
 
 function Docs() {
   return (
