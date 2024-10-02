@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { Buffer } from 'buffer';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "@solana/wallet-adapter-react-ui/styles.css";
 
@@ -32,6 +33,11 @@ import ProviderRoute from "./Components/Private/ProviderRoute";
 
 import Init from "./Pages/Init";
 import PageNotFound from "./Pages/PageNotFound";
+
+// Ensure Buffer is globally available
+if (!window.Buffer) {
+  window.Buffer = Buffer;
+}
 
 function App() {
   const network = WalletAdapterNetwork.Devnet;
