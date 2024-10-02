@@ -3,12 +3,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "@solana/wallet-adapter-react-ui/styles.css";
 
 import "./App.css";
-import HomeDB from "./pages/Dashboard/HomeDB";
-import NotificationDB from "./pages/Dashboard/NotificationDB";
-import GroupsDB from "./pages/Dashboard/GroupsDB";
-import Home from "./pages/Home";
-import Docs from "./pages/Docs";
-import Pricing from "./pages/Pricing";
+import HomeDB from "./Pages/Dashboard/HomeDB";
+import NotificationDB from "./Pages/Dashboard/NotificationDB";
+import GroupsDB from "./Pages/Dashboard/GroupsDB";
+import Home from "./Pages/Home";
+import Docs from "./Pages/Docs";
+import Pricing from "./Pages/Pricing";
 import {
   ConnectionProvider,
   WalletProvider,
@@ -22,16 +22,16 @@ import {
 } from "@solana/wallet-adapter-wallets";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import "@solana/wallet-adapter-react-ui/styles.css";
-import RequestProof from "./components/Dashboard/PublicPost/RequestProof";
-import Playground from "./pages/Playground/Playground";
-import PublicPost from "./components/Dashboard/PublicPost/PublicPost";
-import { AuthProvider } from "./components/Private/AuthContext";
+import RequestProof from "./Components/Dashboard/PublicPost/RequestProof";
+import Playground from "./Pages/Playground/Playground";
+import PublicPost from "./Components/Dashboard/PublicPost/PublicPost";
+import { AuthProvider } from "./Components/Private/AuthContext";
 
-import WorkerRoute from "./components/Private/WokerRoute";
-import ProviderRoute from "./components/Private/ProviderRoute";
+import WorkerRoute from "./Components/Private/WokerRoute";
+import ProviderRoute from "./Components/Private/ProviderRoute";
 
-import Init from "./pages/Init";
-import PageNotFound from "./pages/PageNotFound";
+import Init from "./Pages/Init";
+import PageNotFound from "./Pages/PageNotFound";
 
 function App() {
   const network = WalletAdapterNetwork.Devnet;
