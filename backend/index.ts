@@ -1,4 +1,3 @@
-
 import express, { Express, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -19,7 +18,7 @@ const port: number = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // Allow your frontend origin
+    origin: "https://shwet-latest.vercel.app", // Allow your frontend origin
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true, // Allow cookies to be sent
   })
@@ -30,12 +29,12 @@ app.use(cookieParser());
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "your_session_secret",
+    secret: process.env.JWT_SECRET as string,
     resave: false,
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "PRODUCTION",
       sameSite: "strict",
       maxAge: 60 * 1000, // 1 minute for demo
     },

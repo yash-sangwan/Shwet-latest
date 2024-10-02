@@ -36,8 +36,8 @@ const sendVerificationEmail = async (
     // Create a JWT token with the user's email
     const token = jwt.sign(
       { email: user.email },
-      process.env.JWT_SECRET as string,
-      { expiresIn: "1h" }
+      process.env.JWT_SECRET_RESCTRICTED as string,
+      { expiresIn: "10m" }
     );
 
     // Construct verification URL
@@ -50,7 +50,18 @@ const sendVerificationEmail = async (
       subject: "Verify your email",
       html: `<h4>Verify Your Email</h4>
              <p>Please click the link below to verify your email address:</p>
-             <a href="${verificationUrl}">Verify Email</a>
+             <a href="${verificationUrl}" 
+                style="
+                  display: inline-block; 
+                  padding: 10px 20px; 
+                  font-size: 16px; 
+                  color: white; 
+                  background-color: #4CAF50; 
+                  text-decoration: none; 
+                  border-radius: 5px;
+                ">
+                Verify Email
+            </a>
              <p>This link expires in 1 hour.</p>`,
     };
 
