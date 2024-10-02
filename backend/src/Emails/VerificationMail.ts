@@ -41,7 +41,7 @@ const sendVerificationEmail = async (
     );
 
     // Construct verification URL
-    const verificationUrl = `${process.env.CLIENT_URL}/api/auth/verify-email?token=${token}`;
+    const verificationUrl = `${process.env.CLIENT_URL as string}/api/auth/verify-email?token=${token}`;
 
     // Send verification email
     const mailOptions: MailOptions = {
