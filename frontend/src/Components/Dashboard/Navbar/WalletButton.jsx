@@ -2,16 +2,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { FaWallet, FaSync } from "react-icons/fa";
-import {
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-  Typography,
-  Box,
-} from "@mui/material";
 import { Loader2 } from "lucide-react";
 import apiClient from "../../api/apiClient";
 
@@ -23,6 +13,7 @@ export default function WalletButton({ publicKey, fetchTokenBalance }) {
   const [withdrawError, setWithdrawError] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [transactionResult, setTransactionResult] = useState();
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const dropdownRef = useRef(null);
 
@@ -46,8 +37,10 @@ export default function WalletButton({ publicKey, fetchTokenBalance }) {
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   const handleRefreshBalance = async () => {
+    setIsRefreshing(true);
     const newBalance = await fetchTokenBalance();
     setTokenBalance(newBalance);
+    setTimeout(() => setIsRefreshing(false), 1000); // Keep spinning for 1 second
   };
 
   const handleWithdrawOpen = () => {
@@ -109,7 +102,7 @@ export default function WalletButton({ publicKey, fetchTokenBalance }) {
       console.error("Error in withdrawing:", error);
       setTransactionResult({
         success: false,
-        message: `Failed to process withdrawal. Please try again. ${error.response.data.message}`,
+        message: `Failed to process withdrawal. Please try again. ${error.response?.data?.message || error.message}`,
       });
     } finally {
       setIsProcessing(false);
@@ -118,43 +111,41 @@ export default function WalletButton({ publicKey, fetchTokenBalance }) {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <Button
-        variant="contained"
-        // color="primary"
-        startIcon={<FaWallet />}
+      <button
+        className="flex items-center px-4 py-2 bg-[#2a2a2a] text-[#A28FF8] rounded-full hover:bg-[#3a3a3a] transition-colors duration-200"
         onClick={toggleDropdown}
-        style={{ borderRadius: "9999px" , backgroundColor: "#2a2a2a" , color: "#A28FF8"}}
       >
-        {tokenBalance} $SHWET
-      </Button>
+        <FaWallet className="mr-2" />
+        <span>{tokenBalance} $SHWET</span>
+      </button>
 
       {isDropdownOpen && (
-        <Box className="absolute right-0 mt-2 w-64 bg-gray-800 rounded-lg shadow-lg p-4 z-50">
-          <Box className="flex items-center justify-between mb-4">
-            <Typography variant="h6">Wallet Balance</Typography>
-            <Button onClick={handleRefreshBalance} color="primary">
-              <FaSync />
-            </Button>
-          </Box>
-          <Typography variant="h5" className="my-1 ">
-            {tokenBalance} $SHWET
-          </Typography>
-          <div className="mt-4">
-            <Button
-              fullWidth
-              variant="outlined"
-              color="primary"
-              onClick={handleWithdrawOpen}
+        <div className="absolute right-0 mt-2 w-64 bg-gray-800 rounded-lg shadow-lg p-4 z-50">
+          <div className="flex items-center justify-between mb-4">
+            <h6 className="text-lg font-semibold text-white">Wallet Balance</h6>
+            <button
+              onClick={handleRefreshBalance}
+              className="text-PURPLESHADE3 transition-colors duration-200"
+              disabled={isRefreshing}
             >
-              Withdraw
-            </Button>
+              <FaSync className={`${isRefreshing ? 'animate-spin' : ''}`} />
+            </button>
           </div>
-        </Box>
+          <p className="text-xl font-bold text-white mb-4">
+            {tokenBalance} $SHWET
+          </p>
+          <button
+            className="w-full py-2 px-4 bg-PURPLESHADE5 text-white rounded hover:bg-PURPLESHADE2 transition-colors duration-200"
+            onClick={handleWithdrawOpen}
+          >
+            Withdraw
+          </button>
+        </div>
       )}
 
       {isWithdrawDialogOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white text-black  rounded-lg p-6 w-full max-w-md">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white text-black rounded-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-semibold mb-4">Withdraw Tokens</h2>
             <p className="text-sm text-gray-600 mb-4">
               Min: {MIN_WITHDRAW} $SHWET | Max: {MAX_WITHDRAW} $SHWET
@@ -171,7 +162,7 @@ export default function WalletButton({ publicKey, fetchTokenBalance }) {
                 type="text"
                 className={`w-full px-3 py-2 text-black border rounded-md ${
                   withdrawError ? "border-red-500" : "border-gray-300"
-                } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                } outline-none `}
                 value={withdrawAmount}
                 onChange={handleWithdrawAmountChange}
               />
@@ -188,7 +179,7 @@ export default function WalletButton({ publicKey, fetchTokenBalance }) {
               </button>
               <button
                 onClick={handleWithdrawProceed}
-                className="px-4 py-2 bg-blue-600 border border-transparent rounded-md text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="px-4 py-2 hover:bg-PURPLESHADE3 bg-[#3a3a3a] border border-transparent rounded-md text-sm font-medium text-white outline-none"
               >
                 Proceed
               </button>
@@ -203,33 +194,64 @@ export default function WalletButton({ publicKey, fetchTokenBalance }) {
         </div>
       )}
 
-{transactionResult && (
+      {transactionResult && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-md w-full shadow-xl transform transition-all duration-300 ease-in-out">
-            <div className={`mb-6 text-center ${transactionResult.success ? 'text-green-600' : 'text-red-600'}`}>
+            <div
+              className={`mb-6 text-center ${
+                transactionResult.success ? "text-green-600" : "text-red-600"
+              }`}
+            >
               {transactionResult.success ? (
-                <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  className="w-16 h-16 mx-auto"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
               ) : (
-                <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  className="w-16 h-16 mx-auto"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
               )}
             </div>
-            <h2 className={`text-2xl font-bold mb-4 text-center ${transactionResult.success ? 'text-green-600' : 'text-red-600'}`}>
-              {transactionResult.success ? 'Transaction Successful' : 'Transaction Failed'}
+            <h2
+              className={`text-2xl font-bold mb-4 text-center ${
+                transactionResult.success ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              {transactionResult.success
+                ? "Transaction Successful"
+                : "Transaction Failed"}
             </h2>
-            <p className="text-gray-700 mb-6 text-center break-words overflow-hidden">{transactionResult.message}</p>
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
+            <p className="text-gray-700 mb-6 text-center break-words overflow-hidden">
+              {transactionResult.message}
+            </p>
+            <button
               onClick={() => setTransactionResult(null)}
               className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
             >
               Close
-            </Button>
+            </button>
           </div>
         </div>
       )}
