@@ -1,6 +1,6 @@
 import React from "react";
-import Footer from "../components/LandingPage/Footer";
-import ScrollToTopButton from "../components/ScrollEffects/ScrollToTopButton";
+import Footer from "../Components/LandingPage/Footer";
+import ScrollToTopButton from "../Components/ScrollEffects/ScrollToTopButton";
 import Price from "../Components/Pricing/Price";
 import { ChevronLeft } from "lucide-react";
 
