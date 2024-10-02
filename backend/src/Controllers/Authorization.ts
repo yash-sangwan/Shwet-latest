@@ -43,7 +43,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
           res.cookie("token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "None",
             maxAge: 2 * 60 * 60 * 1000,
           });
 
@@ -52,7 +52,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
             res.cookie("XSRF-TOKEN", csrfToken, {
               httpOnly: false,
               secure: process.env.NODE_ENV === "production",
-              sameSite: "strict",
+              sameSite: "None",
               maxAge: 2 * 60 * 60 * 1000,
             });
 
@@ -156,7 +156,7 @@ export const googleLogin = async (
     res.cookie("token", jwtToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "None",
       maxAge: 2 * 60 * 60 * 1000,
     });
 
@@ -165,7 +165,7 @@ export const googleLogin = async (
       res.cookie("XSRF-TOKEN", csrfToken, {
         httpOnly: false,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
+        sameSite: "None",
         maxAge: 2 * 60 * 60 * 1000,
       });
 
@@ -215,7 +215,7 @@ export const githubLogin = async (
     res.cookie("token", jwtToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "PRODUCTION",
-      sameSite: "strict",
+      sameSite: "None",
       maxAge: 2 * 60 * 60 * 1000,
     });
 
@@ -224,7 +224,7 @@ export const githubLogin = async (
       res.cookie("XSRF-TOKEN", csrfToken, {
         httpOnly: false,
         secure: process.env.NODE_ENV === "PRODUCTION",
-        sameSite: "strict",
+        sameSite: "None",
         maxAge: 2 * 60 * 60 * 1000,
       });
 
