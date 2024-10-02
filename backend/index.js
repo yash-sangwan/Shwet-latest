@@ -9,11 +9,11 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const express_session_1 = __importDefault(require("express-session"));
 const csurf_1 = __importDefault(require("csurf"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const AuthRoutes_1 = __importDefault(require("./src/Routes/AuthRoutes"));
-const TaskCreatorRoutes_1 = __importDefault(require("./src/Routes/TaskCreatorRoutes"));
-const InitRoutes_1 = __importDefault(require("./src/Routes/InitRoutes"));
-const WorkerRoutes_1 = __importDefault(require("./src/Routes/WorkerRoutes"));
-const Database_1 = require("./src/Config/Database");
+const AuthRoutes_1 = __importDefault(require("./dist/Routes/AuthRoutes"));
+const TaskCreatorRoutes_1 = __importDefault(require("./dist/Routes/TaskCreatorRoutes"));
+const InitRoutes_1 = __importDefault(require("./dist/Routes/InitRoutes"));
+const WorkerRoutes_1 = __importDefault(require("./dist/Routes/WorkerRoutes"));
+const Database_1 = require("./dist/Config/Database");
 (0, Database_1.mongoDB)();
 const app = (0, express_1.default)();
 const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
@@ -25,12 +25,12 @@ app.use((0, cors_1.default)({
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use((0, express_session_1.default)({
-    secret: process.env.SESSION_SECRET || "your_session_secret",
+    secret: process.env.JWT_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: process.env.NODE_ENV === "PRODUCTION",
         sameSite: "strict",
         maxAge: 60 * 1000, // 1 minute for demo
     },

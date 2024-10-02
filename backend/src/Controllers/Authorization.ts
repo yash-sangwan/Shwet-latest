@@ -11,7 +11,6 @@ import sendMail from "../Emails/SubscriptionMail";
 
 import User from "../Models/User";
 import Subscription from "../Models/Subscription";
-import TaskType from "../Models/TaskType";
 
 dotenv.config();
 
@@ -37,7 +36,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
             { email: user.email, role: user.role },
             process.env.JWT_SECRET as string,
             {
-              expiresIn: "1h",
+              expiresIn: "2h",
             }
           );
 
@@ -45,7 +44,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "strict",
-            maxAge: 1 * 60 * 60 * 1000,
+            maxAge: 2 * 60 * 60 * 1000,
           });
 
           csrfProtection(req, res, () => {
@@ -54,7 +53,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
               httpOnly: false,
               secure: process.env.NODE_ENV === "production",
               sameSite: "strict",
-              maxAge: 1 * 60 * 60 * 1000,
+              maxAge: 2 * 60 * 60 * 1000,
             });
 
             res
@@ -150,7 +149,7 @@ export const googleLogin = async (
       { email: user.email , role: user.role },
       process.env.JWT_SECRET as string,
       {
-        expiresIn: "1h",
+        expiresIn: "2h",
       }
     );
 
@@ -158,7 +157,7 @@ export const googleLogin = async (
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 1 * 60 * 60 * 1000,
+      maxAge: 2 * 60 * 60 * 1000,
     });
 
     csrfProtection(req, res, () => {
@@ -167,7 +166,7 @@ export const googleLogin = async (
         httpOnly: false,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
-        maxAge: 1 * 60 * 60 * 1000,
+        maxAge: 2 * 60 * 60 * 1000,
       });
 
       res.status(200).json({ message: "Logged in successfully" });
@@ -209,24 +208,24 @@ export const githubLogin = async (
       { email: user.email , role: user?.role },
       process.env.JWT_SECRET as string,
       {
-        expiresIn: "1h",
+        expiresIn: "2h",
       }
     );
 
     res.cookie("token", jwtToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "PRODUCTION",
       sameSite: "strict",
-      maxAge: 1 * 60 * 60 * 1000,
+      maxAge: 2 * 60 * 60 * 1000,
     });
 
     csrfProtection(req, res, () => {
       const csrfToken = req.csrfToken();
       res.cookie("XSRF-TOKEN", csrfToken, {
         httpOnly: false,
-        secure: process.env.NODE_ENV === "production",
+        secure: process.env.NODE_ENV === "PRODUCTION",
         sameSite: "strict",
-        maxAge: 1 * 60 * 60 * 1000,
+        maxAge: 2 * 60 * 60 * 1000,
       });
 
       res.status(200).json({ message: "Logged in successfully"});
@@ -256,7 +255,7 @@ export const emailVerification = async (
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_RESCTRICTED as string) as {
       email: string;
     };
 
@@ -378,34 +377,6 @@ export const exists = async (req: Request, res: Response): Promise<void> => {
   try {
     const email = req.body.email;
     const result = await User.findOne({ email });
-    res.status(200).json({ exists: result !== null });
-  } catch (error) {
-    console.log(error);
-    res
-      .status(500)
-      .json({ message: `Server error. ${(error as Error).message}` });
-  }
-};
-
-export const sample = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const result = new TaskType({
-      taskTitle: "IMAGE",
-      folder : "image",
-    })
-    const result1 = new TaskType({
-      taskTitle: "AUDIO",
-      folder : "audio",
-    })
-    const result2 = new TaskType({
-      taskTitle: "text",
-      folder : "",
-    })
-
-    await result.save();
-    await result1.save();
-    await result2.save();
-
     res.status(200).json({ exists: result !== null });
   } catch (error) {
     console.log(error);
