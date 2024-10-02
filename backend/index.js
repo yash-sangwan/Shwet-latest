@@ -18,7 +18,7 @@ const Database_1 = require("./src/Config/Database");
 const app = (0, express_1.default)();
 const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 app.use((0, cors_1.default)({
-    origin: "https://shwet-latest.vercel.app", // Allow your frontend origin
+    origin: "https://shwet-latest.vercel.app/", // Allow your frontend origin
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true, // Allow cookies to be sent
 }));
