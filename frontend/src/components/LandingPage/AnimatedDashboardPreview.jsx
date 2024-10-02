@@ -57,16 +57,16 @@ function AnimatedDashboardPreview({ margintop }) {
           </div>
         </section>
       ) : (
-        <video
-          className="md:hidden lg:hidden"
-          muted={true}
-          playsInline={true}
-          loop={true}
-          autoPlay={true}
-          preload="metadata"
-        >
-          <source src={assets.Video} type="video/webm" />
-        </video>
+        <section className={`relative ${margintop} w-full flex flex-col items-center justify-center`}>
+          <div className={`container relative flex flex-col items-center backdrop-container`}>
+            <img
+              ref={imgRef}
+              src={assets.Feature1}
+              className={`slanted-div ${shouldAnimate ? "animate" : ""} glowing-border transition-transform translate-z-10 image-fade`}
+              alt="Media Preview"
+            />
+          </div>
+        </section>
       )}
     </>
   );

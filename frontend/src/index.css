@@ -67,7 +67,7 @@
   );
   background-size: 400% 400%;
   border: 0px solid transparent;
-  border-radius: 24px;
+  border-radius: 18px;
   animation: gradientBorder 3s linear infinite;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }

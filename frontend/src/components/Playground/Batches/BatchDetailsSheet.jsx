@@ -13,7 +13,7 @@ const BatchDetailsSheet = ({ batch, onClose }) => {
         </button>
         <h2 className="text-2xl font-bold text-white mb-4">{batch.taskTitle}</h2>
         <div className="mb-4">
-          <span className="text-gray-300">Amount: ${batch.amount.$numberDecimal}</span>
+          <span className="text-gray-300">Budget: {batch.amount.$numberDecimal} SOL</span>
           <span className="text-gray-300 ml-4">Status: {batch.active ? 'Active' : 'Inactive'}</span>
           <span className="text-gray-300 ml-4">
             Submissions: {batch.currentSubmissions}/{batch.workerCount}
