@@ -3,8 +3,8 @@ import AnimatedStaticButton from "./AnimatedComponents/AnimatedStaticButton";
 import World from "./CardsAnimated/World";
 import Graph from "./CardsAnimated/Graph";
 import Usecase1 from "./CardsAnimated/Usecase1";
-import Usecase3 from "./CardsAnimated/UseCase3";
-import Usecase2 from "./CardsAnimated/UseCase2";
+import Usecase3 from "./CardsAnimated/Usecase3";
+import Usecase2 from "./CardsAnimated/Usecase2";
 import Usecase4 from "./CardsAnimated/Usecase4";
 import Usecase5 from "./CardsAnimated/Usecase5";
 
