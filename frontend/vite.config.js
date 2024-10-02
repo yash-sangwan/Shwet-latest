@@ -4,6 +4,9 @@ import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfil
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  build: {
+    sourcemap: true, // Enable sourcemaps for easier debugging
+  },
   plugins: [
     react(),
   ],
