@@ -164,8 +164,8 @@ export const addRole = async (
   
       res.cookie("token", jwtToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
+        secure: process.env.NODE_ENV === "PRODUCTION",
+        sameSite: "None",
         maxAge: 1 * 60 * 60 * 1000,
       });
   
@@ -173,8 +173,8 @@ export const addRole = async (
         const csrfToken = req.csrfToken();
         res.cookie("XSRF-TOKEN", csrfToken, {
           httpOnly: false,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "strict",
+          secure: process.env.NODE_ENV === "PRODUCTION",
+          sameSite: "None",
           maxAge: 1 * 60 * 60 * 1000,
         });
       })
