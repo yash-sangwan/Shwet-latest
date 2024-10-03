@@ -69,7 +69,11 @@ const authenticateJWT = (
 };
 
 // CSRF protection middleware
-const csrfProtection = csrf({ cookie: true });
+const csrfProtection = csrf({ cookie: {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none', 
+  } });
 
 // Apply CSRF protection to all routes except login and registration
 app.use((req: Request, res: Response, next: NextFunction): void => {
