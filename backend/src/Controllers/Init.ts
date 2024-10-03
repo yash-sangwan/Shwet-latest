@@ -9,7 +9,7 @@ interface AuthenticatedRequest extends Request {
   email?: string;
   role?: string;
 }
-const csrfProtection = csrf({ cookie: {
+const csrfProtection = csrf({cookie: {
     httpOnly: true,
     secure: true,
     sameSite: 'none', 
