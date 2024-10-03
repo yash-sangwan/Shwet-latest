@@ -15,7 +15,7 @@ import Subscription from "../Models/Subscription";
 dotenv.config();
 
 const saltRounds = 10;
-const csrfProtection = csrf({ cookie: {
+const csrfProtection = csrf({cookie: {
     httpOnly: true,
     secure: true,
     sameSite: 'none', 
