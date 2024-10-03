@@ -19,7 +19,7 @@ const csrfProtection = csrf({ cookie: {
     httpOnly: true,
     secure: true,
     sameSite: 'none', 
-  } });
+  }});
 
 export const login = async (req: Request, res: Response): Promise<void> => {
   const { id, password } = req.body;
