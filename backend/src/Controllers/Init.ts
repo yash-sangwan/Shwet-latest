@@ -13,7 +13,7 @@ const csrfProtection = csrf({ cookie: {
     httpOnly: true,
     secure: true,
     sameSite: 'none', 
-  } });
+  }});
 
 export const verification = async (
   req: AuthenticatedRequest,
