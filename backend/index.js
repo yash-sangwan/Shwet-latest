@@ -94,6 +94,8 @@ app.use((err, req, res, next) => {
         next(err);
     }
 });
+
+//Start Server
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
