@@ -15,7 +15,11 @@ import Subscription from "../Models/Subscription";
 dotenv.config();
 
 const saltRounds = 10;
-const csrfProtection = csrf({ cookie: true });
+const csrfProtection = csrf({ cookie: {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none', 
+  } });
 
 export const login = async (req: Request, res: Response): Promise<void> => {
   const { id, password } = req.body;
