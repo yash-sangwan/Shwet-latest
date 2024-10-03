@@ -166,7 +166,7 @@ export const addRole = async (
         httpOnly: true,
         secure: true,
         sameSite: "none",
-        maxAge: 1 * 60 * 60 * 1000,
+        maxAge: 2 * 60 * 60 * 1000,
       });
   
       csrfProtection(req, res, () => {
@@ -175,7 +175,7 @@ export const addRole = async (
           httpOnly: false,
           secure: true,
           sameSite: "none",
-          maxAge: 1 * 60 * 60 * 1000,
+          maxAge: 2 * 60 * 60 * 1000,
         });
       })
 
