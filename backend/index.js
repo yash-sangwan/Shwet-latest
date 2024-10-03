@@ -32,7 +32,7 @@ app.use((0, express_session_1.default)({
         httpOnly: true,
         secure: true,
         sameSite: "none",
-        maxAge: 2 * 60 * 60 * 1000, // 2 hours
+        maxAge: 2 * 60 * 60 * 1000, // 2 hours max age
     },
 }));
 // JWT verification middleware
