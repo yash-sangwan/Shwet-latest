@@ -36,7 +36,7 @@ app.use(
       httpOnly: true,
       secure: true,
       sameSite: "none",
-      maxAge: 60 * 1000, // 1 minute for demo
+      maxAge: 2 * 60 * 60 * 1000, // 2 hrs
     },
   })
 );
@@ -103,7 +103,7 @@ app.use("/api/auth", authRouter);
 // Error handling middleware for CSRF errors
 app.use((err: any, req: Request, res: Response, next: NextFunction): void => {
   if (err.code === "EBADCSRFTOKEN") {
-    res.status(403).json({ message: "Invalid CSRF token" });
+    res.status(405).json({ message: "Invalid CSRF token" });
     return;
   } else {
     next(err);
