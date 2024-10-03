@@ -9,7 +9,11 @@ interface AuthenticatedRequest extends Request {
   email?: string;
   role?: string;
 }
-const csrfProtection = csrf({ cookie: true });
+const csrfProtection = csrf({ cookie: {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none', 
+  } });
 
 export const verification = async (
   req: AuthenticatedRequest,
