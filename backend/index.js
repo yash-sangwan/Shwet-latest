@@ -87,7 +87,7 @@ app.use("/api/auth", AuthRoutes_1.default);
 // Error handling middleware for CSRF errors
 app.use((err, req, res, next) => {
     if (err.code === "EBADCSRFTOKEN") {
-        res.status(403).json({ message: "Invalid CSRF token" });
+        res.status(405).json({ message: "Invalid CSRF token" });
         return;
     }
     else {
