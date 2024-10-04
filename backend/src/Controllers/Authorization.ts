@@ -242,35 +242,39 @@ export const githubLogin = async (
 
 export const logout = (req: Request, res: Response): void => {
 
-  console.log(req.cookies)
-  console.log(req.session)
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).send('Could not log out.');
+    }
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: "/"
+    });
   
-  res.clearCookie("token", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-    path: "/"
+    res.clearCookie("XSRF-TOKEN", {
+      httpOnly: false,
+      secure: true,
+      sameSite: "none",
+      path: "/"
+    });
+  
+    res.clearCookie("CSRF-TOKEN", { path: "/" });
+  
+    res.clearCookie("_csrf", {
+      httpOnly: false,
+      secure: true,
+      sameSite: "none",
+      path: "/"
+    });
+  
+    console.log(res.getHeaders()['set-cookie']);
+    console.log(req.sessionID);
+
+    return res.json('Logged out successfully.');
   });
 
-  res.clearCookie("XSRF-TOKEN", {
-    httpOnly: false,
-    secure: true,
-    sameSite: "none",
-    path: "/"
-  });
-
-  res.clearCookie("CSRF-TOKEN", { path: "/" });
-
-  res.clearCookie("_csrf", {
-    httpOnly: false,
-    secure: true,
-    sameSite: "none",
-    path: "/"
-  });
-
-  console.log(res.getHeaders()['set-cookie']);
-
-  res.json({ message: "Logged out successfully" });
 };
 
 export const emailVerification = async (
