@@ -17,8 +17,6 @@ apiClient.interceptors.request.use(
     // Log the headers of the request
     
     const csrfToken = Cookies.get("CSRF-TOKEN");
-    
-    console.log(csrfToken);
 
     if (csrfToken) {
       config.headers['X-CSRF-Token'] = csrfToken;
