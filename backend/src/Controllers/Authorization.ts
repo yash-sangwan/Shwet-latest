@@ -241,9 +241,29 @@ export const githubLogin = async (
 };
 
 export const logout = (req: Request, res: Response): void => {
-  res.clearCookie("token");
-  res.clearCookie("XSRF-TOKEN");
-  res.clearCookie("_csrf");
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    path: "/"
+  });
+
+  res.clearCookie("XSRF-TOKEN", {
+    httpOnly: false,
+    secure: true,
+    sameSite: "none",
+    path: "/"
+  });
+
+  res.clearCookie("CSRF-TOKEN", { path: "/" });
+
+  res.clearCookie("_csrf", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    path: "/"
+  });
+
   res.json({ message: "Logged out successfully" });
 };
 
