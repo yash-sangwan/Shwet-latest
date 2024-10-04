@@ -22,7 +22,7 @@ const cookieParameters = {
     secure: true,
     sameSite: 'none',
     maxAge: 2 * 60 * 60 * 1000, // 2 hours in milliseconds
-    domain: '.vercel.app',
+    domain: 'shwet-latest-backend.vercel.app',
 };
 app.use((0, cors_1.default)({
     origin: process.env.ALLOWED_ORIGINS, // Allow your frontend origin
