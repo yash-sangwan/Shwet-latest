@@ -241,6 +241,9 @@ export const githubLogin = async (
 };
 
 export const logout = (req: Request, res: Response): void => {
+
+  console.log(req.cookies)
+  
   res.clearCookie("token", {
     httpOnly: true,
     secure: true,
@@ -258,11 +261,13 @@ export const logout = (req: Request, res: Response): void => {
   res.clearCookie("CSRF-TOKEN", { path: "/" });
 
   res.clearCookie("_csrf", {
-    httpOnly: true,
+    httpOnly: false,
     secure: true,
     sameSite: "none",
     path: "/"
   });
+
+  console.log(res.getHeaders()['set-cookie']);
 
   res.json({ message: "Logged out successfully" });
 };
