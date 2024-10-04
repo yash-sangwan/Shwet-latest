@@ -20,7 +20,7 @@ const cookieParameters: CookieOptions = {
   secure: true,
   sameSite: 'none',
   maxAge: 2 * 60 * 60 * 1000, // 2 hours in milliseconds
-  domain: '.vercel.app',
+  domain: 'shwet-latest-backend.vercel.app',
 };
 
 app.use(
