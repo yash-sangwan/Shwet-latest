@@ -16,7 +16,7 @@ const cookieParameters: CookieOptions = {
   secure: true,
   sameSite: 'none',
   maxAge: 2 * 60 * 60 * 1000, // 2 hours in milliseconds
-  domain: 'shwet-latest-backend.vercel.app',
+  domain: 'shwet-latest.vercel.app',
 };
 
 const csrfProtection = csrf({cookie: cookieParameters as CookieOptions });
