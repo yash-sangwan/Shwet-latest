@@ -167,7 +167,7 @@ export const addRole = async (
       );
   
       res.cookie("token", jwtToken, {
-        httpOnly: false,
+        httpOnly: true,
         secure: true,
         sameSite: "none",
         maxAge: 2 * 60 * 60 * 1000,
