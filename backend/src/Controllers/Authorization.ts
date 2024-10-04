@@ -231,6 +231,8 @@ export const logout = (req: Request, res: Response): void => {
     console.log(res.getHeaders()['set-cookie']);
     console.log(req.sessionID);
 
+    res.setHeader('Set-Cookie', 'session=; Path=/; HttpOnly; Max-Age=0');
+
     return res.json('Logged out successfully.');
   });
 
