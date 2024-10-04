@@ -65,7 +65,7 @@ const authenticateJWT = (req, res, next) => {
 // CSRF protection middleware
 const csrfProtection = (0, csurf_1.default)({
   cookie: {
-    httpOnly: false,
+    httpOnly: true,
     secure: true,
     sameSite: "none",
   },
