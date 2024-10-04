@@ -16,12 +16,12 @@ apiClient.interceptors.request.use(
   (config) => {
     // Log the headers of the request
     
-    const userToken = Cookies.get("CSRF-TOKEN");
+    const csrfToken = Cookies.get("CSRF-TOKEN");
     
-    console.log(userToken);
+    console.log(csrfToken);
 
     if (csrfToken) {
-      config.headers['X-CSRF-Token'] = userToken;
+      config.headers['X-CSRF-Token'] = csrfToken;
     }
     return config;
   },
