@@ -37,6 +37,7 @@
     "firebase": "^10.13.2",
     "framer-motion": "^11.9.0",
     "heroicons": "^2.1.5",
+    "js-cookie": "^3.0.5",
     "lucide-react": "^0.446.0",
     "process": "^0.11.10",
     "react": "^18.3.1",
@@ -55,11 +56,11 @@
     "tailwind-merge": "^2.5.2",
     "tailwind-variants": "^0.2.1",
     "three": "^0.167.1",
-    "xlsx": "^0.18.5",
-    "js-cookie": "^3.0.5"
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
+    "@types/js-cookie": "^3.0.6",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",

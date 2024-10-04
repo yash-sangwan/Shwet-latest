@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import apiClient from "../api/apiClient"; // Adjust path accordingly
+import Cookies from "js-cookie"
 
 const AuthContext = createContext();
 
@@ -48,6 +49,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await apiClient.get("/api/auth/logout");
+      Cookies.remove("CSRF-TOKEN")
       setAuthState({
         isAuthenticated: false,
         user: null,
