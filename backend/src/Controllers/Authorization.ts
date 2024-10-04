@@ -45,7 +45,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
           );
 
           res.cookie("token", token, {
-            httpOnly: false,
+            httpOnly: true,
             secure: true,
             sameSite: "none",
             maxAge: 2 * 60 * 60 * 1000,
@@ -158,7 +158,7 @@ export const googleLogin = async (
     );
 
     res.cookie("token", jwtToken, {
-      httpOnly: false,
+      httpOnly: true,
       secure: true,
       sameSite: "none",
       maxAge: 2 * 60 * 60 * 1000,
@@ -217,7 +217,7 @@ export const githubLogin = async (
     );
 
     res.cookie("token", jwtToken, {
-      httpOnly: false,
+      httpOnly: true,
       secure: true,
       sameSite: "none",
       maxAge: 2 * 60 * 60 * 1000,
