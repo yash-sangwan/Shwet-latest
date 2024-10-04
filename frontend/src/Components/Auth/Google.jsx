@@ -5,6 +5,7 @@ import assets from "../../assets/assets";
 import app from "./firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Private/AuthContext";
+import Cookies from "js-cookie";
 
 const auth = getAuth(app); // Pass the initialized app
 
@@ -24,8 +25,13 @@ const Google = () => {
         const response = await apiClient.post("api/auth/google-login", {
           token,
         });
-        loggedin();
-        navigate("/user/init");
+
+        if(response.status === 200){
+          Cookies.set('CSRF-TOKEN', response.data.XSRF);
+          console.log("CSRF Token set:", response.data.XSRF);
+          loggedin();
+          navigate("/user/init");
+        }
       }
     } catch (error) {
       console.error("Error during sign-in:", error);

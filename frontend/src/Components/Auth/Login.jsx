@@ -7,6 +7,7 @@ import apiClient from "../api/apiClient";
 import { RxEyeOpen, RxEyeClosed } from "react-icons/rx";
 import { useAuth } from "../Private/AuthContext";
 import Notification from "../Notification";
+import Cookies from "js-cookie";
 
 const Login = ({ onClose }) => {
 
@@ -33,6 +34,8 @@ const Login = ({ onClose }) => {
       const response = await apiClient.post("/api/auth/login", payload);
   
       if (response.status === 200) {
+        Cookies.set('CSRF-TOKEN', response.data.XSRF);
+        console.log("CSRF Token set:", response.data.XSRF);
         navigate("/user/init");
       }
     } catch (error) {

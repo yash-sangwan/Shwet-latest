@@ -18,7 +18,7 @@ const port: number = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
 app.use(
   cors({
-    origin: "https://shwet-latest.vercel.app", // Allow your frontend origin
+    origin:  process.env.ALLOWED_ORIGINS as string, // Allow your frontend origin
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true, // Allow cookies to be sent
   })
@@ -33,7 +33,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      httpOnly: true,
+      httpOnly: false,
       secure: true,
       sameSite: "none",
       maxAge: 2 * 60 * 60 * 1000, // 2 hrs
@@ -52,6 +52,7 @@ const authenticateJWT = (
   next: NextFunction
 ): void => {
   const token = req.cookies.token;
+  console.log("In jwt - ", req.cookies);
   if (token) {
     jwt.verify(
       token,
@@ -70,7 +71,7 @@ const authenticateJWT = (
 
 // CSRF protection middleware
 const csrfProtection = csrf({ cookie: {
-    httpOnly: true,
+    httpOnly: false,
     secure: true,
     sameSite: 'none', 
   } });
@@ -106,6 +107,9 @@ app.use("/api/auth", authRouter);
 
 // Error handling middleware for CSRF errors
 app.use((err: any, req: Request, res: Response, next: NextFunction): void => {
+  console.log("In CSRF - " , req.cookies)
+  const csrfHeader = req.headers["x-csrf-token"];
+  console.log("X-CSRF-Token header:", csrfHeader);
   if (err.code === "EBADCSRFTOKEN") {
     res.status(405).json({ message: "Invalid CSRF token" });
     return;

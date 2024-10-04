@@ -1,8 +1,10 @@
+require('dotenv').config();
 import axios from 'axios';
+import Cookies from "js-cookie";
 
 // Create an instance of axios
 const apiClient = axios.create({
-  baseURL: 'https://shwet-latest-backend.vercel.app', // Backend API
+  baseURL: import.meta.env.VITE_BASE_URL, // Backend API
   withCredentials: true, // This allows cookies (including CSRF token) to be sent with requests
   headers: {
     'Content-Type': 'application/json',
@@ -13,9 +15,14 @@ const apiClient = axios.create({
 // Add a request interceptor to add the CSRF token to the headers
 apiClient.interceptors.request.use(
   (config) => {
-    const csrfToken = document.cookie.split('; ').find(row => row.startsWith('XSRF-TOKEN='));
+    // Log the headers of the request
+    
+    const userToken = Cookies.get("CSRF-TOKEN");
+    
+    console.log(userToken);
+
     if (csrfToken) {
-      config.headers['X-CSRF-Token'] = csrfToken.split('=')[1];
+      config.headers['X-CSRF-Token'] = userToken;
     }
     return config;
   },

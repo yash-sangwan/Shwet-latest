@@ -55,7 +55,8 @@
     "tailwind-merge": "^2.5.2",
     "tailwind-variants": "^0.2.1",
     "three": "^0.167.1",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "js-cookie": "^3.0.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",

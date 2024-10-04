@@ -10,7 +10,7 @@ interface AuthenticatedRequest extends Request {
   role?: string;
 }
 const csrfProtection = csrf({cookie: {
-    httpOnly: true,
+    httpOnly: false,
     secure: true,
     sameSite: 'none', 
   }});
@@ -167,7 +167,7 @@ export const addRole = async (
       );
   
       res.cookie("token", jwtToken, {
-        httpOnly: true,
+        httpOnly: false,
         secure: true,
         sameSite: "none",
         maxAge: 2 * 60 * 60 * 1000,

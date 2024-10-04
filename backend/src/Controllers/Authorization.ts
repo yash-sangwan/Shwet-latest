@@ -16,7 +16,7 @@ dotenv.config();
 
 const saltRounds = 10;
 const csrfProtection = csrf({cookie: {
-    httpOnly: true,
+    httpOnly: false,
     secure: true,
     sameSite: 'none', 
   }});
@@ -45,7 +45,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
           );
 
           res.cookie("token", token, {
-            httpOnly: true,
+            httpOnly: false,
             secure: true,
             sameSite: "none",
             maxAge: 2 * 60 * 60 * 1000,
@@ -62,7 +62,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
             res
               .status(200)
-              .json({ message: "Logged in successfully"});
+              .json({ message: "Logged in successfully" , XSRF : csrfToken});
           });
         } else {
           res.status(401).json({ message: "Invalid credentials" });
@@ -158,7 +158,7 @@ export const googleLogin = async (
     );
 
     res.cookie("token", jwtToken, {
-      httpOnly: true,
+      httpOnly: false,
       secure: true,
       sameSite: "none",
       maxAge: 2 * 60 * 60 * 1000,
@@ -173,7 +173,7 @@ export const googleLogin = async (
         maxAge: 2 * 60 * 60 * 1000,
       });
 
-      res.status(200).json({ message: "Logged in successfully" });
+      res.status(200).json({ message: "Logged in successfully" , XSRF : csrfToken });
     });
   } catch (error) {
     console.error("Error verifying Google token:", error);
@@ -217,7 +217,7 @@ export const githubLogin = async (
     );
 
     res.cookie("token", jwtToken, {
-      httpOnly: true,
+      httpOnly: false,
       secure: true,
       sameSite: "none",
       maxAge: 2 * 60 * 60 * 1000,
@@ -232,7 +232,7 @@ export const githubLogin = async (
         maxAge: 2 * 60 * 60 * 1000,
       });
 
-      res.status(200).json({ message: "Logged in successfully"});
+      res.status(200).json({ message: "Logged in successfully" , XSRF : csrfToken });
     });
   } catch (error) {
     console.error("Error verifying GitHub token:", error);
