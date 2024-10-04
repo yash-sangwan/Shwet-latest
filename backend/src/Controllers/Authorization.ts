@@ -243,6 +243,7 @@ export const githubLogin = async (
 export const logout = (req: Request, res: Response): void => {
 
   console.log(req.cookies)
+  console.log(req.session)
   
   res.clearCookie("token", {
     httpOnly: true,
