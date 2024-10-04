@@ -8,13 +8,20 @@ import authRouter from "./src/Routes/AuthRoutes";
 import taskRouter from "./src/Routes/TaskCreatorRoutes";
 import initRouter from "./src/Routes/InitRoutes"
 import workerRouter from "./src/Routes/WorkerRoutes";
-
+import { CookieOptions } from "csurf";
 import { mongoDB } from "./src/Config/Database";
 
 mongoDB();
 
 const app: Express = express();
 const port: number = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+const cookieParameters: CookieOptions = {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'none',
+  maxAge: 2 * 60 * 60 * 1000, // 2 hours in milliseconds
+  domain: '.vercel.app',
+};
 
 app.use(
   cors({
@@ -32,12 +39,7 @@ app.use(
     secret: process.env.JWT_SECRET as string,
     resave: false,
     saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      maxAge: 2 * 60 * 60 * 1000, // 2 hrs
-    },
+    cookie: cookieParameters as CookieOptions
   })
 );
 
@@ -70,11 +72,7 @@ const authenticateJWT = (
 };
 
 // CSRF protection middleware
-const csrfProtection = csrf({ cookie: {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'none', 
-  } });
+const csrfProtection = csrf({ cookie: cookieParameters as CookieOptions });
 
 // Apply CSRF protection to all routes except login and registration
 app.use((req: Request, res: Response, next: NextFunction): void => {

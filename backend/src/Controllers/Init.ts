@@ -4,16 +4,22 @@ import jwt from "jsonwebtoken";
 import csrf from "csurf";
 import sendVerificationEmail from "../Emails/VerificationMail";
 import WorkerBalance from "../Models/WorkerBalance";
+import { CookieOptions } from "csurf";
 
 interface AuthenticatedRequest extends Request {
   email?: string;
   role?: string;
 }
-const csrfProtection = csrf({cookie: {
-    httpOnly: false,
-    secure: true,
-    sameSite: 'none', 
-  }});
+
+const cookieParameters: CookieOptions = {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'none',
+  maxAge: 2 * 60 * 60 * 1000, // 2 hours in milliseconds
+  domain: '.vercel.app',
+};
+
+const csrfProtection = csrf({cookie: cookieParameters as CookieOptions });
 
 export const verification = async (
   req: AuthenticatedRequest,
@@ -166,21 +172,11 @@ export const addRole = async (
         }
       );
   
-      res.cookie("token", jwtToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        maxAge: 2 * 60 * 60 * 1000,
-      });
+      res.cookie("token", jwtToken, cookieParameters as CookieOptions);
   
       csrfProtection(req, res, () => {
         const csrfToken = req.csrfToken();
-        res.cookie("XSRF-TOKEN", csrfToken, {
-          httpOnly: false,
-          secure: true,
-          sameSite: "none",
-          maxAge: 2 * 60 * 60 * 1000,
-        });
+        res.cookie("XSRF-TOKEN", csrfToken, cookieParameters as CookieOptions);
       })
 
       res.status(200).json({ status: true, message: "Updated role." });
