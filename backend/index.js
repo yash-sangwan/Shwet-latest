@@ -40,6 +40,7 @@ app.use(
       secure: true,
       sameSite: "none",
       maxAge: 2 * 60 * 60 * 1000, // 2 hours max age
+      domain: '.vercel.app',
     },
   })
 );
@@ -68,6 +69,7 @@ const csrfProtection = (0, csurf_1.default)({
     httpOnly: true,
     secure: true,
     sameSite: "none",
+    domain: '.vercel.app',
   },
 });
 // Apply CSRF protection to all routes except login and registration
