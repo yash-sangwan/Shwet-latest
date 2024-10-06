@@ -8,13 +8,19 @@ import authRouter from "./src/Routes/AuthRoutes";
 import taskRouter from "./src/Routes/TaskCreatorRoutes";
 import initRouter from "./src/Routes/InitRoutes"
 import workerRouter from "./src/Routes/WorkerRoutes";
-
+import { CookieOptions } from "csurf";
 import { mongoDB } from "./src/Config/Database";
 
 mongoDB();
 
 const app: Express = express();
 const port: number = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+const cookieParameters: CookieOptions = {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'none',
+  maxAge: 2 * 60 * 60 * 1000, // 2 hours in milliseconds
+};
 
 app.use(
   cors({
@@ -32,12 +38,7 @@ app.use(
     secret: process.env.JWT_SECRET as string,
     resave: false,
     saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      maxAge: 2 * 60 * 60 * 1000, // 2 hrs
-    },
+    cookie: cookieParameters as CookieOptions
   })
 );
 
@@ -52,7 +53,6 @@ const authenticateJWT = (
   next: NextFunction
 ): void => {
   const token = req.cookies.token;
-  console.log("In jwt - ", req.cookies);
   if (token) {
     jwt.verify(
       token,
@@ -70,11 +70,7 @@ const authenticateJWT = (
 };
 
 // CSRF protection middleware
-const csrfProtection = csrf({ cookie: {
-    httpOnly: false,
-    secure: true,
-    sameSite: 'none', 
-  } });
+const csrfProtection = csrf({ cookie: cookieParameters as CookieOptions });
 
 // Apply CSRF protection to all routes except login and registration
 app.use((req: Request, res: Response, next: NextFunction): void => {
@@ -107,9 +103,6 @@ app.use("/api/auth", authRouter);
 
 // Error handling middleware for CSRF errors
 app.use((err: any, req: Request, res: Response, next: NextFunction): void => {
-  console.log("In CSRF - " , req.cookies)
-  const csrfHeader = req.headers["x-csrf-token"];
-  console.log("X-CSRF-Token header:", csrfHeader);
   if (err.code === "EBADCSRFTOKEN") {
     res.status(405).json({ message: "Invalid CSRF token" });
     return;

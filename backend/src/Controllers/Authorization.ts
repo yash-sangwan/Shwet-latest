@@ -6,20 +6,23 @@ import { Request, Response } from "express";
 import axios from "axios";
 import emailValidator from "email-validator";
 import admin from "../Firebase/Admin";
-
 import sendMail from "../Emails/SubscriptionMail";
-
+import { CookieOptions } from 'csurf';
 import User from "../Models/User";
 import Subscription from "../Models/Subscription";
 
 dotenv.config();
 
 const saltRounds = 10;
-const csrfProtection = csrf({cookie: {
-    httpOnly: false,
-    secure: true,
-    sameSite: 'none', 
-  }});
+
+const cookieParameters: CookieOptions = {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'none',
+  maxAge: 2 * 60 * 60 * 1000, // 2 hours in milliseconds
+};
+
+const csrfProtection = csrf({cookie: cookieParameters as CookieOptions});
 
 export const login = async (req: Request, res: Response): Promise<void> => {
   const { id, password } = req.body;
@@ -44,21 +47,11 @@ export const login = async (req: Request, res: Response): Promise<void> => {
             }
           );
 
-          res.cookie("token", token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            maxAge: 2 * 60 * 60 * 1000,
-          });
+          res.cookie("token", token, cookieParameters as CookieOptions);
 
           csrfProtection(req, res, () => {
             const csrfToken = req.csrfToken();
-            res.cookie("XSRF-TOKEN", csrfToken, {
-              httpOnly: false,
-              secure: true,
-              sameSite: "none",
-              maxAge: 2 * 60 * 60 * 1000,
-            });
+            res.cookie("XSRF-TOKEN", csrfToken, cookieParameters as CookieOptions);
 
             res
               .status(200)
@@ -147,8 +140,6 @@ export const googleLogin = async (
       user = await user.save();
     }
 
-    console.log(user.role);
-
     const jwtToken = jwt.sign(
       { email: user.email , role: user.role },
       process.env.JWT_SECRET as string,
@@ -157,21 +148,11 @@ export const googleLogin = async (
       }
     );
 
-    res.cookie("token", jwtToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      maxAge: 2 * 60 * 60 * 1000,
-    });
+    res.cookie("token", jwtToken, cookieParameters as CookieOptions);
 
     csrfProtection(req, res, () => {
       const csrfToken = req.csrfToken();
-      res.cookie("XSRF-TOKEN", csrfToken, {
-        httpOnly: false,
-        secure: true,
-        sameSite: "none",
-        maxAge: 2 * 60 * 60 * 1000,
-      });
+      res.cookie("XSRF-TOKEN", csrfToken, cookieParameters as CookieOptions);
 
       res.status(200).json({ message: "Logged in successfully" , XSRF : csrfToken });
     });
@@ -216,21 +197,11 @@ export const githubLogin = async (
       }
     );
 
-    res.cookie("token", jwtToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      maxAge: 2 * 60 * 60 * 1000,
-    });
+    res.cookie("token", jwtToken, cookieParameters as CookieOptions);
 
     csrfProtection(req, res, () => {
       const csrfToken = req.csrfToken();
-      res.cookie("XSRF-TOKEN", csrfToken, {
-        httpOnly: false,
-        secure: true,
-        sameSite: "none",
-        maxAge: 2 * 60 * 60 * 1000,
-      });
+      res.cookie("XSRF-TOKEN", csrfToken, cookieParameters as CookieOptions);
 
       res.status(200).json({ message: "Logged in successfully" , XSRF : csrfToken });
     });
@@ -241,10 +212,27 @@ export const githubLogin = async (
 };
 
 export const logout = (req: Request, res: Response): void => {
-  res.clearCookie("token");
-  res.clearCookie("XSRF-TOKEN");
-  res.clearCookie("_csrf");
-  res.json({ message: "Logged out successfully" });
+
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).send('Could not log out.');
+    }
+    res.clearCookie("token", cookieParameters as CookieOptions);
+  
+    res.clearCookie("XSRF-TOKEN", cookieParameters as CookieOptions);
+  
+    res.clearCookie("CSRF-TOKEN", { path: "/" });
+  
+    res.clearCookie("_csrf", cookieParameters as CookieOptions);
+  
+    console.log(res.getHeaders()['set-cookie']);
+    console.log(req.sessionID);
+
+    res.setHeader('Set-Cookie', 'session=; Path=/; HttpOnly; Max-Age=0');
+
+    return res.json('Logged out successfully.');
+  });
+
 };
 
 export const emailVerification = async (
