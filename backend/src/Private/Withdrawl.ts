@@ -13,8 +13,6 @@ const COMPRESSION_RPC_ENDPOINT = RPC_ENDPOINT;
 
 const connection: Rpc = createRpc(RPC_ENDPOINT, COMPRESSION_RPC_ENDPOINT);
 
-dotenv.config();
-
 interface WithdrawResult {
   status: boolean;
   txid?: string;
@@ -64,11 +62,11 @@ export const Withdraw = async (
       recipient
     );
     
-    // balances.items.forEach((balance) => {
-    //   console.log(`Mint: ${balance.mint.toBase58()}`);
-    //   console.log(`Balance: ${balance.balance}`);
-    //   console.log("---");
-    // });
+    balances.items.forEach((balance) => {
+      console.log(`Mint: ${balance.mint.toBase58()}`);
+      console.log(`Balance: ${balance.balance}`);
+      console.log("---");
+    });
     return { status: true, txid: transferTxId };
   } catch (error) {
     console.error("Error in withdraw:", error);
