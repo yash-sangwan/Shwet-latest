@@ -4,6 +4,7 @@ import { transfer } from "@lightprotocol/compressed-token";
 import { PublicKey } from "@solana/web3.js";
 import { getKeypairFromEnvironment } from "@solana-developers/helpers";
 
+dotenv.config()
 
 const API_KEY = process.env.RPC_API_KEY as string;
 const RPC_ENDPOINT = `https://devnet.helius-rpc.com?api-key=${API_KEY}`;
