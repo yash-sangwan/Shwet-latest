@@ -4,8 +4,9 @@ import { transfer } from "@lightprotocol/compressed-token";
 import { PublicKey } from "@solana/web3.js";
 import { getKeypairFromEnvironment } from "@solana-developers/helpers";
 
-const RPC_ENDPOINT =
-  "https://devnet.helius-rpc.com?api-key=cefa0faa-49d0-4044-8359-118378eb7cbd";
+
+const API_KEY = process.env.RPC_API_KEY as string;
+const RPC_ENDPOINT = `https://devnet.helius-rpc.com?api-key=${API_KEY}`;
 
 const COMPRESSION_RPC_ENDPOINT = RPC_ENDPOINT;
 
@@ -28,8 +29,9 @@ export const Withdraw = async (
 
     const PAYER = await getKeypairFromEnvironment("KEYPAIR");
 
-    console.log(PAYER.publicKey);
-    console.log(recipient);
+    // console.log(PAYER.publicKey);
+    // console.log(recipient);
+
     const MINT = process.env.MINT as string;
     const mint = new PublicKey(MINT);
 
@@ -39,7 +41,8 @@ export const Withdraw = async (
         mint,
       });
 
-    console.log(`compressed token accounts: ${compressedTokenAccounts}`);
+    // console.log(`compressed token accounts: ${compressedTokenAccounts}`);
+
     const transferTxId = await transfer(
       connection,
       PAYER,

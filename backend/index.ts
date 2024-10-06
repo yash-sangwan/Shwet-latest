@@ -53,7 +53,6 @@ const authenticateJWT = (
   next: NextFunction
 ): void => {
   const token = req.cookies.token;
-  console.log("In jwt - ", req.cookies);
   if (token) {
     jwt.verify(
       token,
@@ -104,9 +103,6 @@ app.use("/api/auth", authRouter);
 
 // Error handling middleware for CSRF errors
 app.use((err: any, req: Request, res: Response, next: NextFunction): void => {
-  console.log("In CSRF - " , req.cookies)
-  const csrfHeader = req.headers["x-csrf-token"];
-  console.log("X-CSRF-Token header:", csrfHeader);
   if (err.code === "EBADCSRFTOKEN") {
     res.status(405).json({ message: "Invalid CSRF token" });
     return;

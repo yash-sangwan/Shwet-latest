@@ -39,7 +39,6 @@ app.use((0, express_session_1.default)({
 // JWT verification middleware
 const authenticateJWT = (req, res, next) => {
     const token = req.cookies.token;
-    console.log("In jwt - ", req.cookies);
     if (token) {
         jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET, (err, user) => {
             if (err)
@@ -82,9 +81,6 @@ app.use('/api/worker', WorkerRoutes_1.default);
 app.use("/api/auth", AuthRoutes_1.default);
 // Error handling middleware for CSRF errors
 app.use((err, req, res, next) => {
-    console.log("In CSRF - ", req.cookies);
-    const csrfHeader = req.headers["x-csrf-token"];
-    console.log("X-CSRF-Token header:", csrfHeader);
     if (err.code === "EBADCSRFTOKEN") {
         res.status(405).json({ message: "Invalid CSRF token" });
         return;
