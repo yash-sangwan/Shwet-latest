@@ -37,8 +37,8 @@ export default function SourceProofPost({ proofSignatures, onProofGenerated, sou
         />
       </div>
 
-      <div className="bg-gray-100 p-4 shadow rounded-md mb-4">
-        <h4 className="pb-2 text-black text-xl">Proof of Authentication</h4>
+      <div className="bg-gray-100 p-6 shadow-lg rounded-lg mb-4">
+        <h4 className="pb-2 text-black text-left font-semibold text-xl">Proof of Authentication</h4>
         {!isDropdownHidden && (
           <select
             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"

@@ -96,7 +96,7 @@ const Signup = ({ onClose }) => {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
-              className="block text-gray-400 text-sm font-bold mb-2"
+              className="block text-gray-400 text-sm text-left font-bold mb-2"
               htmlFor="name"
             >
               Name
@@ -106,14 +106,14 @@ const Signup = ({ onClose }) => {
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:border-yellow-500"
+              className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:border-yellow-500"
               placeholder="Enter your name"
               required
             />
           </div>
           <div className="mb-6">
             <label
-              className="block text-gray-400 text-sm font-bold mb-2"
+              className="block text-gray-400 text-sm text-left font-bold mb-2"
               htmlFor="email"
             >
               Email
@@ -123,14 +123,14 @@ const Signup = ({ onClose }) => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:border-yellow-500"
+              className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:border-yellow-500"
               placeholder="Enter your email"
               required
             />
           </div>
           <div className="mb-6">
             <label
-              className="block text-gray-400 text-sm font-bold mb-2"
+              className="block text-gray-400 text-sm text-left font-bold mb-2"
               htmlFor="password"
             >
               Password
@@ -140,7 +140,7 @@ const Signup = ({ onClose }) => {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:border-yellow-500"
+              className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:border-yellow-500"
               placeholder="Enter your password"
               required
               minLength={6}

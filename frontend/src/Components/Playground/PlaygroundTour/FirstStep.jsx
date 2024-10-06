@@ -7,7 +7,7 @@ function FirstStep({ currentStep = 1, totalSteps = 4, onNext }) {
       <div className="bg-[#131416] rounded-lg shadow-lg w-full max-w-4xl p-8">
         <h1 className="text-3xl font-bold text-center mb-6 text-white">Welcome to Playground</h1>
         <p className="text-center text-gray-200 mb-8">
-        This 4-step quick tour will help you navigate seamlessly through the Playground
+        This 4-step tour will quickly navigate you through Shwet's Dashboard for Project maintainers.
         </p>
         <div className="flex justify-center space-x-8 mb-8">
           <div className="flex items-center justify-center w-12 h-12 rounded-full bg-PURPLESHADE3">

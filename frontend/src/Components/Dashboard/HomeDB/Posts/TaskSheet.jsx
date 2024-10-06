@@ -1,12 +1,57 @@
-import React, { useState, useEffect } from "react";
-import Notification from "../../../Notification";
+import React, { useState } from "react";
 import apiClient from "../../../api/apiClient";
+
+// Custom Button component
+const Button = ({ onClick, disabled, children, className }) => (
+  <button
+    onClick={onClick}
+    disabled={disabled}
+    className={`px-4 py-2 rounded-lg transition-colors ${
+      disabled
+        ? "bg-PURPLESHADE3 text-black cursor-not-allowed"
+        : "bg-PURPLESHADE5 text-white hover:bg-PURPLESHADE2"
+    } ${className}`}
+  >
+    {children}
+  </button>
+);
+
+// Custom TextArea component
+const TextArea = ({ id, value, onChange, placeholder, rows }) => (
+  <textarea
+    id={id}
+    className="w-full p-3 text-white bg-[#3a3a3a] rounded-lg outline-none transition-all"
+    rows={rows}
+    placeholder={placeholder}
+    value={value}
+    onChange={onChange}
+  />
+);
+
+// Custom Alert component
+const Alert = ({ type, message, onClose }) => (
+  <div
+    className={`fixed bottom-4 right-4 max-w-md p-4 rounded-lg ${
+      type === "error" ? "bg-red-600 text-white" : "bg-green-600 text-white"
+    }`}
+  >
+    <p>{message}</p>
+    <button
+      onClick={onClose}
+      className="absolute top-2 right-2 text-white hover:text-gray-200"
+      aria-label="Close"
+    >
+      ×
+    </button>
+  </div>
+);
 
 export default function TaskSheet({ batch, onClose, onComplete }) {
   const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState([]);
-  const [notification, setNotification] = useState({});
+  const [notification, setNotification] = useState({ message: "", type: "" });
   const [showNotification, setShowNotification] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleNext = () => {
     if (userAnswers[currentTaskIndex]?.trim()) {
@@ -22,6 +67,9 @@ export default function TaskSheet({ batch, onClose, onComplete }) {
   };
 
   const handleSubmit = async () => {
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
     try {
       const api = {
         image: "/api/worker/image",
@@ -33,23 +81,25 @@ export default function TaskSheet({ batch, onClose, onComplete }) {
         taskId: batch._id,
         labels: userAnswers,
       });
+
       if (response.status === 200) {
-        if(response.data.status){
-          setNotification({message : "Task submitted successfully." , type:"success"});
-          setShowNotification(true);
-        }else{
-          setNotification({message : "Task submission failed." , type:"error"});
-          setShowNotification(true);
+        if (response.data.status) {
+          setNotification({ message: "Task submitted successfully.", type: "success" });
+        } else {
+          setNotification({ message: "Task submission failed.", type: "error" });
         }
+        setShowNotification(true);
+        setTimeout(() => {
+          onComplete();
+          onClose();
+        }, 2000);
       }
-      setTimeout(() => {
-        onComplete();
-        onClose();
-      }, 2000);
     } catch (err) {
       console.error("Failed to submit answers", err);
-      setNotification({message : "Some error occurred." , type:"error"});
+      setNotification({ message: "Some error occurred.", type: "error" });
       setShowNotification(true);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -71,7 +121,7 @@ export default function TaskSheet({ batch, onClose, onComplete }) {
             </h2>
             <button
               onClick={onClose}
-              className="text-white hover:text-gray-800 transition-colors"
+              className="hover:text-white text-gray-500 transition-colors"
               aria-label="Close"
             >
               <svg
@@ -124,42 +174,37 @@ export default function TaskSheet({ batch, onClose, onComplete }) {
                 >
                   Your Answer:
                 </label>
-                <textarea
+                <TextArea
                   id="answer"
-                  className="w-full p-3 text-white bg-[#3a3a3a] rounded-lg outline-none transition-all"
-                  rows="4"
-                  placeholder="Enter your answer here"
                   value={userAnswers[currentTaskIndex] || ""}
                   onChange={handleAnswerChange}
-                ></textarea>
+                  placeholder="Enter your answer here"
+                  rows={4}
+                />
               </div>
             </div>
           </div>
           <div className="bg-[#131416] px-6 py-4 flex justify-between items-center">
             <div className="text-sm text-white">
-              Progress: {currentTaskIndex + 1} /{" "}
-              {Object.keys(batch.task).length}
+              Progress: {currentTaskIndex + 1} / {Object.keys(batch.task).length}
             </div>
-            <button
+            <Button
               onClick={handleNext}
-              className={`${
-                isAnswerEmpty
-                  ? "bg-PURPLESHADE3 text-black cursor-not-allowed"
-                  : "bg-PURPLESHADE5 text-white hover:bg-PURPLESHADE2"
-              }  px-6 py-2 rounded-lg transition-colors outline-none`}
-              disabled={isAnswerEmpty}
+              disabled={isAnswerEmpty || isSubmitting}
             >
-              {currentTaskIndex < Object.keys(batch.task).length - 1
+              {isSubmitting
+                ? "Submitting..."
+                : currentTaskIndex < Object.keys(batch.task).length - 1
                 ? "Next"
                 : "Submit"}
-            </button>
+            </Button>
           </div>
         </div>
       </div>
       {showNotification && (
-        <Notification
-          message={notification.message}
+        <Alert
           type={notification.type}
+          message={notification.message}
           onClose={() => setShowNotification(false)}
         />
       )}

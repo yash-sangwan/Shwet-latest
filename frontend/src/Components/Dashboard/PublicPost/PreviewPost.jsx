@@ -58,7 +58,7 @@ export default function PreviewPost({ proofSignatures, source }) {
             <div className="flex space-x-2">
               <button
                 onClick={handlePublish}
-                className={`bg-primary text-white w-full p-2 rounded hover:bg-secondary flex items-center justify-center ${
+                className={`bg-PURPLESHADE5 text-white w-full p-2 rounded hover:bg-PURPLESHADE2 flex items-center justify-center ${
                   isLoading || transactionPending ? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 disabled={isLoading || transactionPending}

@@ -106,7 +106,7 @@ function HamburgerNav() {
 
       <div className="flex justify-center gap-4 items-center p-2 m-4 menu-btn relative">
         {/* Container with a round white border */}
-        <Button text={"Playground"} href={"/playground"} icon={faBolt}></Button>
+        {/* <Button text={"Playground"} href={"/playground"} icon={faBolt}></Button> */}
 
         <div className="flex justify-center items-center bg-white w-8 h-8 border-2 border-white rounded-full">
           <AnimatePresence mode="wait">

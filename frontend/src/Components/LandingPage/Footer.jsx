@@ -13,14 +13,10 @@ const Footer = () => {
 
           <div className=" text-center md:text-left max-w-2xl mx-auto">
             <p className="text-PURPLESHADE3 font-semibold mb-2">
-              Shwet - Verifiable Truth-Chain on Solana
+              Shwet - An incentivized tool for Data collaboration
             </p>
             <p className=" text-gray-400 text-sm">
-              Shwet allows you to securely store and share data with proof of
-              authentication, ensuring the integrity of facts, news, and media.
-              While Shwet enhances data security, remember that digital assets
-              carry high risks and their value is not indicative of future
-              performance.
+            Shwet never discriminates in terms of religion, gender, race, color, etc, in any manner. We embrace diversity and foster an inclusive environment where all individuals are valued and respected. Our commitment to equality drives innovation and strengthens our community.
             </p>
           </div>
         </div>

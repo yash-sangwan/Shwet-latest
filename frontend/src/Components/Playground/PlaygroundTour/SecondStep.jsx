@@ -5,14 +5,15 @@ function SecondStep({ currentStep, totalSteps, onNext }) {
   return (
     <div className="flex items-center justify-center min-h-screen  p-4">
       <div className="bg-[#131416] rounded-lg shadow-lg w-full max-w-2xl p-8">
-        <h1 className="text-3xl font-bold text-center mb-6 text-white">
-        Rewards and Analytics
+      <h1 className="text-3xl font-bold text-center mb-6 text-white">
+        Assign Budget & Pay 
         </h1>
         <p className="text-left text-gray-200 mb-8">
-          5. Withdraw rewards by clicking on the token icon above on navbar.
+          5. Each batch requires you to assign a budget.
           <br />
-          6. You can any time check your contribution and rewards analytics in
-          the right bar.
+          6. The number of contributors in each batch will be assigned according to the budget.
+          <br />
+          7. Monitor the progress on your assigned work.
         </p>
 
         <div className="mb-8">

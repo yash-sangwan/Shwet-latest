@@ -130,9 +130,9 @@ function  PublicPost() {
 
             <div className="mb-10 flex justify-between">
               <div>
-                <h1 className="text-3xl font-bold mb-4">Upload Excel Data</h1>
+                <h1 className="text-3xl font-bold mb-4">Upload New Data</h1>
                 <p className="text-lg text-gray-600">
-                  Easily upload and process your Excel spreadsheets.
+                  Easily upload and process your own data.
                 </p>
               </div>
 

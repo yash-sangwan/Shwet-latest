@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import VerifyEmail from "../Components/Auth/VerifyEmail";
 import LoginRoles from "../Components/Auth/LoginRoles";
 import { useAuth } from "../Components/Private/AuthContext";
+import Loader from "../Components/Loader/Loader";
 
 export default function Init() {
   const [verified, setVerified] = useState(null);
@@ -77,7 +78,7 @@ export default function Init() {
   }, [verified, role, navigate]);
 
   if (verified === null || role === null) {
-    return <div aria-live="polite">Loading...</div>;
+    return <Loader />;
   }
 
   return (

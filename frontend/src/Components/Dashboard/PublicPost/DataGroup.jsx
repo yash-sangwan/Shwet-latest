@@ -48,7 +48,7 @@ const DataGroup = () => {
         <div className="flex items-center justify-between">
           <div className="relative w-4/5" ref={dropdownRef}>
             <div
-              className="relative w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 cursor-pointer bg-white flex items-center justify-between"
+              className="relative w-full p-3 border border-gray-300 rounded-lg focus:outline-none  cursor-pointer bg-white flex items-center justify-between"
               onClick={() => setDropdownOpen(!dropdownOpen)}
             >
               {selectedGroup ? (
@@ -101,7 +101,7 @@ const DataGroup = () => {
             <div className="flex items-center">
               <button
                 onClick={() => console.log("Open add group sheet")}
-                className="ml-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300 cursor-not-allowed"
+                className="ml-4 bg-PURPLESHADE2  text-white py-2 px-4 rounded-lg transition duration-300 cursor-not-allowed"
               >
                 Add Group
               </button>

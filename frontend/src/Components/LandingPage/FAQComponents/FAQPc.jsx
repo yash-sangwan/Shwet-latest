@@ -1,10 +1,7 @@
 import { Radio, RadioGroup } from "@headlessui/react";
 import { useState } from "react";
 import {
-  categories,
-  react,
-  java,
-  python,
+  categories, general, maintainers, contributors, technical, tokenomics
 } from "../ExampleData/FAQData";
 import Answers from "./Answers";
 
@@ -13,9 +10,11 @@ export default function FAQPc() {
   const [selected, setSelected] = useState(categories[0]);
 
   const types = {
-    React: react,
-    Java: java,
-    Python: python
+    General: general,
+    Enterprises: maintainers,
+    Contributors: contributors,
+    Technical: technical,
+    Tokenomics: tokenomics
   };
 
   // Get the data for the selected category

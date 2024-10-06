@@ -5,7 +5,7 @@ function FourthStep({ onComplete }) {
   return (
     <div className="flex items-center justify-center min-h-screen  p-4">
       <div className="bg-[#131416] rounded-lg shadow-lg w-full max-w-2xl p-8">
-        <h1 className="text-3xl font-bold text-center mb-6">Are you ready?</h1>
+        <h1 className="text-3xl font-bold text-center text-white mb-6">Are you ready?</h1>
         <p className="text-center text-gray-200 mb-8">
           By clicking "Start Contributing" or using this
           <br />

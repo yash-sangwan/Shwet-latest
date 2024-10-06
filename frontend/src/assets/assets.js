@@ -33,7 +33,7 @@ import Solana from "./Solana.jpg"
 import Usecase1 from "./Usecase1.png"
 import Usecase2 from "./Usecase2.png"
 import Usecase3 from "./Usecase3.png"
-import Usecase4 from "./Usecase4.png"
+import Usecase4 from "./Usecase4.mp4"
 import Usecase5 from "./Usecase5.png"
 
 import Feature1 from "./Feature1.png"

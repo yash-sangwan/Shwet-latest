@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
+import Loader from '../Loader/Loader';
 
 export default function ProtectedRoute({ children, requiredRole = null }) {
   const { isAuthenticated, loading, user, checkAuth } = useAuth();
@@ -14,9 +15,9 @@ export default function ProtectedRoute({ children, requiredRole = null }) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
-      </div>
+     <>
+     <Loader/>
+     </>
     );
   }
 

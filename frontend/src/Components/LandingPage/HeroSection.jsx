@@ -104,7 +104,7 @@ function HeroSection(zindex) {
               loadDelay ? "opacity-100" : "opacity-0"
             }`}
           >
-            The crypto wallet that'll take you places
+           An incentivized collaboration tool for all things Data, AI & ML
           </p>
           <div className="flex flex-col -mt-2 items-center">
             <div className="flex flex-row gap-2 -mt-4 justify-center items-center">
@@ -113,7 +113,7 @@ function HeroSection(zindex) {
                 <div
                   className={`transition-all duration-1000 ease-in-out ${animateText ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"}`}
                 >
-                  Your
+                  Data
                 </div>
               </span>
               
@@ -137,24 +137,24 @@ function HeroSection(zindex) {
                 <div
                   className={`transition-all duration-1000 ease-in-out ${animateText ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"}`}
                 >
-                  trusted
+                  Needs
                 </div>
               </span>
             </div>
             <span
-              className={`text-6xl -mt-12 md:text-8xl lg:text-9xl text-PURPLESHADE3 font-semibold transition-all duration-1000 ease-in-out delay-300 ${
+              className={`text-4xl -mt-10 md:text-6xl lg:text-[7rem] text-PURPLESHADE3 font-semibold transition-all duration-1000 ease-in-out delay-300 ${
                 animateText ? "translate-y-0 opacity-100 bounce-animation" : "translate-y-full opacity-0"
               }`}
             >
-              Companion
-              <div className="py-2 flex justify-end">
+              Transparency
+              <div className="py-5 flex justify-end">
                 <img src={assets.VectorWhite} alt="" />
               </div>
             </span>
             <div
               className={`duration-[2000ms] ease-in-out delay-[2000ms] ${animateText ? "opacity-100" : "opacity-0"}`}
             >
-              <AnimatedStaticButton text={"Coming soon to mainnet"} />
+              <AnimatedStaticButton text={"Currently on devnet"} />
             </div>
           </div>
         </div>

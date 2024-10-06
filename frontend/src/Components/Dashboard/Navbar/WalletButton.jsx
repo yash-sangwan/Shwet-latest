@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { FaWallet, FaSync } from "react-icons/fa";
 import { Loader2 } from "lucide-react";
 import apiClient from "../../api/apiClient";
+import Loader from "../../Loader/Loader";
 
 export default function WalletButton({ publicKey, fetchTokenBalance }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -102,7 +103,9 @@ export default function WalletButton({ publicKey, fetchTokenBalance }) {
       console.error("Error in withdrawing:", error);
       setTransactionResult({
         success: false,
-        message: `Failed to process withdrawal. Please try again. ${error.response?.data?.message || error.message}`,
+        message: `Failed to process withdrawal. Please try again. ${
+          error.response?.data?.message || error.message
+        }`,
       });
     } finally {
       setIsProcessing(false);
@@ -128,7 +131,7 @@ export default function WalletButton({ publicKey, fetchTokenBalance }) {
               className="text-PURPLESHADE3 transition-colors duration-200"
               disabled={isRefreshing}
             >
-              <FaSync className={`${isRefreshing ? 'animate-spin' : ''}`} />
+              <FaSync className={`${isRefreshing ? "animate-spin" : ""}`} />
             </button>
           </div>
           <p className="text-xl font-bold text-white mb-4">
@@ -144,16 +147,16 @@ export default function WalletButton({ publicKey, fetchTokenBalance }) {
       )}
 
       {isWithdrawDialogOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white text-black rounded-lg p-6 w-full max-w-md">
-            <h2 className="text-xl font-semibold mb-4">Withdraw Tokens</h2>
-            <p className="text-sm text-gray-600 mb-4">
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+          <div className="bg-gray-900 text-white rounded-lg p-6 w-full max-w-md">
+            <h2 className="text-xl  font-semibold mb-4">Withdraw Tokens</h2>
+            <p className="text-sm text-gray-300 mb-4">
               Min: {MIN_WITHDRAW} $SHWET | Max: {MAX_WITHDRAW} $SHWET
             </p>
             <div className="mb-4">
               <label
                 htmlFor="withdrawAmount"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-100 mb-2"
               >
                 Amount to withdraw
               </label>
@@ -173,13 +176,13 @@ export default function WalletButton({ publicKey, fetchTokenBalance }) {
             <div className="flex justify-end space-x-2">
               <button
                 onClick={handleWithdrawClose}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-200 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 Cancel
               </button>
               <button
                 onClick={handleWithdrawProceed}
-                className="px-4 py-2 hover:bg-PURPLESHADE3 bg-[#3a3a3a] border border-transparent rounded-md text-sm font-medium text-white outline-none"
+                className="px-4 py-2 bg-[#2a2a2a] hover:bg-[#3a3a3a] border border-transparent rounded-md text-sm font-medium text-white outline-none"
               >
                 Proceed
               </button>
@@ -189,17 +192,17 @@ export default function WalletButton({ publicKey, fetchTokenBalance }) {
       )}
 
       {isProcessing && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <Loader2 className="w-16 h-16 text-white animate-spin" />
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+          <Loader />
         </div>
       )}
 
       {transactionResult && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full shadow-xl transform transition-all duration-300 ease-in-out">
+        <div className="fixed inset-0  bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-[#2a2a2a] rounded-lg p-6 max-w-md w-full shadow-xl transform transition-all duration-300 ease-in-out">
             <div
               className={`mb-6 text-center ${
-                transactionResult.success ? "text-green-600" : "text-red-600"
+                transactionResult.success ? "text-PURPLESHADE2" : "text-red-600"
               }`}
             >
               {transactionResult.success ? (
@@ -236,19 +239,19 @@ export default function WalletButton({ publicKey, fetchTokenBalance }) {
             </div>
             <h2
               className={`text-2xl font-bold mb-4 text-center ${
-                transactionResult.success ? "text-green-600" : "text-red-600"
+                transactionResult.success ? "text-PURPLESHADE2" : "text-red-600"
               }`}
             >
               {transactionResult.success
                 ? "Transaction Successful"
                 : "Transaction Failed"}
             </h2>
-            <p className="text-gray-700 mb-6 text-center break-words overflow-hidden">
+            <p className="text-white mb-6 text-center break-words overflow-hidden">
               {transactionResult.message}
             </p>
             <button
               onClick={() => setTransactionResult(null)}
-              className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+              className="w-full py-2 px-4 bg-PURPLESHADE5 hover:bg-PURPLESHADE2 text-white font-bold rounded-lg transition duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
             >
               Close
             </button>

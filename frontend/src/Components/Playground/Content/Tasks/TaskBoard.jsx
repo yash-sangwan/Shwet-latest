@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ChevronDown, ChevronUp, Inbox, CheckCircle, AlertCircle } from 'lucide-react'
+import { ChevronDown, ChevronUp, Inbox, CheckCircle, AlertCircle, Plus } from 'lucide-react'
 
 const TaskBoard = ({ batches, onBatchClick }) => {
   const [expandedBatchId, setExpandedBatchId] = useState(null)
@@ -64,7 +64,7 @@ const TaskBoard = ({ batches, onBatchClick }) => {
         </div>
       ) : (
         <div className="bg-gray-700 rounded-lg p-8 text-center">
-          <AlertCircle className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
+          <Plus className="h-12 w-12 text-gray-500 mx-auto mb-4" />
           <p className="text-gray-300 text-lg mb-4">{emptyStateMessage}</p>
           {title === "Pending Batches" && (
             <p className="text-gray-400">Click the "Add Batch" button to create your first batch!</p>

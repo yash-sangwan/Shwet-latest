@@ -62,7 +62,7 @@ export default function CreateFolder({ onFolderCreated, onClose }) {
                 type="text"
                 value={folderName}
                 onChange={(e) => setFolderName(e.target.value)}
-                placeholder="Enter folder name"
+                placeholder="Enter project name"
                 required
                 className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 outline-none"
               />

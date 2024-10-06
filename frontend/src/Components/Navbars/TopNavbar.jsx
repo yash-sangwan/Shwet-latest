@@ -57,11 +57,11 @@ function TopNavbar() {
         {/* <HoverDropDown /> */}
         <Button text={"Contributors"} icon={faBook} href={"/docs"}></Button>
         <Button text={"Docs"} icon={faFile} href={"#"}></Button>
-        <Button
+        {/* <Button
           text={"Pricing"}
           icon={faMoneyCheckDollar}
           href={"/pricing"}
-        ></Button>
+        ></Button> */}
         {!isAuthenticated ? (
           <Button
             text={"Login"}

@@ -118,15 +118,13 @@ const Login = ({ onClose }) => {
           {/* Left Section */}
           <div className="md:w-1/2 md:pr-4 md:border-r border-gray-700 flex flex-col justify-center">
             <div className="text-center md:text-left mb-8 md:mb-0">
-              <h1 className="text-5xl font-bold text-PURPLESHADE3 mb-2">
+              <h1 className="text-5xl font-bold text-PURPLESHADE3 mb-2 font-Montserrat">
                 Shwet
               </h1>
-              <p className="text-white mb-4 ">
-                A place to share knowledge and better understand the world
-              </p>
+         
             </div>
 
-            <p className="text-gray-400 text-sm text-center md:text-left mb-6">
+            <p className="text-gray-400 text-sm mt-4 text-center md:text-left mb-6">
               By continuing, you indicate that you agree to Shwet's{" "}
               <a
                 href="#"
@@ -169,7 +167,7 @@ const Login = ({ onClose }) => {
             <form onSubmit={handleLogin}>
               <div className="mb-4">
                 <label
-                  className="block text-gray-400 text-sm font-bold mb-2"
+                  className="block text-gray-400 text-sm text-left font-bold mb-2"
                   htmlFor="email"
                 >
                   Email / Username
@@ -177,7 +175,7 @@ const Login = ({ onClose }) => {
                 <input
                   type="email"
                   id="email"
-                  className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:border-yellow-500"
+                  className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none  focus:border-yellow-500"
                   placeholder="Enter your email"
                   value={id}
                   onChange={(e) => setId(e.target.value)}
@@ -185,7 +183,7 @@ const Login = ({ onClose }) => {
               </div>
               <div className="mb-4">
                 <label
-                  className="block text-gray-400 text-sm font-bold mb-2"
+                  className="block text-gray-400 text-sm text-left font-bold mb-2"
                   htmlFor="password"
                 >
                   Password
@@ -194,7 +192,7 @@ const Login = ({ onClose }) => {
                   <input
                     type={showPassword ? "text" : "password"}
                     id="password"
-                    className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:border-yellow-500"
+                    className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none  focus:border-yellow-500"
                     placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}

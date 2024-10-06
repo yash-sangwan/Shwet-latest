@@ -47,7 +47,7 @@ export default function HomeDB() {
               {isGridView ? <i className="fa-regular fa-square"></i> : <i className="fa-solid fa-border-all"></i>}
             </button>
           </div>
-          <div className={`grid bg-[#131416] ${isGridView ? "grid-cols-1 lg:grid-cols-2" : "grid-cols-1"} gap-6 mt-3`}>
+          <div className={`grid bg-[#131416] ${isGridView ? "grid-cols-1 lg:grid-cols-1" : "grid-cols-1"} gap-6 mt-4`}>
             <PostsBatch isGridView={isGridView}  />
           </div>
         </div>
@@ -56,7 +56,7 @@ export default function HomeDB() {
         </div>
       </div>
       {showTour && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
           <TourFlow onComplete={onTourComplete} />
         </div>
       )}

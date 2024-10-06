@@ -9,7 +9,7 @@ import { PublicKey, SystemProgram } from "@solana/web3.js";
 import Notification from "../Notification";
 import LoginComponent from "../Auth/Login";
 import { getProgram } from "../../Utils/anchorClient";
-import { faCode } from "@fortawesome/free-solid-svg-icons";
+import { faCode, faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FiMenu, FiX } from "react-icons/fi";
 import ConnectSheet from '../Dashboard/UserConnect/ConnectSheet'
@@ -341,7 +341,7 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
           }`
         }
       >
-        <FontAwesomeIcon icon={faCode} />
+        <FontAwesomeIcon icon={faHome} />
       </NavLink>
     </div>
 
@@ -370,7 +370,7 @@ const NavbarDB = ({ onConnect, isAccountReadyFromProps }) => {
         <>
            {!connected && !isConnecting ? (
     <button
-      className="bg-primary text-black px-4 py-1 rounded-full hover:bg-secondary connect-btn"
+      className="bg-PURPLESHADE5 hover:bg-PURPLESHADE2 text-WHITE px-4 py-1 rounded-full  connect-btn"
       onClick={openConnectSheet}
     >
       Connect

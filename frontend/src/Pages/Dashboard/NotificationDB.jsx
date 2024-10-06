@@ -10,7 +10,7 @@ const NotificationDB = () => {
       <Sidebar />
       
       {/* Main Content Area */}
-      <div className="flex-1 h-screen bg-gray-900 text-white p-8 flex flex-col items-center justify-center">
+      <div className="flex-1 h-screen bg-[#131416] text-white p-8 flex flex-col items-center justify-center">
         {/* Image */}
         <img
           src="https://qsf.fs.quoracdn.net/-4-ans_frontend_assets.images.empty_states.no_notification_darkmode.png-26-5021f4d2fac950bf.png"

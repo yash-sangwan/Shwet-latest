@@ -107,7 +107,7 @@ const GroupsDB = () => {
   return (
     <>
       <NavbarDB />
-      <div className="min-h-screen bg-gray-900 text-white pt-16">
+      <div className="min-h-screen bg-[#131416] text-white pt-16">
         <div className="container mx-auto px-4 py-8">
           <h1 className="text-3xl font-bold mb-8">Your Data Contribution Dashboard</h1>
           

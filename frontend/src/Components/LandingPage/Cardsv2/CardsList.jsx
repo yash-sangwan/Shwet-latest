@@ -7,33 +7,33 @@ import "./style.css";
 const Content = [
   {
     id: 1,
-    heading: 'Multiple chains, one wallet.',
+    heading: 'We pay with Solana\'\s zk-compressed tokens, to cut extra cost',
     feature: assets.Feature1,
-    color:'pink'
+    color:'#2C315B'
   },
   {
     id: 2,
-    heading: 'Seamlessly access NFT marketplaces.',
+    heading: 'Get access to global community of AI/ML contributors',
     feature: assets.Feature2,
-    color:'purple'
+    color:'#3C315B'
   },
   {
     id: 3,
-    heading: 'Showcase your NFT collection.',
+    heading: 'Recycle data you no longer need & get rewards',
     feature: assets.Feature3,
-    color:'yellow'
+    color:'#4C315B'
   },
   {
     id: 4,
-    heading: 'Monitor activity with transaction history and notifications.',
+    heading: 'Monitor real-time progress on your assigned tasks',
     feature: assets.Feature3,
-    color:'blue'
+    color:'#5C315B'
   },
   {
     id: 5,
-    heading: 'No limits on tokens, balances, or transactions.',
+    heading: 'No limits, flexible plans for any budget',
     feature: assets.Feature4,
-    color:'gray'
+    color:'#6C315B'
   }
 ];
 

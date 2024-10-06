@@ -10,7 +10,7 @@ const Card = ({ heading, image, color }) => {
     >
       {/* Heading */}
       <div className="relative z-10 p-6">
-        <h3 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+        <h3 className="text-3xl md:text-3xl font-bold mb-4 font-Montserrat">
           {heading}
         </h3>
       </div>

@@ -5,7 +5,7 @@ function FirstStep({ currentStep = 1, totalSteps = 4, onNext }) {
   return (
     <div className="flex items-center justify-center min-h-screen  p-4">
       <div className="bg-[#131416] rounded-lg shadow-lg w-full max-w-4xl p-8">
-        <h1 className="text-3xl font-bold text-center mb-6">Welcome to Playground</h1>
+        <h1 className="text-3xl text-white font-bold text-center mb-6">Welcome to Playground</h1>
         <p className="text-center text-gray-200 mb-8">
         This 4-step quick tour will help you navigate seamlessly through the Playground
         </p>
@@ -27,7 +27,7 @@ function FirstStep({ currentStep = 1, totalSteps = 4, onNext }) {
           </div>
         </div>
         <div className="bg-[#2a2a2a] rounded-lg p-6 mb-8">
-          <p className='py-2 text-left'>1. Start with connecting your wallet.</p>
+          <p className='py-2 text-white text-left'>1. Start with connecting your wallet.</p>
           <div className="h-4 bg-[#3a3a3a] rounded w-3/4 mb-4" />
           <div className="h-4 bg-[#3a3a3a] rounded w-1/2 mb-4" />
           <div className="h-8 bg-[#3a3a3a] rounded w-1/4" />

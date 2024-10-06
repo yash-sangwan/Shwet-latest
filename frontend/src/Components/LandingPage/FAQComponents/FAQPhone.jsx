@@ -4,8 +4,9 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/react";
-import { categories, react, java, python } from "../ExampleData/FAQData";
-import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
+import {
+  categories, general, maintainers, contributors, technical, tokenomics
+} from "../ExampleData/FAQData";import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { useState } from "react";
 import Answers from "./Answers";
@@ -14,9 +15,11 @@ export default function FAQPhone() {
   const [selected, setSelected] = useState(categories[0]);
 
   const types = {
-    React: react,
-    Java: java,
-    Python: python,
+    General: general,
+    Enterprises: maintainers,
+    Contributors: contributors,
+    Technical: technical,
+    Tokenomics: tokenomics
   };
 
   // Get the data for the selected category

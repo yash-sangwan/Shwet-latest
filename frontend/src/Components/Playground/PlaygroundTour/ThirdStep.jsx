@@ -6,14 +6,14 @@ function ThirdStep({ currentStep, totalSteps, onNext }) {
     <div className="flex items-center justify-center min-h-screen  p-4">
       <div className="bg-[#131416] rounded-lg shadow-lg w-full max-w-2xl p-8">
         <h1 className="text-3xl font-bold text-center mb-6 text-white">
-        Complete Tasks
+        Create New Project & Tasks 
         </h1>
         <p className="text-left text-gray-200 mb-8">
-          2. Go through the available batches.
+          2. After connecting wallet, you'll be able to create a new project from the left bar.
           <br />
-          3. Click on any batch and start contribution.
+          3. Within each project, you can add multiple task batches.
           <br />
-          4. Complete all the tasks of the batch, submit and earn $Shwet
+          4. Batches will be automatically assigned to contributors.
         </p>
 
         <div className="relative mb-8">

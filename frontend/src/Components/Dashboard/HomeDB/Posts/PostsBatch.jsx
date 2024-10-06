@@ -4,6 +4,7 @@ import TaskSheet from "./TaskSheet";
 import Notification from "../../../Notification";
 import apiClient from "../../../api/apiClient";
 import { useWallet } from "@solana/wallet-adapter-react";
+import Loader from "../../../Loader/Loader";
 
 
 export default function PostsBatch({ isGridView }) {
@@ -86,7 +87,7 @@ export default function PostsBatch({ isGridView }) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+        <Loader/>
       </div>
     );
   }
@@ -117,7 +118,7 @@ export default function PostsBatch({ isGridView }) {
       </div>
       {isTaskSheetLoading && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+         <Loader/>
         </div>
       )}
       {selectedBatch && (

@@ -78,7 +78,7 @@ export default function SidebarPG({ onToggle, onTabChange, folders, activeTab })
             </li>
             {folders.length === 0 ? (
               <li className="text-center text-gray-500">
-                {isCollapsed ? <Loader className="mx-auto" size={24} /> : 'No folders yet'}
+                {isCollapsed ? <Loader className="mx-auto" size={24} /> : 'No Projects yet'}
               </li>
             ) : (
               folders.map((folder) => (

@@ -5,7 +5,7 @@ function ThirdStep({ currentStep, totalSteps, onNext }) {
   return (
     <div className="flex items-center justify-center min-h-screen  p-4">
       <div className="bg-[#131416] rounded-lg shadow-lg w-full max-w-2xl p-8">
-        <h1 className="text-3xl font-bold text-center mb-6">
+        <h1 className="text-3xl font-bold text-center mb-6 text-white">
         Complete Tasks
         </h1>
         <p className="text-left text-gray-200 mb-8">

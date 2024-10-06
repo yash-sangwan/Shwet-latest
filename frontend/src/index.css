@@ -6,10 +6,7 @@
   @apply relative cursor-pointer text-xl transition-colors duration-300;
 }
 
-.nav-link::after {
-  content: "";
-  @apply absolute left-0 bottom-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300;
-}
+
 
 .nav-link:hover::after,
 .nav-link.active::after {

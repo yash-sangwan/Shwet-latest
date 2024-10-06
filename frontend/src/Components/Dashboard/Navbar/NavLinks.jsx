@@ -8,7 +8,7 @@ const NavLinks = () => {
   const isExactPath = (path) => location.pathname === path;
 
   return (
-    <div className="flex items-center space-x-6">
+    <div className="hidden items-center space-x-6 lg:flex">
       <NavLink 
         to="/user/dashboard" 
         end

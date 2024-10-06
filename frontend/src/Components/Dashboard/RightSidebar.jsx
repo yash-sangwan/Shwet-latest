@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Upload, HelpCircle, RefreshCw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { useWallet } from "@solana/wallet-adapter-react";
 import apiClient from "../api/apiClient";
 import TourFlow from './DashboardTour/TourFlow';
 
@@ -13,13 +14,14 @@ export default function RightSidebar() {
   const [totalTokens, setTotalTokens] = useState(0);
   const [totalContrib, setContrib] = useState(0);
   const [isSyncing, setIsSyncing] = useState(false);
-  const [showTour, setShowTour] = useState(false)
+  const [showTour, setShowTour] = useState(false);
+  const { connected, publicKey } = useWallet();
 
   const onTourComplete = () => {
-    setShowTour(false)
+    setShowTour(false);
   }
 
-  const startTour = () =>{
+  const startTour = () => {
     setShowTour(!showTour);
   }
 
@@ -57,26 +59,36 @@ export default function RightSidebar() {
   };
 
   useEffect(() => {
-    getOverview();
-  }, []);
+    if (connected && publicKey) {
+      getOverview();
+    }
+  }, [connected, publicKey]);
 
   const handleSync = () => {
     getOverview();
   };
 
   const renderTabContent = () => {
+    if (!connected || !publicKey) {
+      return (
+        <div className="p-4 rounded-lg">
+          <p className="text-center text-gray-400">Please connect your wallet to view the overview.</p>
+        </div>
+      );
+    }
+
     switch (activeTab) {
       case 'overview':
         return (
           <div className="space-y-4">
             <div className="p-4 rounded-lg">
-                <button 
-                  onClick={handleSync} 
-                  disabled={isSyncing}
-                  className="text-blue-400 w-full flex justify-end mb-4 hover:text-blue-300 transition-colors duration-200"
-                >
+              <button 
+                onClick={handleSync} 
+                disabled={isSyncing}
+                className="text-blue-400 w-full flex justify-end mb-4 hover:text-blue-300 transition-colors duration-200"
+              >
                 <RefreshCw className={`w-5 h-5 ${isSyncing ? 'animate-spin' : ''}`} />
-                </button>
+              </button>
               <div className="flex justify-between items-center mb-2">
                 <h3 className="text-lg font-semibold">Active Contributions</h3>
               </div>
@@ -145,7 +157,6 @@ export default function RightSidebar() {
 
   return (
     <div className="fixed pt-24 right-0 top-0 h-screen w-80 bg-[#131416] text-white p-4 space-y-6 hidden lg:block overflow-y-auto">
-
       <div className="bg-gray-800 rounded-lg overflow-hidden">
         <div className="flex border-b border-gray-700">
           <button

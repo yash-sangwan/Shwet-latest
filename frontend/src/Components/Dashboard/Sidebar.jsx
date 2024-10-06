@@ -37,13 +37,9 @@ const EnhancedSidebar = () => {
 
   const notificationTabs = [
     { name: 'All Notifications', icon: 'fa-solid fa-bell' },
-    { name: 'Groups', icon: 'fa-solid fa-users' },
-    { name: 'People updates', icon: 'fa-solid fa-user-group' },
-    { name: 'Comments and mentions', icon: 'fa-solid fa-comment-dots' },
-    { name: 'Your content', icon: 'fa-solid fa-file-lines' },
+    { name: 'Your Contribution', icon: 'fa-solid fa-file-lines' },
     { name: 'Your profile', icon: 'fa-solid fa-user' },
     { name: 'Announcements', icon: 'fa-solid fa-bullhorn' },
-    { name: 'Subscriptions', icon: 'fa-solid fa-star' }
   ];
 
   const handleCategoryClick = (category) => {
@@ -70,18 +66,18 @@ const EnhancedSidebar = () => {
 
   const renderSidebarContent = () => (
     <>
-      <div>
+      <div className='overflow-hidden'>
         {!isNotificationsTab && (
           <div className="mb-6">
             <button 
-              className="w-full flex items-center justify-between text-left text-sm p-3 bg-[#2a2a2a] hover:bg-[#3a3a3a] rounded-lg transition-colors duration-200"
+              className="w-full flex items-center justify-between text-left text-sm p-2 bg-[#2a2a2a] hover:bg-[#3a3a3a] rounded-lg transition-colors duration-200 cursor-not-allowed"
               // onClick={showToast}
             >
               <span className="flex items-center">
                 <i className="fa-solid fa-plus mr-2"></i>
                 {!isMobile && "Create Data Group"}
               </span>
-              {!isMobile && <span className="bg-PURPLESHADE3 text-black text-xs px-2 py-1 rounded-full">New</span>}
+              {!isMobile && <span className="bg-PURPLESHADE3 text-black text-xs px-2 py-1 rounded-full">Soon</span>}
             </button>
           </div>
         )}
