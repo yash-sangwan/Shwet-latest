@@ -11,8 +11,6 @@ const RPC_ENDPOINT = `https://devnet.helius-rpc.com?api-key=${API_KEY}`;
 
 const COMPRESSION_RPC_ENDPOINT = RPC_ENDPOINT;
 
-const connection: Rpc = createRpc(RPC_ENDPOINT, COMPRESSION_RPC_ENDPOINT);
-
 interface WithdrawResult {
   status: boolean;
   txid?: string;
@@ -23,6 +21,8 @@ export const Withdraw = async (
   Amount: number
 ): Promise<WithdrawResult> => {
   try {
+    const connection: Rpc = createRpc(RPC_ENDPOINT, COMPRESSION_RPC_ENDPOINT);
+
     const recipient = new PublicKey(Address);
     const amount = Amount * 1e9;
 

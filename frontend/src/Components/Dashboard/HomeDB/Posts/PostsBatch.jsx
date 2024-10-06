@@ -81,7 +81,6 @@ export default function PostsBatch({ isGridView }) {
   const handleTaskCompletion = (batchId) => {
     setSelectedBatch(null);
     fetchBatches(); // Refresh batches after task completion
-    fetchTokens();
   };
 
   if (isLoading) {
