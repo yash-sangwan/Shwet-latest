@@ -140,8 +140,6 @@ export const googleLogin = async (
       user = await user.save();
     }
 
-    console.log(user.role);
-
     const jwtToken = jwt.sign(
       { email: user.email , role: user.role },
       process.env.JWT_SECRET as string,
