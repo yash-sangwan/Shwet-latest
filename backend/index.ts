@@ -10,9 +10,10 @@ import initRouter from "./src/Routes/InitRoutes"
 import workerRouter from "./src/Routes/WorkerRoutes";
 import { CookieOptions } from "csurf";
 import { mongoDB } from "./src/Config/Database";
+import dotenv from 'dotenv';
+dotenv.config();
 
 mongoDB();
-
 const app: Express = express();
 const port: number = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 const cookieParameters: CookieOptions = {

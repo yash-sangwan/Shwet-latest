@@ -57,7 +57,7 @@ export default function PostsBatch({ isGridView }) {
       if (response.status === 200) {
         if (response.data.status) {
           setNotificationMessage(
-            "You've already completed this task. Please wait for new tasks or try other ones."
+            response.data.message
           );
           setShowNotification(true);
         } else {

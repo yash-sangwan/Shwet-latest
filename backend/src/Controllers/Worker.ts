@@ -272,13 +272,21 @@ export const hasCompleted = async (
     const taskId = req.body.taskId;
     const type = req.body.type;
     if (taskId && user && type) {
+      const msg1 = "The task has been completed.";
+      const msg2 = "You've already completed this task. Please wait for new tasks or try other ones." ;
+
       if (type === "image") {
         const task = await ImageTaskSubmission.findOne({
           taskId: taskId,
           userId: user._id,
         });
+        const completed = await ImageTask.findById(taskId);
+        if(completed?.workerCount === completed?.currentSubmissions){
+          res.status(200).json({ status: true, message: msg1});
+          return;
+        }
         if (task) {
-          res.status(200).json({ status: true, message: "Task submitted." });
+          res.status(200).json({ status: true, message: msg2});
           return;
         }
       } else if (type === "audio") {
@@ -286,8 +294,13 @@ export const hasCompleted = async (
           taskId: taskId,
           userId: user._id,
         });
+        const completed = await AudioTask.findById(taskId);
+        if(completed?.workerCount === completed?.currentSubmissions){
+          res.status(200).json({ status: true, message: msg1});
+          return;
+        }
         if (task) {
-          res.status(200).json({ status: true, message: "Task submitted." });
+          res.status(200).json({ status: true, message: msg2});
           return;
         }
       } else if (type === "text") {
@@ -295,8 +308,13 @@ export const hasCompleted = async (
           taskId: taskId,
           userId: user._id,
         });
+        const completed = await TextTask.findById(taskId);
+        if(completed?.workerCount === completed?.currentSubmissions){
+          res.status(200).json({ status: true, message: msg1});
+          return;
+        }
         if (task) {
-          res.status(200).json({ status: true, message: "Task submitted." });
+          res.status(200).json({ status: true, message: msg2});
           return;
         }
       }
