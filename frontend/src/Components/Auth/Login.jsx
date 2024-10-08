@@ -35,7 +35,6 @@ const Login = ({ onClose }) => {
   
       if (response.status === 200) {
         Cookies.set('CSRF-TOKEN', response.data.XSRF);
-        console.log("CSRF Token set:", response.data.XSRF);
         navigate("/user/init");
       }
     } catch (error) {
