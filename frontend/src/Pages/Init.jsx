@@ -55,11 +55,9 @@ export default function Init() {
             await loggedin();
             switch (response.data.userRole) {
               case "WORKER":
-                console.log("worker")
                 navigate("/user/dashboard");
                 break;
               case "PROVIDER":
-                console.log("provider");
                 navigate("/playground");
                 break;
               default:
