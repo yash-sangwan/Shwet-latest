@@ -40,7 +40,6 @@ export const getBatches = async (folderId) => {
     // const response = await simulateApiCall([])
     const response = await apiClient.post('/api/task/groups/task' , {groupId: folderId} );
     if(response.status === 200 && response.data.status){
-      console.log(response.data.data);
       return response.data.data;
     }
   } catch (error) {
