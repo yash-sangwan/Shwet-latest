@@ -387,26 +387,25 @@ export const processWithdraw = async (req: AuthenticatedRequest, res: Response):
     // Perform the withdrawal
     const result = await Withdraw(Address, Tokens);
       
-    if (result?.status) {
-      // Update user's token balance
-      
-      const remainingBalance = currentAccStatus.balance - Tokens;
-      const updatedBalance = await WorkerBalance.findOneAndUpdate({workerId : user._id } , {$set : {balance : remainingBalance}} , {new: true});
+      if (result?.status) {
+        // Update user's token balance
 
-      // Record the withdrawal in PaidOutHistory
-      const paidOutHistory = new PaidOutHistory({
-        userId: user._id,
-        tokens: Tokens,
-        paidOutOn: new Date()
-      });
-      await paidOutHistory.save();
+        const remainingBalance = currentAccStatus.balance - Tokens;
+        const updatedBalance = await WorkerBalance.findOneAndUpdate({workerId : user._id } , {$set : {balance : remainingBalance}} , {new: true});
 
-      res.status(200).json({ status:true ,  message: 'Withdrawal successful' , txid:result.txid });
-      return;
-    }
-    else {
-      res.status(400).json({ status: result.status, message: 'Withdrawal failed.' });
-    }
+        // Record the withdrawal in PaidOutHistory
+        const paidOutHistory = new PaidOutHistory({
+          userId: user._id,
+          tokens: Tokens,
+          paidOutOn: new Date()
+        });
+        await paidOutHistory.save();
+        
+        res.status(200).json({ status:true ,  message: 'Withdrawal successful' , txid:result.txid });
+        return;
+      }else {
+        res.status(400).json({ status: result.status, message: 'Withdrawal failed.' });
+      }
   } catch (error) {
     console.error('Error in withdraw:', error);
     res.status(500).json({ error: 'Internal server error' });
