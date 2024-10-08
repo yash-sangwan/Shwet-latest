@@ -73,7 +73,7 @@ export default function Playground() {
   };
 
   const handleTabChange = (tab) => {
-    console.log("Tab changed to:", tab);
+    // console.log("Tab changed to:", tab);
     if (tab === "CreateFolder") {
       setIsCreateFolderOpen(true);
       setActiveTab(tab);
@@ -84,7 +84,7 @@ export default function Playground() {
   };
 
   const renderContent = () => {
-    console.log("Rendering content for activeTab:", activeTab);
+    // console.log("Rendering content for activeTab:", activeTab);
 
     if (isLoading) {
       return <div className="text-white">Loading...</div>;
