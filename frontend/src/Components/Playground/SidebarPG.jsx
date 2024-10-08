@@ -19,7 +19,7 @@ export default function SidebarPG({ onToggle, onTabChange, folders, activeTab })
       });
       connect();
     } else {
-      console.log("SidebarPG: Tab clicked:", tab)
+      // console.log("SidebarPG: Tab clicked:", tab)
       onTabChange(tab)
     }
   }
