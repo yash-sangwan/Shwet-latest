@@ -44,7 +44,6 @@ export default function PostsBatch({ isGridView }) {
       try {
         
        
-      console.log("Batch clicked:", batch);
       setIsTaskSheetLoading(true);
       
       const response = await apiClient.post("/api/worker/completed", {
@@ -52,7 +51,6 @@ export default function PostsBatch({ isGridView }) {
         type: batch.type,
       });
       
-      console.log("API response:", response.data);
       
       if (response.status === 200) {
         if (response.data.status) {
