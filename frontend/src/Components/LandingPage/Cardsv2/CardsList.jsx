@@ -14,7 +14,7 @@ const Content = [
   {
     id: 2,
     heading: 'Get access to global community of AI/ML contributors',
-    feature: assets.Feature2,
+    feature: assets.Feature5,
     color:'#3C315B'
   },
   {
@@ -26,7 +26,7 @@ const Content = [
   {
     id: 4,
     heading: 'Monitor real-time progress on your assigned tasks',
-    feature: assets.Feature3,
+    feature: assets.Feature2,
     color:'#5C315B'
   },
   {
