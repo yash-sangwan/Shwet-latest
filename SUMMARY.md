@@ -1,11 +1,11 @@
 # Table of contents
 
-* [Welcome](README.md)
+* [👋 Hi there!](README.md)
 
-## Getting Started
+## OVERVIEW
 
-* [Quickstart](getting-started/quickstart.md)
-* [Publish your docs](getting-started/publish-your-docs.md)
+* [Introduction to Shwet](overview/quickstart.md)
+* [Publish your docs](overview/publish-your-docs.md)
 
 ## Basics
 
