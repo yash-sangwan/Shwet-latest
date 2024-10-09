@@ -13,11 +13,11 @@ For a detailed overview based on your role, please refer to the below Guide.
 
 ## Testing Instructions
 
-### For Contributors:
-
 {% hint style="warning" %}
 Disclaimer: Please note anything related to micropayments transaction mentioned in the below guide is just for the **Demo purpose** using fake SOL/faucets/tokens on Devnet & the transaction doesn't involve any real value asset in any manner.&#x20;
 {% endhint %}
+
+### For Contributors:
 
 1. **Explore tasks:** As you enter the interface or as we call it the 'Playground'. The first thing you will see after completing the tour is the available sample task batches having multiple tasks that you may want to try contributing to with a progress bar showing how many contributors have contributed to this task till now.
 2. **Complete tasks and earn:** After you complete and submit a task batch, the respective token amount will be credited to your Shwet account as 'Token Balance'.
@@ -27,10 +27,6 @@ Disclaimer: Please note anything related to micropayments transaction mentioned 
 6. **Feedback:** Should you have any other feedback/suggestion/query/questions for us, you are always welcome to any of our above mentioned twitter channels or just shoot a email to us at hello.shwet@gmail.com.
 
 ### For Project Maintainers:
-
-{% hint style="warning" %}
-Disclaimer: Please note anything related to micropayments transaction mentioned in the below guide is just for the **Demo purpose** using fake SOL/faucets/tokens on Devnet & the transaction doesn't involve any real value asset in any manner.
-{% endhint %}
 
 1. **Connect Wallet:** After completing the Dashboard tour, first step is to connect your Solana wallet, ensuring that you are on Devnet, with enough faucets to test the functionalities. If not, then please get some airdrops from [https://faucet.solana.com/](https://faucet.solana.com/) before proceeding.&#x20;
 2. **Create a project:** Its time to create your first project on Shwet. Your project is a root folder that will maintain all your task batches related to a specific project. For creating a project, click on 'Create Project' in the left panel, and fill in all the metadata of your project such as, project name, image, usecase type (image labelling, text annotation, ....) etc.
