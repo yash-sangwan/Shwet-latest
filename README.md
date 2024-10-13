@@ -1,8 +1,4 @@
----
-icon: hand-wave
----
-
-# 👋 Welcome
+# Welcome
 
 <div data-full-width="true">
 
