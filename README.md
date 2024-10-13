@@ -6,7 +6,7 @@ icon: hand-wave
 
 <div data-full-width="true">
 
-<figure><img src="https://pbs.twimg.com/profile_banners/1823746320760262656/1728459231/1500x500" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/shwet-x-cover-page.jpg" alt=""><figcaption></figcaption></figure>
 
 </div>
 
