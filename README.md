@@ -1,9 +1,3 @@
----
-icon: hand-wave
-cover: https://gitbookio.github.io/onboarding-template-images/header.png
-coverY: 0
----
-
 # 👋 Hi there!
 
 Welcome to the official documentation of Shwet!. This is a great place to start for anyone who would like to know more about Shwet, what's in it for your and how to get started.
