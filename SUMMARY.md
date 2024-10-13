@@ -1,6 +1,6 @@
 # Table of contents
 
-* [👋 Welcome](README.md)
+* [👋 Hi there!](README.md)
 
 ## OVERVIEW
 
