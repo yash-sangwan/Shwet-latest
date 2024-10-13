@@ -1,3 +1,7 @@
+---
+icon: wrench
+---
+
 # Demo and Testing Instructions
 
 ## Getting Started
